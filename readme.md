@@ -27,7 +27,7 @@ let apply_action ~inject:_ ~schedule_event:_ how_much model (action : Action.t) 
   | Decr -> model - how_much
 ;;
 
-let component ~label ~how_much =
+let component ~label ?(how_much = Value.return 1) =
   let%sub state_and_inject =
     Bonsai.state_machine1
       (module Int)
@@ -117,9 +117,7 @@ open! Core
 open! Import
 
 let app =
-  let%sub view, _ =
-    Counter.component ~label:(Value.return "counter") ~how_much:(Value.return 1)
-  in
+  let%sub view, _ = Counter.component ~label:(Value.return "counter") in
   return view
 ;;
 
@@ -174,12 +172,8 @@ open! Core
 open! Import
 
 let app =
-  let%sub first, _ =
-    Counter.component ~label:(Value.return "first") ~how_much:(Value.return 1)
-  in
-  let%sub second, _ =
-    Counter.component ~label:(Value.return "second") ~how_much:(Value.return 2)
-  in
+  let%sub first, _ = Counter.component ~label:(Value.return "first") in
+  let%sub second, _ = Counter.component ~label:(Value.return "second") in
   let%arr first = first
   and second = second in
   N.div [ first; second ]
@@ -255,9 +249,7 @@ open! Core
 open! Import
 
 let app =
-  let%sub first_view, how_much =
-    Counter.component ~label:(Value.return "first") ~how_much:(Value.return 1)
-  in
+  let%sub first_view, how_much = Counter.component ~label:(Value.return "first") in
   let%sub second_view, _ = Counter.component ~label:(Value.return "second") ~how_much in
   let%arr first = first_view
   and second = second_view in
@@ -334,17 +326,13 @@ open! Core
 open! Import
 
 let app =
-  let%sub counter_view, how_many =
-    Counter.component ~label:(Value.return "how many") ~how_much:(Value.return 1)
-  in
+  let%sub counter_view, how_many = Counter.component ~label:(Value.return "how many") in
   let%sub map =
     let%arr how_many = how_many in
     Int.Map.of_alist_exn (List.init how_many ~f:(fun i -> i, ()))
   in
   let make_subcomponent key _data =
-    let%sub subcomponent =
-      Counter.component ~label:(Value.map key ~f:Int.to_string) ~how_much:(Value.return 1)
-    in
+    let%sub subcomponent = Counter.component ~label:(Value.map key ~f:Int.to_string) in
     let%arr view, _ = subcomponent in
     view
   in

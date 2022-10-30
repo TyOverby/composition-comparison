@@ -2,9 +2,7 @@ open! Core
 open! Import
 
 let app =
-  let%sub view, _ =
-    Counter.component ~label:(Value.return "counter") ~how_much:(Value.return 1)
-  in
+  let%sub view, _ = Counter.component ~label:(Value.return "counter") in
   return view
 ;;
 
