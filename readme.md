@@ -263,7 +263,7 @@ module Main exposing (main)
 
 import Browser
 import Counter
-import Html exposing (Html, div, map)
+import Html exposing (Html, div)
 
 
 type alias Model =
@@ -293,8 +293,8 @@ update msg model =
 view : Model -> Html Msg
 view model =
     div []
-        [ map First (Counter.view 1 "first" model.first)
-        , map Second (Counter.view model.first "second" model.second)
+        [ Counter.view 1 "first" model.first |> Html.map First
+        , Counter.view model.first "second" model.second |> Html.map Second
         ]
 
 
@@ -384,11 +384,10 @@ update appMsg model =
             { model | howMany = Counter.update 1 msgHowMany model.howMany }
 
         ForKey { msg, which } ->
-            let
-                others =
+            { model
+                | others =
                     Dict.update which (updateSubcomponent msg) model.others
-            in
-            { model | others = others }
+            }
 
 
 mapKey : Int -> Counter.Msg -> Msg
@@ -398,24 +397,22 @@ mapKey which msg =
 
 viewSubcomponent : Dict Int Counter.Model -> Int -> Html Msg
 viewSubcomponent models key =
-    let
-        html =
-            case Dict.get key models of
-                Just model ->
-                    Counter.view 1 (String.fromInt key) model
+    case Dict.get key models of
+        Just model ->
+            Counter.view 1 (String.fromInt key) model
+                |> Html.map (mapKey key)
 
-                Nothing ->
-                    Counter.view 1 (String.fromInt key) Counter.init
-    in
-    Html.map (mapKey key) html
+        Nothing ->
+            Counter.view 1 (String.fromInt key) Counter.init
+                |> Html.map (mapKey key)
 
 
 view : Model -> Html Msg
 view model =
-    div []
-        (List.append [ Html.map HowMany (Counter.view 1 "how many" model.howMany) ]
-            (List.map (viewSubcomponent model.others) (List.range 0 (model.howMany - 1)))
-        )
+    List.range 0 (model.howMany - 1)
+        |> List.map (viewSubcomponent model.others)
+        |> List.append [ Html.map HowMany (Counter.view 1 "how many" model.howMany) ]
+        |> div []
 
 
 main =
