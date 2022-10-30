@@ -2,5 +2,5 @@ _opam
 _build
 node_modules
 elm-stuff
-elm/index.html
+**/elm/index.html
 
