@@ -4,7 +4,7 @@
 ## Bonsai
 
 <details>
-<summary open> <h3> `counter.ml` </h3> </summary>
+<summary open> <h3> <code>counter.ml</code> </h3> </summary>
 
 <!-- $MDX file=01-basic/bonsai/counter.ml -->
 ```ocaml
