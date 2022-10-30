@@ -68,7 +68,7 @@ let _ = Start.start ~bind_to_element_with_id:"app" Start.Result_spec.just_the_vi
 
 <details open><summary><h3><code>Counter.elm</code></h3></summary>
 
-<!-- $MDX file=01-basic/elm/src/Counter.elm -->
+<!-- $MDX file=01-basic/elm/Counter.elm -->
 ```elm
 module Counter exposing (Model, Msg, init, update, view)
 
@@ -115,7 +115,7 @@ view label model =
 
 <details open><summary><h3><code>Main.elm</code></h3></summary>
 
-<!-- $MDX file=01-basic/elm/src/Main.elm -->
+<!-- $MDX file=01-basic/elm/Main.elm -->
 ```elm
 module Main exposing (main)
 
@@ -208,7 +208,7 @@ let _ = Start.start ~bind_to_element_with_id:"app" Start.Result_spec.just_the_vi
 ### Counter.elm
 <details><summary>File Contents Unchanged From Part 1 </summary>
 
-<!-- $MDX file=02-parallel/elm/src/Counter.elm -->
+<!-- $MDX file=02-parallel/elm/Counter.elm -->
 ```elm
 module Counter exposing (Model, Msg, init, update, view)
 
@@ -257,7 +257,7 @@ view label model =
 ### `Main.elm`
 <details open><summary>File Contents</summary>
 
-<!-- $MDX file=02-parallel/elm/src/Main.elm -->
+<!-- $MDX file=02-parallel/elm/Main.elm -->
 ```elm
 module Main exposing (main)
 
@@ -443,7 +443,7 @@ let _ = Start.start ~bind_to_element_with_id:"app" Start.Result_spec.just_the_vi
 
 <details open><summary>File Contents</summary>
 
-<!-- $MDX file=03-sequential/elm/src/Counter.elm -->
+<!-- $MDX file=03-sequential/elm/Counter.elm -->
 ```elm
 module Counter exposing (Model, Msg, init, update, view)
 
@@ -490,9 +490,9 @@ view howMuch label model =
 <details><summary>Diff Against Part 1</summary>
 
 ```sh
-$ patdiff -dont-produce-unified-lines 01-basic/elm/src/Counter.elm 03-sequential/elm/src/Counter.elm
------- 01-basic/elm/src/Counter.elm
-++++++ 03-sequential/elm/src/Counter.elm
+$ patdiff -dont-produce-unified-lines 01-basic/elm/Counter.elm 03-sequential/elm/Counter.elm
+------ 01-basic/elm/Counter.elm
+++++++ 03-sequential/elm/Counter.elm
 @|-6,34 +6,34 ============================================================
  |
  |
@@ -545,7 +545,7 @@ $ patdiff -dont-produce-unified-lines 01-basic/elm/src/Counter.elm 03-sequential
 
 <details open><summary>File Contents</summary>
 
-<!-- $MDX file=03-sequential/elm/src/Main.elm -->
+<!-- $MDX file=03-sequential/elm/Main.elm -->
 ```elm
 module Main exposing (main)
 
@@ -675,7 +675,7 @@ let _ = Start.start ~bind_to_element_with_id:"app" Start.Result_spec.just_the_vi
 
 <details><summary>File Contents Unchanged From Part 1</summary>
 
-<!-- $MDX file=04-multiplicity/elm/src/Counter.elm -->
+<!-- $MDX file=04-multiplicity/elm/Counter.elm -->
 ```elm
 module Counter exposing (Model, Msg, init, update, view)
 
@@ -725,7 +725,7 @@ view label model =
 
 <details open><summary>File Contents</summary>
 
-<!-- $MDX file=04-multiplicity/elm/src/Main.elm -->
+<!-- $MDX file=04-multiplicity/elm/Main.elm -->
 ```elm
 module Main exposing (main)
 
