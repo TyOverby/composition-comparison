@@ -27,9 +27,8 @@ let component' ~label ?(by = Value.return 1) () =
   and by = by
   and label = label in
   let button op action =
-    N.button
-      ~attr:(A.on_click (fun _ -> inject action))
-      [ N.textf "%s%d" op by ]
+    let attr = A.on_click (fun _ -> inject action) in
+    N.button ~attr [ N.textf "%s%d" op by ]
   in
   let view =
     N.div
