@@ -29,10 +29,11 @@ update msg model =
             model - 1
 
 
-view : Model -> Html Msg
-view model =
+view : String -> Model -> Html Msg
+view label model =
     div []
-        [ button [ onClick Decrement ] [ text "-1" ]
+        [ span [] [ text (String.concat [ label, ": " ]) ]
+        , button [ onClick Decrement ] [ text "-1" ]
         , span [] [ text (String.fromInt model) ]
         , button [ onClick Increment ] [ text "+1" ]
         ]

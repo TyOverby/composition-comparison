@@ -32,8 +32,8 @@ update msg model =
 view : Model -> Html Msg
 view model =
     div []
-        [ map First (Counter.view 1 model.first)
-        , map Second (Counter.view model.first model.second)
+        [ map First (Counter.view 1 "first" model.first)
+        , map Second (Counter.view model.first "second" model.second)
         ]
 
 

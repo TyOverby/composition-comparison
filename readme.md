@@ -101,10 +101,11 @@ update msg model =
             model - 1
 
 
-view : Model -> Html Msg
-view model =
+view : String -> Model -> Html Msg
+view label model =
     div []
-        [ button [ onClick Decrement ] [ text "-1" ]
+        [ span [] [ text (String.concat [ label, ": " ]) ]
+        , button [ onClick Decrement ] [ text "-1" ]
         , span [] [ text (String.fromInt model) ]
         , button [ onClick Increment ] [ text "+1" ]
         ]
@@ -122,8 +123,12 @@ import Browser
 import Counter
 
 
+view =
+    Counter.view "counter"
+
+
 main =
-    Browser.sandbox { init = Counter.init, update = Counter.update, view = Counter.view }
+    Browser.sandbox { init = Counter.init, update = Counter.update, view = view }
 ```
 
 </details>
@@ -236,10 +241,11 @@ update msg model =
             model - 1
 
 
-view : Model -> Html Msg
-view model =
+view : String -> Model -> Html Msg
+view label model =
     div []
-        [ button [ onClick Decrement ] [ text "-1" ]
+        [ span [] [ text (String.concat [ label, ": " ]) ]
+        , button [ onClick Decrement ] [ text "-1" ]
         , span [] [ text (String.fromInt model) ]
         , button [ onClick Increment ] [ text "+1" ]
         ]
@@ -287,8 +293,8 @@ update msg model =
 view : Model -> Html Msg
 view model =
     div []
-        [ map First (Counter.view model.first)
-        , map Second (Counter.view model.second)
+        [ map First (Counter.view "first" model.first)
+        , map Second (Counter.view "second" model.second)
         ]
 
 
@@ -470,10 +476,11 @@ update howMuch msg model =
             model - howMuch
 
 
-view : Int -> Model -> Html Msg
-view howMuch model =
+view : Int -> String -> Model -> Html Msg
+view howMuch label model =
     div []
-        [ button [ onClick Decrement ] [ text (String.concat [ "-", String.fromInt howMuch ]) ]
+        [ span [] [ text (String.concat [ label, ": " ]) ]
+        , button [ onClick Decrement ] [ text (String.concat [ "-", String.fromInt howMuch ]) ]
         , span [] [ text (String.fromInt model) ]
         , button [ onClick Increment ] [ text (String.concat [ "+", String.fromInt howMuch ]) ]
         ]
@@ -486,7 +493,7 @@ view howMuch model =
 $ patdiff -dont-produce-unified-lines 01-basic/elm/src/Counter.elm 03-sequential/elm/src/Counter.elm
 ------ 01-basic/elm/src/Counter.elm
 ++++++ 03-sequential/elm/src/Counter.elm
-@|-6,33 +6,33 ============================================================
+@|-6,34 +6,34 ============================================================
  |
  |
  |type alias Model =
@@ -517,13 +524,14 @@ $ patdiff -dont-produce-unified-lines 01-basic/elm/src/Counter.elm 03-sequential
 +|            model - howMuch
  |
  |
--|view : Model -> Html Msg
--|view model =
-+|view : Int -> Model -> Html Msg
-+|view howMuch model =
+-|view : String -> Model -> Html Msg
+-|view label model =
++|view : Int -> String -> Model -> Html Msg
++|view howMuch label model =
  |    div []
--|        [ button [ onClick Decrement ] [ text "-1" ]
-+|        [ button [ onClick Decrement ] [ text (String.concat [ "-", String.fromInt howMuch ]) ]
+ |        [ span [] [ text (String.concat [ label, ": " ]) ]
+-|        , button [ onClick Decrement ] [ text "-1" ]
++|        , button [ onClick Decrement ] [ text (String.concat [ "-", String.fromInt howMuch ]) ]
  |        , span [] [ text (String.fromInt model) ]
 -|        , button [ onClick Increment ] [ text "+1" ]
 +|        , button [ onClick Increment ] [ text (String.concat [ "+", String.fromInt howMuch ]) ]
@@ -573,8 +581,8 @@ update msg model =
 view : Model -> Html Msg
 view model =
     div []
-        [ map First (Counter.view 1 model.first)
-        , map Second (Counter.view model.first model.second)
+        [ map First (Counter.view 1 "first" model.first)
+        , map Second (Counter.view model.first "second" model.second)
         ]
 
 
@@ -590,7 +598,7 @@ main =
 
 ### `counter.ml`
 
-<details><summary>File Contents Largely Unchanged</summary>
+<details><summary>File Contents Unchanged From Part 1</summary>
 
 <!-- $MDX file=04-multiplicity/bonsai/counter.ml -->
 ```ocaml
@@ -629,14 +637,6 @@ let component label =
 ```
 </details>
 
-<details><summary>Diff Against Part 1</summary>
-
-```sh
-$ patdiff -dont-produce-unified-lines 01-basic/bonsai/counter.ml 04-multiplicity/bonsai/counter.ml
-```
-
-</details>
-
 ### `main.ml`
 
 <details open><summary>File Contents</summary>
@@ -673,7 +673,7 @@ let _ = Start.start ~bind_to_element_with_id:"app" Start.Result_spec.just_the_vi
 
 ### `Counter.elm`
 
-<details><summary>File Contents Largely Unchanged </summary>
+<details><summary>File Contents Unchanged From Part 1</summary>
 
 <!-- $MDX file=04-multiplicity/elm/src/Counter.elm -->
 ```elm
@@ -718,44 +718,6 @@ view label model =
         ]
 ```
 </details>
-
-<details><summary>Diff Against Part 1</summary>
-
-```sh
-$ patdiff -dont-produce-unified-lines 01-basic/elm/src/Counter.elm 04-multiplicity/elm/src/Counter.elm
------- 01-basic/elm/src/Counter.elm
-++++++ 04-multiplicity/elm/src/Counter.elm
-@|-16,23 +16,24 ============================================================
- |
- |type Msg
- |    = Increment
- |    | Decrement
- |
- |
- |update : Msg -> Model -> Model
- |update msg model =
- |    case msg of
- |        Increment ->
- |            model + 1
- |
- |        Decrement ->
- |            model - 1
- |
- |
--|view : Model -> Html Msg
--|view model =
-+|view : String -> Model -> Html Msg
-+|view label model =
--|    div []
--|        [ button [ onClick Decrement ] [ text "-1" ]
-+|    div []
-+|        [ span [] [ text (String.concat [ label, ": " ]) ]
-+|        , button [ onClick Decrement ] [ text "-1" ]
- |        , span [] [ text (String.fromInt model) ]
- |        , button [ onClick Increment ] [ text "+1" ]
- |        ]
-[1]
-```
 
 </details>
 

@@ -29,10 +29,11 @@ update howMuch msg model =
             model - howMuch
 
 
-view : Int -> Model -> Html Msg
-view howMuch model =
+view : Int -> String -> Model -> Html Msg
+view howMuch label model =
     div []
-        [ button [ onClick Decrement ] [ text (String.concat [ "-", String.fromInt howMuch ]) ]
+        [ span [] [ text (String.concat [ label, ": " ]) ]
+        , button [ onClick Decrement ] [ text (String.concat [ "-", String.fromInt howMuch ]) ]
         , span [] [ text (String.fromInt model) ]
         , button [ onClick Increment ] [ text (String.concat [ "+", String.fromInt howMuch ]) ]
         ]
