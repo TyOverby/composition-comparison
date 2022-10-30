@@ -31,16 +31,28 @@ let apply_action ~inject:_ ~schedule_event:_ how_much model (action : Action.t) 
 
 let component' ~label ?(by = Value.return 1) () =
   let%sub state_and_inject =
-    Bonsai.state_machine1 (module Int) (module Action) ~default_model ~apply_action by
+    Bonsai.state_machine1
+      (module Int)
+      (module Action)
+      ~default_model
+      ~apply_action
+      by
   in
   let%arr state, inject = state_and_inject
   and by = by
   and label = label in
   let button op action =
-    N.button ~attr:(A.on_click (fun _ -> inject action)) [ N.textf "%s%d" op by ]
+    N.button
+      ~attr:(A.on_click (fun _ -> inject action))
+      [ N.textf "%s%d" op by ]
   in
   let view =
-    N.div [ N.textf "%s: " label; button "-" Decr; N.textf "%d" state; button "+" Incr ]
+    N.div
+      [ N.textf "%s: " label
+      ; button "-" Decr
+      ; N.textf "%d" state
+      ; button "+" Incr
+      ]
   in
   view, state
 ;;
@@ -121,7 +133,10 @@ open! Core
 open! Import
 
 let app = Counter.component ~label:(Value.return "counter") ()
-let _ = Start.start ~bind_to_element_with_id:"app" Start.Result_spec.just_the_view app
+
+let _ =
+  Start.start ~bind_to_element_with_id:"app" Start.Result_spec.just_the_view app
+;;
 ```
 
 </td>
@@ -175,7 +190,9 @@ let app =
   N.div [ first; second ]
 ;;
 
-let _ = Start.start ~bind_to_element_with_id:"app" Start.Result_spec.just_the_view app
+let _ =
+  Start.start ~bind_to_element_with_id:"app" Start.Result_spec.just_the_view app
+;;
 ```
 
 </td><td valign="top">
@@ -245,14 +262,20 @@ open! Core
 open! Import
 
 let app =
-  let%sub first_view, by = Counter.component' ~label:(Value.return "first") () in
-  let%sub second_view = Counter.component ~label:(Value.return "second") ~by () in
+  let%sub first_view, by =
+    Counter.component' ~label:(Value.return "first") ()
+  in
+  let%sub second_view =
+    Counter.component ~label:(Value.return "second") ~by ()
+  in
   let%arr first = first_view
   and second = second_view in
   N.div [ first; second ]
 ;;
 
-let _ = Start.start ~bind_to_element_with_id:"app" Start.Result_spec.just_the_view app
+let _ =
+  Start.start ~bind_to_element_with_id:"app" Start.Result_spec.just_the_view app
+;;
 ```
 
 </td> <td valign="top">
@@ -338,7 +361,9 @@ let app =
   N.div (counter_view :: Map.data others)
 ;;
 
-let _ = Start.start ~bind_to_element_with_id:"app" Start.Result_spec.just_the_view app
+let _ =
+  Start.start ~bind_to_element_with_id:"app" Start.Result_spec.just_the_view app
+;;
 ```
 
 </td><td valign="top">
