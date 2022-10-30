@@ -458,7 +458,8 @@ view howMuch model =
 ```
 </details>
 
-<details><summary><h4><code>Counter.elm</code> (diff)</h4></summary>
+<details><summary><h3><code>Counter.elm</code> (diff)</h3></summary>
+
 ```sh
 $ patdiff -dont-produce-unified-lines 01-basic/elm/src/Counter.elm 03-sequential/elm/src/Counter.elm
 ------ 01-basic/elm/src/Counter.elm
