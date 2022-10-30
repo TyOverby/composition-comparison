@@ -134,7 +134,7 @@ main =
 
 ### `counter.ml`
 
-<details><summary>File Contents (unchanged from part 1)</summary>
+<details><summary>File Contents Unchanged From Part 1</summary>
 
 <!-- $MDX file=02-parallel/bonsai/counter.ml -->
 ```ocaml
@@ -201,7 +201,7 @@ let _ =
 ## Elm
 
 ### Counter.elm
-<details><summary>File Contents (unchanged from part 1) </summary>
+<details><summary>File Contents Unchanged From Part 1 </summary>
 
 <!-- $MDX file=02-parallel/elm/src/Counter.elm -->
 ```elm
@@ -585,7 +585,7 @@ main =
 
 ### `counter.ml`
 
-<details><summary>File Contents (largely unchanged)</summary>
+<details><summary>File Contents Largely Unchanged</summary>
 
 <!-- $MDX file=04-multiplicity/bonsai/counter.ml -->
 ```ocaml
@@ -709,7 +709,7 @@ let _ = Start.start ~bind_to_element_with_id:"app" Start.Result_spec.just_the_vi
 
 ### `Counter.elm`
 
-<details><summary>File Contents (largely unchanged) </summary>
+<details><summary>File Contents Largely Unchanged </summary>
 
 <!-- $MDX file=04-multiplicity/elm/src/Counter.elm -->
 ```elm
@@ -754,8 +754,6 @@ view label model =
         ]
 ```
 </details>
-
-### `Counter.elm`
 
 <details><summary>Diff Against Part 1</summary>
 
