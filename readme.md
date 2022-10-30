@@ -21,8 +21,6 @@ module Action = struct
   [@@deriving sexp_of]
 end
 
-let default_model = 0
-
 let apply_action ~inject:_ ~schedule_event:_ by model action =
   match (action : Action.t) with
   | Incr -> model + by
@@ -34,7 +32,7 @@ let component' ~label ?(by = Value.return 1) () =
     Bonsai.state_machine1
       (module Int)
       (module Action)
-      ~default_model
+      ~default_model:0
       ~apply_action
       by
   in
