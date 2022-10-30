@@ -10,10 +10,10 @@ end
 
 let default_model = 0
 
-let apply_action ~inject:_ ~schedule_event:_ how_much model action =
+let apply_action ~inject:_ ~schedule_event:_ by model action =
   match (action : Action.t) with
-  | Incr -> model + how_much
-  | Decr -> model - how_much
+  | Incr -> model + by
+  | Decr -> model - by
 ;;
 
 let component' ~label ?(by = Value.return 1) () =
