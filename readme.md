@@ -1,4 +1,3 @@
-
 # 01 - Basic Components
 
 ## Bonsai
@@ -26,20 +25,21 @@ let apply_action ~inject:_ ~schedule_event:_ model (action : Action.t) =
   | Decr -> model - 1
 ;;
 
-let component =
+let component label =
   let%sub state_and_inject =
-    Bonsai.state_machine0
-      (module Int)
-      (module Action)
-      ~default_model:0
-      ~apply_action
+    Bonsai.state_machine0 (module Int) (module Action) ~default_model:0 ~apply_action
   in
-  let%arr state, inject = state_and_inject in
-  N.div
-    [ N.button ~attr:(A.on_click (fun _ -> inject Decr)) [ N.text "-1" ]
-    ; N.span [ N.textf "%d" state ]
-    ; N.button ~attr:(A.on_click (fun _ -> inject Incr)) [ N.text "+1" ]
-    ]
+  let%arr state, inject = state_and_inject
+  and label = label in
+  let view =
+    N.div
+      [ N.span [ N.textf "%s: " label ]
+      ; N.button ~attr:(A.on_click (fun _ -> inject Decr)) [ N.text "-1" ]
+      ; N.span [ N.textf "%d" state ]
+      ; N.button ~attr:(A.on_click (fun _ -> inject Incr)) [ N.text "+1" ]
+      ]
+  in
+  view, state
 ;;
 ```
 
@@ -53,11 +53,12 @@ let component =
 open! Core
 open! Import
 
-let app = Counter.component
-
-let _ =
-  Start.start ~bind_to_element_with_id:"app" Start.Result_spec.just_the_view app
+let app =
+  let%sub view, _ = Counter.component (Value.return "counter") in
+  return view
 ;;
+
+let _ = Start.start ~bind_to_element_with_id:"app" Start.Result_spec.just_the_view app
 ```
 
 </details>
@@ -154,20 +155,21 @@ let apply_action ~inject:_ ~schedule_event:_ model (action : Action.t) =
   | Decr -> model - 1
 ;;
 
-let component =
+let component label =
   let%sub state_and_inject =
-    Bonsai.state_machine0
-      (module Int)
-      (module Action)
-      ~default_model:0
-      ~apply_action
+    Bonsai.state_machine0 (module Int) (module Action) ~default_model:0 ~apply_action
   in
-  let%arr state, inject = state_and_inject in
-  N.div
-    [ N.button ~attr:(A.on_click (fun _ -> inject Decr)) [ N.text "-1" ]
-    ; N.span [ N.textf "%d" state ]
-    ; N.button ~attr:(A.on_click (fun _ -> inject Incr)) [ N.text "+1" ]
-    ]
+  let%arr state, inject = state_and_inject
+  and label = label in
+  let view =
+    N.div
+      [ N.span [ N.textf "%s: " label ]
+      ; N.button ~attr:(A.on_click (fun _ -> inject Decr)) [ N.text "-1" ]
+      ; N.span [ N.textf "%d" state ]
+      ; N.button ~attr:(A.on_click (fun _ -> inject Incr)) [ N.text "+1" ]
+      ]
+  in
+  view, state
 ;;
 ```
 
@@ -183,16 +185,14 @@ open! Core
 open! Import
 
 let app =
-  let%sub first = Counter.component in
-  let%sub second = Counter.component in
+  let%sub first, _ = Counter.component (Value.return "first") in
+  let%sub second, _ = Counter.component (Value.return "second") in
   let%arr first = first
   and second = second in
   N.div [ first; second ]
 ;;
 
-let _ =
-  Start.start ~bind_to_element_with_id:"app" Start.Result_spec.just_the_view app
-;;
+let _ = Start.start ~bind_to_element_with_id:"app" Start.Result_spec.just_the_view app
 ```
 
 </details>
@@ -324,7 +324,7 @@ let apply_action ~inject:_ ~schedule_event:_ how_much model (action : Action.t) 
   | Decr -> model - how_much
 ;;
 
-let component ~how_much =
+let component label ~how_much =
   let%sub state_and_inject =
     Bonsai.state_machine1
       (module Int)
@@ -334,10 +334,12 @@ let component ~how_much =
       how_much
   in
   let%arr state, inject = state_and_inject
-  and how_much = how_much in
+  and how_much = how_much
+  and label = label in
   let view =
     N.div
-      [ N.button ~attr:(A.on_click (fun _ -> inject Decr)) [ N.textf "-%d" how_much ]
+      [ N.span [ N.textf "%s: " label ]
+      ; N.button ~attr:(A.on_click (fun _ -> inject Decr)) [ N.textf "-%d" how_much ]
       ; N.span [ N.textf "%d" state ]
       ; N.button ~attr:(A.on_click (fun _ -> inject Incr)) [ N.textf "+%d" how_much ]
       ]
@@ -353,7 +355,7 @@ let component ~how_much =
 $ patdiff -dont-produce-unified-lines 01-basic/bonsai/counter.ml 03-sequential/bonsai/counter.ml
 ------ 01-basic/bonsai/counter.ml
 ++++++ 03-sequential/bonsai/counter.ml
-@|-1,31 +1,36 ============================================================
+@|-1,32 +1,38 ============================================================
  |open! Core
  |open! Import
  |
@@ -373,30 +375,31 @@ $ patdiff -dont-produce-unified-lines 01-basic/bonsai/counter.ml 03-sequential/b
 +|  | Decr -> model - how_much
  |;;
  |
--|let component =
-+|let component ~how_much =
+-|let component label =
++|let component label ~how_much =
  |  let%sub state_and_inject =
--|    Bonsai.state_machine0
+-|    Bonsai.state_machine0 (module Int) (module Action) ~default_model:0 ~apply_action
 +|    Bonsai.state_machine1
- |      (module Int)
- |      (module Action)
- |      ~default_model:0
- |      ~apply_action
++|      (module Int)
++|      (module Action)
++|      ~default_model:0
++|      ~apply_action
 +|      how_much
  |  in
--|  let%arr state, inject = state_and_inject in
-+|  let%arr state, inject = state_and_inject
-+|  and how_much = how_much in
-+|  let view =
+ |  let%arr state, inject = state_and_inject
++|  and how_much = how_much
+ |  and label = label in
+ |  let view =
  |    N.div
--|    [ N.button ~attr:(A.on_click (fun _ -> inject Decr)) [ N.text "-1" ]
-+|      [ N.button ~attr:(A.on_click (fun _ -> inject Decr)) [ N.textf "-%d" how_much ]
+ |      [ N.span [ N.textf "%s: " label ]
+-|      ; N.button ~attr:(A.on_click (fun _ -> inject Decr)) [ N.text "-1" ]
++|      ; N.button ~attr:(A.on_click (fun _ -> inject Decr)) [ N.textf "-%d" how_much ]
  |      ; N.span [ N.textf "%d" state ]
--|    ; N.button ~attr:(A.on_click (fun _ -> inject Incr)) [ N.text "+1" ]
+-|      ; N.button ~attr:(A.on_click (fun _ -> inject Incr)) [ N.text "+1" ]
 +|      ; N.button ~attr:(A.on_click (fun _ -> inject Incr)) [ N.textf "+%d" how_much ]
  |      ]
-+|  in
-+|  view, state
+ |  in
+ |  view, state
  |;;
 [1]
 ```
@@ -413,8 +416,10 @@ open! Core
 open! Import
 
 let app =
-  let%sub first_view, how_much = Counter.component ~how_much:(Value.return 1) in
-  let%sub second_view, _ = Counter.component ~how_much in
+  let%sub first_view, how_much =
+    Counter.component (Value.return "first") ~how_much:(Value.return 1)
+  in
+  let%sub second_view, _ = Counter.component (Value.return "second") ~how_much in
   let%arr first = first_view
   and second = second_view in
   N.div [ first; second ]
@@ -628,47 +633,6 @@ let component label =
 
 ```sh
 $ patdiff -dont-produce-unified-lines 01-basic/bonsai/counter.ml 04-multiplicity/bonsai/counter.ml
------- 01-basic/bonsai/counter.ml
-++++++ 04-multiplicity/bonsai/counter.ml
-@|-1,31 +1,32 ============================================================
- |open! Core
- |open! Import
- |
- |module Action = struct
- |  type t =
- |    | Incr
- |    | Decr
- |  [@@deriving sexp_of]
- |end
- |
- |let apply_action ~inject:_ ~schedule_event:_ model (action : Action.t) =
- |  match action with
- |  | Incr -> model + 1
- |  | Decr -> model - 1
- |;;
- |
--|let component =
-+|let component label =
- |  let%sub state_and_inject =
- |    Bonsai.state_machine0 (module Int) (module Action) ~default_model:0 ~apply_action
--|  in
--|  let%arr state, inject = state_and_inject in
--|  N.div
--|    [ N.button ~attr:(A.on_click (fun _ -> inject Decr)) [ N.text "-1" ]
-+|  in
-+|  let%arr state, inject = state_and_inject
-+|  and label = label in
-+|  let view =
-+|    N.div
-+|      [ N.span [ N.textf "%s: " label ]
-+|      ; N.button ~attr:(A.on_click (fun _ -> inject Decr)) [ N.text "-1" ]
- |      ; N.span [ N.textf "%d" state ]
- |      ; N.button ~attr:(A.on_click (fun _ -> inject Incr)) [ N.text "+1" ]
- |      ]
-+|  in
-+|  view, state
- |;;
-[1]
 ```
 
 </details>

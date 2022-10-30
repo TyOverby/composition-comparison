@@ -14,7 +14,7 @@ let apply_action ~inject:_ ~schedule_event:_ how_much model (action : Action.t) 
   | Decr -> model - how_much
 ;;
 
-let component ~how_much =
+let component label ~how_much =
   let%sub state_and_inject =
     Bonsai.state_machine1
       (module Int)
@@ -24,10 +24,12 @@ let component ~how_much =
       how_much
   in
   let%arr state, inject = state_and_inject
-  and how_much = how_much in
+  and how_much = how_much
+  and label = label in
   let view =
     N.div
-      [ N.button ~attr:(A.on_click (fun _ -> inject Decr)) [ N.textf "-%d" how_much ]
+      [ N.span [ N.textf "%s: " label ]
+      ; N.button ~attr:(A.on_click (fun _ -> inject Decr)) [ N.textf "-%d" how_much ]
       ; N.span [ N.textf "%d" state ]
       ; N.button ~attr:(A.on_click (fun _ -> inject Incr)) [ N.textf "+%d" how_much ]
       ]
