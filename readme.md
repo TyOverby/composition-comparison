@@ -3,8 +3,7 @@
 
 ## Bonsai
 
-<details open>
-<summary> <h3> <code>counter.ml</code> </h3> </summary>
+<details open><summary><h3><code>counter.ml</code></h3></summary>
 
 <!-- $MDX file=01-basic/bonsai/counter.ml -->
 ```ocaml
@@ -43,8 +42,7 @@ let component =
 
 </details>
 
-<deatils open>
-<summary> <h2> <code>main.ml</code> </h2> </summary>
+<details open><summary><h3><code>main.ml</code></h3></summary>
 
 <!-- $MDX file=01-basic/bonsai/main.ml -->
 ```ocaml
@@ -63,7 +61,8 @@ let _ =
 
 ## Elm
 
-### `Counter.elm`
+<details open><summary><h3><code>Counter.elm</code></h3></summary>
+
 <!-- $MDX file=01-basic/elm/src/Counter.elm -->
 ```elm
 module Counter exposing (Model, Msg, init, update, view)
@@ -106,7 +105,10 @@ view model =
         ]
 ```
 
-### `Main.elm`
+</details>
+
+<details open><summary><h3><code>Main.elm</code></h3></summary>
+
 <!-- $MDX file=01-basic/elm/src/Main.elm -->
 ```elm
 module Main exposing (main)
@@ -118,3 +120,5 @@ import Counter
 main =
     Browser.sandbox { init = Counter.init, update = Counter.update, view = Counter.view }
 ```
+
+</details>
