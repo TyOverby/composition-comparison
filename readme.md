@@ -4,7 +4,7 @@
 ## Bonsai
 
 
-### `Counter.ml`
+### `counter.ml`
 
 <details open><summary>File Contents</summary>
 
@@ -132,7 +132,9 @@ main =
 
 ## Bonsai
 
-<details><summary><h3><code>counter.ml</code> (unchanged)</h3></summary>
+### `counter.ml`
+
+<details><summary>File Contents (unchanged from part 1)</summary>
 
 <!-- $MDX file=02-parallel/bonsai/counter.ml -->
 ```ocaml
@@ -171,7 +173,9 @@ let component =
 
 </details>
 
-<details open><summary><h3><code>main.ml</code></h3></summary>
+### `main.ml`
+
+<details open><summary>File Contents</summary>
 
 <!-- $MDX file=02-parallel/bonsai/main.ml -->
 ```ocaml
@@ -196,7 +200,8 @@ let _ =
 
 ## Elm
 
-<details><summary><h3><code>Counter.elm</code> (unchanged)</h3></summary>
+### Counter.elm
+<details><summary>File Contents (unchanged from part 1) </summary>
 
 <!-- $MDX file=02-parallel/elm/src/Counter.elm -->
 ```elm
@@ -242,7 +247,9 @@ view model =
 
 </details>
 
-<details open><summary><h3><code>Main.elm</code></h3></summary>
+
+### `Main.elm`
+<details open><summary>File Contents</summary>
 
 <!-- $MDX file=02-parallel/elm/src/Main.elm -->
 ```elm
@@ -295,7 +302,9 @@ main =
 
 ## Bonsai
 
-<details open><summary><h3><code>counter.ml</code></h3></summary>
+### `counter.ml`
+
+<details open><summary>File Contents</summary>
 
 <!-- $MDX file=03-sequential/bonsai/counter.ml -->
 ```ocaml
@@ -338,7 +347,7 @@ let component ~how_much =
 ```
 </details>
 
-<details><summary><h3><code>counter.ml</code> (diff)</h3></summary>
+<details><summary>Diff Against Part 1</summary>
 
 ```sh
 $ patdiff -dont-produce-unified-lines 01-basic/bonsai/counter.ml 03-sequential/bonsai/counter.ml
@@ -394,7 +403,9 @@ $ patdiff -dont-produce-unified-lines 01-basic/bonsai/counter.ml 03-sequential/b
 
 </details>
 
-<details open><summary><h3><code>main.ml</code></h3></summary>
+### `main.ml`
+
+<details open><summary>File Contents</summary>
 
 <!-- $MDX file=03-sequential/bonsai/main.ml -->
 ```ocaml
@@ -417,7 +428,9 @@ let _ = Start.start ~bind_to_element_with_id:"app" Start.Result_spec.just_the_vi
 
 ## Elm
 
-<details open><summary><h3><code>Counter.elm</code></h3></summary>
+### `Counter.elm`
+
+<details open><summary>File Contents</summary>
 
 <!-- $MDX file=03-sequential/elm/src/Counter.elm -->
 ```elm
@@ -462,7 +475,7 @@ view howMuch model =
 ```
 </details>
 
-<details><summary><h3><code>Counter.elm</code> (diff)</h3></summary>
+<details><summary>Diff Against Part 1</summary>
 
 ```sh
 $ patdiff -dont-produce-unified-lines 01-basic/elm/src/Counter.elm 03-sequential/elm/src/Counter.elm
@@ -515,7 +528,9 @@ $ patdiff -dont-produce-unified-lines 01-basic/elm/src/Counter.elm 03-sequential
 
 </details>
 
-<details open><summary><h3><code>Main.elm</code></h3></summary>
+### `Main.elm`
+
+<details open><summary>File Contents</summary>
 
 <!-- $MDX file=03-sequential/elm/src/Main.elm -->
 ```elm
@@ -568,7 +583,9 @@ main =
 
 ## Bonsai
 
-<details><summary><h3><code>counter.ml</code> (largely unchanged) </h3></summary>
+### `counter.ml`
+
+<details><summary>File Contents (largely unchanged)</summary>
 
 <!-- $MDX file=04-multiplicity/bonsai/counter.ml -->
 ```ocaml
@@ -607,7 +624,7 @@ let component label =
 ```
 </details>
 
-<details><summary><h3><code>counter.ml</code> (diff)</h3></summary>
+<details><summary>Diff Against Part 1</summary>
 
 ```sh
 $ patdiff -dont-produce-unified-lines 01-basic/bonsai/counter.ml 04-multiplicity/bonsai/counter.ml
@@ -656,7 +673,9 @@ $ patdiff -dont-produce-unified-lines 01-basic/bonsai/counter.ml 04-multiplicity
 
 </details>
 
-<details open><summary><h3><code>main.ml</code></h3></summary>
+### `main.ml`
+
+<details open><summary>File Contents</summary>
 
 <!-- $MDX file=04-multiplicity/bonsai/main.ml -->
 ```ocaml
@@ -688,7 +707,9 @@ let _ = Start.start ~bind_to_element_with_id:"app" Start.Result_spec.just_the_vi
 
 ## Elm
 
-<details><summary><h3><code>Counter.elm</code> (largely unchanged)</h3></summary>
+### `Counter.elm`
+
+<details><summary>File Contents (largely unchanged) </summary>
 
 <!-- $MDX file=04-multiplicity/elm/src/Counter.elm -->
 ```elm
@@ -734,7 +755,9 @@ view label model =
 ```
 </details>
 
-<details><summary><h3><code>Counter.elm</code> (diff)</h3></summary>
+### `Counter.elm`
+
+<details><summary>Diff Against Part 1</summary>
 
 ```sh
 $ patdiff -dont-produce-unified-lines 01-basic/elm/src/Counter.elm 04-multiplicity/elm/src/Counter.elm
@@ -774,7 +797,9 @@ $ patdiff -dont-produce-unified-lines 01-basic/elm/src/Counter.elm 04-multiplici
 
 </details>
 
-<details open><summary><h3><code>Main.elm</code></h3></summary>
+### `Main.elm`
+
+<details open><summary>File Contents</summary>
 
 <!-- $MDX file=04-multiplicity/elm/src/Main.elm -->
 ```elm
