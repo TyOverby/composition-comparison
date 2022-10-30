@@ -3,8 +3,8 @@
 
 ## Bonsai
 
-<details>
-<summary open> <h3> <code>counter.ml</code> </h3> </summary>
+<details open>
+<summary> <h3> <code>counter.ml</code> </h3> </summary>
 
 <!-- $MDX file=01-basic/bonsai/counter.ml -->
 ```ocaml
@@ -41,10 +41,10 @@ let component =
 ;;
 ```
 
-</deatils>
+</details>
 
-<deatils>
-<summary open> <h2> `main.ml` </h2> </summary>
+<deatils open>
+<summary> <h2> <code>main.ml</code> </h2> </summary>
 
 <!-- $MDX file=01-basic/bonsai/main.ml -->
 ```ocaml
@@ -57,7 +57,9 @@ let _ =
   Start.start ~bind_to_element_with_id:"app" Start.Result_spec.just_the_view app
 ;;
 ```
+
 </details>
+
 
 ## Elm
 
