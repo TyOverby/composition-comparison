@@ -3,7 +3,10 @@
 
 ## Bonsai
 
-<details open><summary><h3><code>counter.ml</code></h3></summary>
+
+### `Counter.ml`
+
+<details open><summary>File Contents</summary>
 
 <!-- $MDX file=01-basic/bonsai/counter.ml -->
 ```ocaml
@@ -42,7 +45,8 @@ let component =
 
 </details>
 
-<details open><summary><h3><code>main.ml</code></h3></summary>
+### `main.ml`
+<details open><summary>File Contents</summary>
 
 <!-- $MDX file=01-basic/bonsai/main.ml -->
 ```ocaml
@@ -511,7 +515,7 @@ $ patdiff -dont-produce-unified-lines 01-basic/elm/src/Counter.elm 03-sequential
 
 </details>
 
-<details open><summary><h3><code>main.ml</code></h3></summary>
+<details open><summary><h3><code>Main.elm</code></h3></summary>
 
 <!-- $MDX file=03-sequential/elm/src/Main.elm -->
 ```elm
@@ -770,7 +774,7 @@ $ patdiff -dont-produce-unified-lines 01-basic/elm/src/Counter.elm 04-multiplici
 
 </details>
 
-<details open><summary><h3><code>main.ml</code></h3></summary>
+<details open><summary><h3><code>Main.elm</code></h3></summary>
 
 <!-- $MDX file=04-multiplicity/elm/src/Main.elm -->
 ```elm
