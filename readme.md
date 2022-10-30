@@ -293,7 +293,7 @@ main =
 
 <details open><summary><h3><code>counter.ml</code></h3></summary>
 
-<!-- $MDX file=02-parallel/bonsai/counter.ml -->
+<!-- $MDX file=03-sequential/bonsai/counter.ml -->
 ```ocaml
 open! Core
 open! Import
@@ -329,7 +329,8 @@ let component =
 ```
 </details>
 
-<details><summary><h4><code>counter.ml</code> (diff)</h4></summary>
+<details><summary><h3><code>counter.ml</code> (diff)</h3></summary>
+
 ```sh
 $ patdiff -dont-produce-unified-lines -word-big-enough 1 01-basic/bonsai/counter.ml 03-sequential/bonsai/counter.ml
 ------ 01-basic/bonsai/counter.ml
