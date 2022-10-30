@@ -7,7 +7,7 @@
 <th>Elm</th>
 </tr>
 <tr>
-<td>
+<td valign="top">
 
 <!-- $MDX file=shared/counter.ml -->
 ```ocaml
@@ -52,7 +52,7 @@ let component ~label ~how_much =
 ```
 
 </td>
-<td>
+<td valign="top">
 
 <!-- $MDX file=shared/Counter.elm -->
 ```elm
@@ -109,7 +109,7 @@ view howMuch label model =
 <th>Elm</th>
 </tr>
 <tr>
-<td>
+<td valign="top">
 
 <!-- $MDX file=01-basic/bonsai/main.ml -->
 ```ocaml
@@ -127,7 +127,7 @@ let _ = Start.start ~bind_to_element_with_id:"app" Start.Result_spec.just_the_vi
 ```
 
 </td>
-<td>
+<td valign="top">
 
 <!-- $MDX file=01-basic/elm/Main.elm -->
 ```elm
@@ -166,7 +166,7 @@ main =
 <th>Elm</th>
 </tr>
 <tr>
-<td>
+<td valign="top">
 
 <!-- $MDX file=02-parallel/bonsai/main.ml -->
 ```ocaml
@@ -188,7 +188,7 @@ let app =
 let _ = Start.start ~bind_to_element_with_id:"app" Start.Result_spec.just_the_view app
 ```
 
-</td><td>
+</td><td valign="top">
 
 <!-- $MDX file=02-parallel/elm/Main.elm -->
 ```elm
