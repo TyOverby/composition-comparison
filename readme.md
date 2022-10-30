@@ -59,7 +59,7 @@ let component ~label ?by () =
 module Counter exposing (Model, Msg, init, update, view)
 
 import Browser
-import Html exposing (Html, button, div, span, text)
+import Html exposing (Html, div, span, text)
 import Html.Events exposing (onClick)
 
 
@@ -89,11 +89,15 @@ update howMuch msg model =
 
 view : Int -> String -> Model -> Html Msg
 view howMuch label model =
+    let
+        button op action =
+            Html.button [ onClick action ] [ text (String.concat [ op, String.fromInt howMuch ]) ]
+    in
     div []
-        [ span [] [ text (String.concat [ label, ": " ]) ]
-        , button [ onClick Decrement ] [ text (String.concat [ "-", String.fromInt howMuch ]) ]
-        , span [] [ text (String.fromInt model) ]
-        , button [ onClick Increment ] [ text (String.concat [ "+", String.fromInt howMuch ]) ]
+        [ text (String.concat [ label, ": " ])
+        , button "-" Decrement
+        , text (String.fromInt model)
+        , button "+" Increment
         ]
 ```
 
@@ -131,10 +135,6 @@ import Browser
 import Counter
 
 
-init =
-    Counter.init
-
-
 update =
     Counter.update 1
 
@@ -144,7 +144,7 @@ view =
 
 
 main =
-    Browser.sandbox { init = init, update = update, view = view }
+    Browser.sandbox { init = Counter.init, update = update, view = view }
 ```
 
 </td>

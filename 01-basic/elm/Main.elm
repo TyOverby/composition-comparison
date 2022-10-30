@@ -4,10 +4,6 @@ import Browser
 import Counter
 
 
-init =
-    Counter.init
-
-
 update =
     Counter.update 1
 
@@ -17,4 +13,4 @@ view =
 
 
 main =
-    Browser.sandbox { init = init, update = update, view = view }
+    Browser.sandbox { init = Counter.init, update = update, view = view }
