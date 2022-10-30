@@ -174,7 +174,13 @@ let component =
 open! Core
 open! Import
 
-let app = Counter.component
+let app =
+  let%sub first = Counter.component in
+  let%sub second = Counter.component in
+  let%arr first = first
+  and second = second in
+  N.div [ first; second ]
+;;
 
 let _ =
   Start.start ~bind_to_element_with_id:"app" Start.Result_spec.just_the_view app
@@ -188,7 +194,7 @@ let _ =
 
 <details><summary><h3><code>Counter.elm</code> (unchanged)</h3></summary>
 
-<!-- $MDX file=02-basic/elm/src/Counter.elm -->
+<!-- $MDX file=02-parallel/elm/src/Counter.elm -->
 ```elm
 module Counter exposing (Model, Msg, init, update, view)
 
@@ -234,16 +240,49 @@ view model =
 
 <details open><summary><h3><code>Main.elm</code></h3></summary>
 
-<!-- $MDX file=02-basic/elm/src/Main.elm -->
+<!-- $MDX file=02-parallel/elm/src/Main.elm -->
 ```elm
 module Main exposing (main)
 
 import Browser
 import Counter
+import Html exposing (Html, div, map)
+
+
+type alias Model =
+    { first : Counter.Model, second : Counter.Model }
+
+
+init : Model
+init =
+    { first = Counter.init, second = Counter.init }
+
+
+type Msg
+    = First Counter.Msg
+    | Second Counter.Msg
+
+
+update : Msg -> Model -> Model
+update msg model =
+    case msg of
+        First msg_first ->
+            { model | first = Counter.update msg_first model.first }
+
+        Second msg_second ->
+            { model | second = Counter.update msg_second model.second }
+
+
+view : Model -> Html Msg
+view model =
+    div []
+        [ map First (Counter.view model.first)
+        , map Second (Counter.view model.second)
+        ]
 
 
 main =
-    Browser.sandbox { init = Counter.init, update = Counter.update, view = Counter.view }
+    Browser.sandbox { init = init, update = update, view = view }
 ```
 
 </details>
