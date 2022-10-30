@@ -1,0 +1,30 @@
+module Counter exposing (Model, Msg, init, update, view)
+
+import Browser
+import Html exposing (div, button, span, text, Html)
+import Html.Events exposing (onClick)
+
+type alias Model = Int
+
+init : Model
+init = 0
+
+type Msg = Increment | Decrement
+
+update : Int -> Msg -> Model -> Model
+update howMuch msg model =
+  case msg of
+    Increment ->
+      model + howMuch
+
+    Decrement ->
+      model - howMuch
+
+view : Int -> Model -> Html Msg
+view howMuch model =
+  div []
+    [ button [ onClick Decrement ] [ text (String.concat ["-", String.fromInt howMuch]) ]
+    , span [] [ text (String.fromInt model) ]
+    , button [ onClick Increment ] [ text (String.concat ["+", String.fromInt howMuch]) ]
+    ]
+
