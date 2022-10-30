@@ -2,13 +2,20 @@ open! Core
 open! Import
 
 let app =
-  let%sub first = Counter.component in
-  let%sub second = Counter.component in
-  let%arr first = first
-  and second = second in
-  N.div [ first; second ]
+  let%sub counter_view, how_many = Counter.component (Value.return "how many") in
+  let%sub map =
+    let%arr how_many = how_many in
+    Int.Map.of_alist_exn (List.init how_many ~f:(fun i -> i, ()))
+  in
+  let make_subcomponent key _data =
+    let%sub subcomponent = Counter.component (Value.map key ~f:Int.to_string) in
+    let%arr view, _ = subcomponent in
+    view
+  in
+  let%sub others = Bonsai.assoc (module Int) map ~f:make_subcomponent in
+  let%arr counter_view = counter_view
+  and others = others in
+  N.div (counter_view :: Map.data others)
 ;;
 
-let _ =
-  Start.start ~bind_to_element_with_id:"app" Start.Result_spec.just_the_view app
-;;
+let _ = Start.start ~bind_to_element_with_id:"app" Start.Result_spec.just_the_view app

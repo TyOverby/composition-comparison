@@ -55,10 +55,10 @@ viewSubcomponent models key =
         html =
             case Dict.get key models of
                 Just model ->
-                    Counter.view model
+                    Counter.view (String.fromInt key) model
 
                 Nothing ->
-                    Counter.view Counter.init
+                    Counter.view (String.fromInt key) Counter.init
     in
     Html.map (mapKey key) html
 
@@ -66,7 +66,7 @@ viewSubcomponent models key =
 view : Model -> Html Msg
 view model =
     div []
-        (List.append [ Html.map HowMany (Counter.view model.howMany) ]
+        (List.append [ Html.map HowMany (Counter.view "how many" model.howMany) ]
             (List.map (viewSubcomponent model.others) (List.range 0 (model.howMany - 1)))
         )
 
