@@ -7,12 +7,13 @@ let app =
     let%arr how_many = how_many in
     Int.Map.of_alist_exn (List.init how_many ~f:(fun i -> i, ()))
   in
-  let make_subcomponent key _data =
-    let%sub subcomponent = Counter.component ~label:(Value.map key ~f:Int.to_string) in
+  let%sub others = Bonsai.assoc (module Int) map ~f:(fun key _data ->
+    let%sub subcomponent =
+      Counter.component ~label:(Value.map key ~f:Int.to_string)
+    in
     let%arr view, _ = subcomponent in
-    view
+    view)
   in
-  let%sub others = Bonsai.assoc (module Int) map ~f:make_subcomponent in
   let%arr counter_view = counter_view
   and others = others in
   N.div (counter_view :: Map.data others)

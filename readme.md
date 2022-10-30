@@ -34,10 +34,10 @@ let component ~label ?(by = Value.return 1) =
     Bonsai.state_machine1 (module Int) (module Action) ~default_model ~apply_action by
   in
   let%arr state, inject = state_and_inject
-  and how_much = how_much
+  and by = by
   and label = label in
   let button op action =
-    N.button ~attr:(A.on_click (fun _ -> inject action)) [ N.textf "%s%d" op how_much ]
+    N.button ~attr:(A.on_click (fun _ -> inject action)) [ N.textf "%s%d" op by ]
   in
   let view =
     N.div [ N.textf "%s: " label; button "-" Decr; N.textf "%d" state; N.button "+" Incr ]
@@ -326,12 +326,13 @@ let app =
     let%arr how_many = how_many in
     Int.Map.of_alist_exn (List.init how_many ~f:(fun i -> i, ()))
   in
-  let make_subcomponent key _data =
-    let%sub subcomponent = Counter.component ~label:(Value.map key ~f:Int.to_string) in
+  let%sub others = Bonsai.assoc (module Int) map ~f:(fun key _data ->
+    let%sub subcomponent =
+      Counter.component ~label:(Value.map key ~f:Int.to_string)
+    in
     let%arr view, _ = subcomponent in
-    view
+    view)
   in
-  let%sub others = Bonsai.assoc (module Int) map ~f:make_subcomponent in
   let%arr counter_view = counter_view
   and others = others in
   N.div (counter_view :: Map.data others)
