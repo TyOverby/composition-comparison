@@ -4,9 +4,7 @@
 ## Bonsai
 
 <details>
-<summary open>
-### `counter.ml`
-</summary>
+<summary open> <h3> `counter.ml` </h3> </summary>
 
 <!-- $MDX file=01-basic/bonsai/counter.ml -->
 ```ocaml
@@ -46,9 +44,7 @@ let component =
 </deatils>
 
 <deatils>
-<summary open>
-### `main.ml`
-</summary>
+<summary open> <h2> `main.ml` </h2> </summary>
 
 <!-- $MDX file=01-basic/bonsai/main.ml -->
 ```ocaml
