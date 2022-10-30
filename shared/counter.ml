@@ -14,7 +14,7 @@ let apply_action ~inject:_ ~schedule_event:_ how_much model (action : Action.t) 
   | Decr -> model - how_much
 ;;
 
-let component label ~how_much =
+let component ~label ~how_much =
   let%sub state_and_inject =
     Bonsai.state_machine1
       (module Int)

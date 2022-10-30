@@ -1,321 +1,15 @@
 # 01 - Basic Components
 
-## Bonsai
-
-
-### `counter.ml`
-
-<details open><summary>File Contents</summary>
-
-<!-- $MDX file=01-basic/bonsai/counter.ml -->
-```ocaml
-open! Core
-open! Import
-
-module Action = struct
-  type t =
-    | Incr
-    | Decr
-  [@@deriving sexp_of]
-end
-
-let apply_action ~inject:_ ~schedule_event:_ model (action : Action.t) =
-  match action with
-  | Incr -> model + 1
-  | Decr -> model - 1
-;;
-
-let component label =
-  let%sub state_and_inject =
-    Bonsai.state_machine0 (module Int) (module Action) ~default_model:0 ~apply_action
-  in
-  let%arr state, inject = state_and_inject
-  and label = label in
-  let view =
-    N.div
-      [ N.span [ N.textf "%s: " label ]
-      ; N.button ~attr:(A.on_click (fun _ -> inject Decr)) [ N.text "-1" ]
-      ; N.span [ N.textf "%d" state ]
-      ; N.button ~attr:(A.on_click (fun _ -> inject Incr)) [ N.text "+1" ]
-      ]
-  in
-  view, state
-;;
-```
-
-</details>
-
-### `main.ml`
-<details open><summary>File Contents</summary>
-
-<!-- $MDX file=01-basic/bonsai/main.ml -->
-```ocaml
-open! Core
-open! Import
-
-let app =
-  let%sub view, _ = Counter.component (Value.return "counter") in
-  return view
-;;
-
-let _ = Start.start ~bind_to_element_with_id:"app" Start.Result_spec.just_the_view app
-```
-
-</details>
-
-
-## Elm
-
-### `Counter.elm`
-
-<details open><summary>File Contents</summary>
-
-<!-- $MDX file=01-basic/elm/Counter.elm -->
-```elm
-module Counter exposing (Model, Msg, init, update, view)
-
-import Browser
-import Html exposing (Html, button, div, span, text)
-import Html.Events exposing (onClick)
-
-
-type alias Model =
-    Int
-
-
-init : Model
-init =
-    0
-
-
-type Msg
-    = Increment
-    | Decrement
-
-
-update : Msg -> Model -> Model
-update msg model =
-    case msg of
-        Increment ->
-            model + 1
-
-        Decrement ->
-            model - 1
-
-
-view : String -> Model -> Html Msg
-view label model =
-    div []
-        [ span [] [ text (String.concat [ label, ": " ]) ]
-        , button [ onClick Decrement ] [ text "-1" ]
-        , span [] [ text (String.fromInt model) ]
-        , button [ onClick Increment ] [ text "+1" ]
-        ]
-```
-
-</details>
-
-### `Main.elm`
-<details open><summary>File Contents</summary>
-
-<!-- $MDX file=01-basic/elm/Main.elm -->
-```elm
-module Main exposing (main)
-
-import Browser
-import Counter
-
-
-view =
-    Counter.view "counter"
-
-
-main =
-    Browser.sandbox { init = Counter.init, update = Counter.update, view = view }
-```
-
-</details>
-
-
-# 02 - Parallel Composition
-
-## Bonsai
-
-### `counter.ml`
-
-<details><summary>File Contents (Unchanged From Part 1)</summary>
-
-<!-- $MDX file=02-parallel/bonsai/counter.ml -->
-```ocaml
-open! Core
-open! Import
-
-module Action = struct
-  type t =
-    | Incr
-    | Decr
-  [@@deriving sexp_of]
-end
-
-let apply_action ~inject:_ ~schedule_event:_ model (action : Action.t) =
-  match action with
-  | Incr -> model + 1
-  | Decr -> model - 1
-;;
-
-let component label =
-  let%sub state_and_inject =
-    Bonsai.state_machine0 (module Int) (module Action) ~default_model:0 ~apply_action
-  in
-  let%arr state, inject = state_and_inject
-  and label = label in
-  let view =
-    N.div
-      [ N.span [ N.textf "%s: " label ]
-      ; N.button ~attr:(A.on_click (fun _ -> inject Decr)) [ N.text "-1" ]
-      ; N.span [ N.textf "%d" state ]
-      ; N.button ~attr:(A.on_click (fun _ -> inject Incr)) [ N.text "+1" ]
-      ]
-  in
-  view, state
-;;
-```
-
-</details>
-
-### `main.ml`
-
-<details open><summary>File Contents</summary>
-
-<!-- $MDX file=02-parallel/bonsai/main.ml -->
-```ocaml
-open! Core
-open! Import
-
-let app =
-  let%sub first, _ = Counter.component (Value.return "first") in
-  let%sub second, _ = Counter.component (Value.return "second") in
-  let%arr first = first
-  and second = second in
-  N.div [ first; second ]
-;;
-
-let _ = Start.start ~bind_to_element_with_id:"app" Start.Result_spec.just_the_view app
-```
-
-</details>
-
-
-## Elm
-
-### Counter.elm
-<details><summary>File Contents (Unchanged From Part 1)</summary>
-
-<!-- $MDX file=02-parallel/elm/Counter.elm -->
-```elm
-module Counter exposing (Model, Msg, init, update, view)
-
-import Browser
-import Html exposing (Html, button, div, span, text)
-import Html.Events exposing (onClick)
-
-
-type alias Model =
-    Int
-
-
-init : Model
-init =
-    0
-
-
-type Msg
-    = Increment
-    | Decrement
-
-
-update : Msg -> Model -> Model
-update msg model =
-    case msg of
-        Increment ->
-            model + 1
-
-        Decrement ->
-            model - 1
-
-
-view : String -> Model -> Html Msg
-view label model =
-    div []
-        [ span [] [ text (String.concat [ label, ": " ]) ]
-        , button [ onClick Decrement ] [ text "-1" ]
-        , span [] [ text (String.fromInt model) ]
-        , button [ onClick Increment ] [ text "+1" ]
-        ]
-```
-
-</details>
-
-
-### `Main.elm`
-<details open><summary>File Contents</summary>
-
-<!-- $MDX file=02-parallel/elm/Main.elm -->
-```elm
-module Main exposing (main)
-
-import Browser
-import Counter
-import Html exposing (Html, div, map)
-
-
-type alias Model =
-    { first : Counter.Model, second : Counter.Model }
-
-
-init : Model
-init =
-    { first = Counter.init, second = Counter.init }
-
-
-type Msg
-    = First Counter.Msg
-    | Second Counter.Msg
-
-
-update : Msg -> Model -> Model
-update msg model =
-    case msg of
-        First msg_first ->
-            { model | first = Counter.update msg_first model.first }
-
-        Second msg_second ->
-            { model | second = Counter.update msg_second model.second }
-
-
-view : Model -> Html Msg
-view model =
-    div []
-        [ map First (Counter.view "first" model.first)
-        , map Second (Counter.view "second" model.second)
-        ]
-
-
-main =
-    Browser.sandbox { init = init, update = update, view = view }
-```
-
-</details>
-
-# 03 - Sequential Composition
-
-## Bonsai
-
-### `counter.ml`
-
-<details open><summary>File Contents</summary>
-
-<!-- $MDX file=03-sequential/bonsai/counter.ml -->
+## Defining a component
+<table>
+<tr>
+<th>Bonsai</th>
+<th>Elm</th>
+</tr>
+<tr>
+<td>
+
+<!-- $MDX file=shared/counter.ml -->
 ```ocaml
 open! Core
 open! Import
@@ -333,7 +27,7 @@ let apply_action ~inject:_ ~schedule_event:_ how_much model (action : Action.t) 
   | Decr -> model - how_much
 ;;
 
-let component label ~how_much =
+let component ~label ~how_much =
   let%sub state_and_inject =
     Bonsai.state_machine1
       (module Int)
@@ -356,97 +50,11 @@ let component label ~how_much =
   view, state
 ;;
 ```
-</details>
 
-<details><summary>Diff Against Part 1</summary>
+</td>
+<td>
 
-```sh
-$ patdiff -dont-produce-unified-lines 01-basic/bonsai/counter.ml 03-sequential/bonsai/counter.ml
------- 01-basic/bonsai/counter.ml
-++++++ 03-sequential/bonsai/counter.ml
-@|-1,32 +1,38 ============================================================
- |open! Core
- |open! Import
- |
- |module Action = struct
- |  type t =
- |    | Incr
- |    | Decr
- |  [@@deriving sexp_of]
- |end
- |
--|let apply_action ~inject:_ ~schedule_event:_ model (action : Action.t) =
-+|let apply_action ~inject:_ ~schedule_event:_ how_much model (action : Action.t) =
- |  match action with
--|  | Incr -> model + 1
-+|  | Incr -> model + how_much
--|  | Decr -> model - 1
-+|  | Decr -> model - how_much
- |;;
- |
--|let component label =
-+|let component label ~how_much =
- |  let%sub state_and_inject =
--|    Bonsai.state_machine0 (module Int) (module Action) ~default_model:0 ~apply_action
-+|    Bonsai.state_machine1
-+|      (module Int)
-+|      (module Action)
-+|      ~default_model:0
-+|      ~apply_action
-+|      how_much
- |  in
- |  let%arr state, inject = state_and_inject
-+|  and how_much = how_much
- |  and label = label in
- |  let view =
- |    N.div
- |      [ N.span [ N.textf "%s: " label ]
--|      ; N.button ~attr:(A.on_click (fun _ -> inject Decr)) [ N.text "-1" ]
-+|      ; N.button ~attr:(A.on_click (fun _ -> inject Decr)) [ N.textf "-%d" how_much ]
- |      ; N.span [ N.textf "%d" state ]
--|      ; N.button ~attr:(A.on_click (fun _ -> inject Incr)) [ N.text "+1" ]
-+|      ; N.button ~attr:(A.on_click (fun _ -> inject Incr)) [ N.textf "+%d" how_much ]
- |      ]
- |  in
- |  view, state
- |;;
-[1]
-```
-
-</details>
-
-### `main.ml`
-
-<details open><summary>File Contents</summary>
-
-<!-- $MDX file=03-sequential/bonsai/main.ml -->
-```ocaml
-open! Core
-open! Import
-
-let app =
-  let%sub first_view, how_much =
-    Counter.component (Value.return "first") ~how_much:(Value.return 1)
-  in
-  let%sub second_view, _ = Counter.component (Value.return "second") ~how_much in
-  let%arr first = first_view
-  and second = second_view in
-  N.div [ first; second ]
-;;
-
-let _ = Start.start ~bind_to_element_with_id:"app" Start.Result_spec.just_the_view app
-```
-
-</details>
-
-
-## Elm
-
-### `Counter.elm`
-
-<details open><summary>File Contents</summary>
-
-<!-- $MDX file=03-sequential/elm/Counter.elm -->
+<!-- $MDX file=shared/Counter.elm -->
 ```elm
 module Counter exposing (Model, Msg, init, update, view)
 
@@ -488,61 +96,181 @@ view howMuch label model =
         , button [ onClick Increment ] [ text (String.concat [ "+", String.fromInt howMuch ]) ]
         ]
 ```
-</details>
 
-<details><summary>Diff Against Part 1</summary>
+</td>
+</tr>
+</table>
 
-```sh
-$ patdiff -dont-produce-unified-lines 01-basic/elm/Counter.elm 03-sequential/elm/Counter.elm
------- 01-basic/elm/Counter.elm
-++++++ 03-sequential/elm/Counter.elm
-@|-6,34 +6,34 ============================================================
- |
- |
- |type alias Model =
- |    Int
- |
- |
- |init : Model
- |init =
- |    0
- |
- |
- |type Msg
- |    = Increment
- |    | Decrement
- |
- |
--|update : Msg -> Model -> Model
--|update msg model =
-+|update : Int -> Msg -> Model -> Model
-+|update howMuch msg model =
- |    case msg of
- |        Increment ->
--|            model + 1
-+|            model + howMuch
- |
- |        Decrement ->
--|            model - 1
-+|            model - howMuch
- |
- |
--|view : String -> Model -> Html Msg
--|view label model =
-+|view : Int -> String -> Model -> Html Msg
-+|view howMuch label model =
- |    div []
- |        [ span [] [ text (String.concat [ label, ": " ]) ]
--|        , button [ onClick Decrement ] [ text "-1" ]
-+|        , button [ onClick Decrement ] [ text (String.concat [ "-", String.fromInt howMuch ]) ]
- |        , span [] [ text (String.fromInt model) ]
--|        , button [ onClick Increment ] [ text "+1" ]
-+|        , button [ onClick Increment ] [ text (String.concat [ "+", String.fromInt howMuch ]) ]
- |        ]
-[1]
+## Using a component
+
+<table>
+<tr>
+<th>Bonsai</th>
+<th>Elm</th>
+</tr>
+<tr>
+<td>
+
+<!-- $MDX file=01-basic/bonsai/main.ml -->
+```ocaml
+open! Core
+open! Import
+
+let app =
+  let%sub view, _ =
+    Counter.component ~label:(Value.return "counter") ~how_much:(Value.return 1)
+  in
+  return view
+;;
+
+let _ = Start.start ~bind_to_element_with_id:"app" Start.Result_spec.just_the_view app
+```
+
+</td>
+<td>
+
+<!-- $MDX file=01-basic/elm/Main.elm -->
+```elm
+module Main exposing (main)
+
+import Browser
+import Counter
+
+
+init =
+    Counter.init
+
+
+update =
+    Counter.update 1
+
+
+view =
+    Counter.view 1 "counter"
+
+
+main =
+    Browser.sandbox { init = init, update = update, view = view }
+```
+
+</td>
+</tr>
+</table>
+
+
+# 02 - Parallel Composition
+
+## Bonsai
+
+### `main.ml`
+
+<details open><summary>File Contents</summary>
+
+<!-- $MDX file=02-parallel/bonsai/main.ml -->
+```ocaml
+open! Core
+open! Import
+
+let app =
+  let%sub first, _ =
+    Counter.component ~label:(Value.return "first") ~how_much:(Value.return 1)
+  in
+  let%sub second, _ =
+    Counter.component ~label:(Value.return "second") ~how_much:(Value.return 2)
+  in
+  let%arr first = first
+  and second = second in
+  N.div [ first; second ]
+;;
+
+let _ = Start.start ~bind_to_element_with_id:"app" Start.Result_spec.just_the_view app
 ```
 
 </details>
+
+
+## Elm
+
+### `Main.elm`
+<details open><summary>File Contents</summary>
+
+<!-- $MDX file=02-parallel/elm/Main.elm -->
+```elm
+module Main exposing (main)
+
+import Browser
+import Counter
+import Html exposing (Html, div, map)
+
+
+type alias Model =
+    { first : Counter.Model, second : Counter.Model }
+
+
+init : Model
+init =
+    { first = Counter.init, second = Counter.init }
+
+
+type Msg
+    = First Counter.Msg
+    | Second Counter.Msg
+
+
+update : Msg -> Model -> Model
+update msg model =
+    case msg of
+        First msg_first ->
+            { model | first = Counter.update 1 msg_first model.first }
+
+        Second msg_second ->
+            { model | second = Counter.update 1 msg_second model.second }
+
+
+view : Model -> Html Msg
+view model =
+    div []
+        [ map First (Counter.view 1 "first" model.first)
+        , map Second (Counter.view 1 "second" model.second)
+        ]
+
+
+main =
+    Browser.sandbox { init = init, update = update, view = view }
+```
+
+</details>
+
+# 03 - Sequential Composition
+
+## Bonsai
+
+### `main.ml`
+
+<details open><summary>File Contents</summary>
+
+<!-- $MDX file=03-sequential/bonsai/main.ml -->
+```ocaml
+open! Core
+open! Import
+
+let app =
+  let%sub first_view, how_much =
+    Counter.component ~label:(Value.return "first") ~how_much:(Value.return 1)
+  in
+  let%sub second_view, _ = Counter.component ~label:(Value.return "second") ~how_much in
+  let%arr first = first_view
+  and second = second_view in
+  N.div [ first; second ]
+;;
+
+let _ = Start.start ~bind_to_element_with_id:"app" Start.Result_spec.just_the_view app
+```
+
+</details>
+
+
+## Elm
 
 ### `Main.elm`
 
@@ -599,47 +327,6 @@ main =
 
 ## Bonsai
 
-### `counter.ml`
-
-<details><summary>File Contents (Unchanged From Part 1)</summary>
-
-<!-- $MDX file=04-multiplicity/bonsai/counter.ml -->
-```ocaml
-open! Core
-open! Import
-
-module Action = struct
-  type t =
-    | Incr
-    | Decr
-  [@@deriving sexp_of]
-end
-
-let apply_action ~inject:_ ~schedule_event:_ model (action : Action.t) =
-  match action with
-  | Incr -> model + 1
-  | Decr -> model - 1
-;;
-
-let component label =
-  let%sub state_and_inject =
-    Bonsai.state_machine0 (module Int) (module Action) ~default_model:0 ~apply_action
-  in
-  let%arr state, inject = state_and_inject
-  and label = label in
-  let view =
-    N.div
-      [ N.span [ N.textf "%s: " label ]
-      ; N.button ~attr:(A.on_click (fun _ -> inject Decr)) [ N.text "-1" ]
-      ; N.span [ N.textf "%d" state ]
-      ; N.button ~attr:(A.on_click (fun _ -> inject Incr)) [ N.text "+1" ]
-      ]
-  in
-  view, state
-;;
-```
-</details>
-
 ### `main.ml`
 
 <details open><summary>File Contents</summary>
@@ -650,13 +337,17 @@ open! Core
 open! Import
 
 let app =
-  let%sub counter_view, how_many = Counter.component (Value.return "how many") in
+  let%sub counter_view, how_many =
+    Counter.component ~label:(Value.return "how many") ~how_much:(Value.return 1)
+  in
   let%sub map =
     let%arr how_many = how_many in
     Int.Map.of_alist_exn (List.init how_many ~f:(fun i -> i, ()))
   in
   let make_subcomponent key _data =
-    let%sub subcomponent = Counter.component (Value.map key ~f:Int.to_string) in
+    let%sub subcomponent =
+      Counter.component ~label:(Value.map key ~f:Int.to_string) ~how_much:(Value.return 1)
+    in
     let%arr view, _ = subcomponent in
     view
   in
@@ -673,56 +364,6 @@ let _ = Start.start ~bind_to_element_with_id:"app" Start.Result_spec.just_the_vi
 
 
 ## Elm
-
-### `Counter.elm`
-
-<details><summary>File Contents (Unchanged From Part 1)</summary>
-
-<!-- $MDX file=04-multiplicity/elm/Counter.elm -->
-```elm
-module Counter exposing (Model, Msg, init, update, view)
-
-import Browser
-import Html exposing (Html, button, div, span, text)
-import Html.Events exposing (onClick)
-
-
-type alias Model =
-    Int
-
-
-init : Model
-init =
-    0
-
-
-type Msg
-    = Increment
-    | Decrement
-
-
-update : Msg -> Model -> Model
-update msg model =
-    case msg of
-        Increment ->
-            model + 1
-
-        Decrement ->
-            model - 1
-
-
-view : String -> Model -> Html Msg
-view label model =
-    div []
-        [ span [] [ text (String.concat [ label, ": " ]) ]
-        , button [ onClick Decrement ] [ text "-1" ]
-        , span [] [ text (String.fromInt model) ]
-        , button [ onClick Increment ] [ text "+1" ]
-        ]
-```
-</details>
-
-</details>
 
 ### `Main.elm`
 
@@ -756,17 +397,17 @@ updateSubcomponent : Counter.Msg -> Maybe Counter.Model -> Maybe Counter.Model
 updateSubcomponent msg maybeModel =
     case maybeModel of
         Nothing ->
-            Just (Counter.update msg 0)
+            Just (Counter.update 1 msg 0)
 
         Just model_for_other ->
-            Just (Counter.update msg model_for_other)
+            Just (Counter.update 1 msg model_for_other)
 
 
 update : Msg -> Model -> Model
 update appMsg model =
     case appMsg of
         HowMany msgHowMany ->
-            { model | howMany = Counter.update msgHowMany model.howMany }
+            { model | howMany = Counter.update 1 msgHowMany model.howMany }
 
         ForKey { msg, which } ->
             let
@@ -787,10 +428,10 @@ viewSubcomponent models key =
         html =
             case Dict.get key models of
                 Just model ->
-                    Counter.view (String.fromInt key) model
+                    Counter.view 1 (String.fromInt key) model
 
                 Nothing ->
-                    Counter.view (String.fromInt key) Counter.init
+                    Counter.view 1 (String.fromInt key) Counter.init
     in
     Html.map (mapKey key) html
 
@@ -798,7 +439,7 @@ viewSubcomponent models key =
 view : Model -> Html Msg
 view model =
     div []
-        (List.append [ Html.map HowMany (Counter.view "how many" model.howMany) ]
+        (List.append [ Html.map HowMany (Counter.view 1 "how many" model.howMany) ]
             (List.map (viewSubcomponent model.others) (List.range 0 (model.howMany - 1)))
         )
 

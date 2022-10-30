@@ -23,17 +23,17 @@ update : Msg -> Model -> Model
 update msg model =
     case msg of
         First msg_first ->
-            { model | first = Counter.update msg_first model.first }
+            { model | first = Counter.update 1 msg_first model.first }
 
         Second msg_second ->
-            { model | second = Counter.update msg_second model.second }
+            { model | second = Counter.update 1 msg_second model.second }
 
 
 view : Model -> Html Msg
 view model =
     div []
-        [ map First (Counter.view "first" model.first)
-        , map Second (Counter.view "second" model.second)
+        [ map First (Counter.view 1 "first" model.first)
+        , map Second (Counter.view 1 "second" model.second)
         ]
 
 

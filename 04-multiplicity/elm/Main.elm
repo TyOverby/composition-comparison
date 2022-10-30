@@ -24,17 +24,17 @@ updateSubcomponent : Counter.Msg -> Maybe Counter.Model -> Maybe Counter.Model
 updateSubcomponent msg maybeModel =
     case maybeModel of
         Nothing ->
-            Just (Counter.update msg 0)
+            Just (Counter.update 1 msg 0)
 
         Just model_for_other ->
-            Just (Counter.update msg model_for_other)
+            Just (Counter.update 1 msg model_for_other)
 
 
 update : Msg -> Model -> Model
 update appMsg model =
     case appMsg of
         HowMany msgHowMany ->
-            { model | howMany = Counter.update msgHowMany model.howMany }
+            { model | howMany = Counter.update 1 msgHowMany model.howMany }
 
         ForKey { msg, which } ->
             let
@@ -55,10 +55,10 @@ viewSubcomponent models key =
         html =
             case Dict.get key models of
                 Just model ->
-                    Counter.view (String.fromInt key) model
+                    Counter.view 1 (String.fromInt key) model
 
                 Nothing ->
-                    Counter.view (String.fromInt key) Counter.init
+                    Counter.view 1 (String.fromInt key) Counter.init
     in
     Html.map (mapKey key) html
 
@@ -66,7 +66,7 @@ viewSubcomponent models key =
 view : Model -> Html Msg
 view model =
     div []
-        (List.append [ Html.map HowMany (Counter.view "how many" model.howMany) ]
+        (List.append [ Html.map HowMany (Counter.view 1 "how many" model.howMany) ]
             (List.map (viewSubcomponent model.others) (List.range 0 (model.howMany - 1)))
         )
 
