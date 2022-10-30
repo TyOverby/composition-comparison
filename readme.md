@@ -160,11 +160,13 @@ main =
 
 # 02 - Parallel Composition
 
-## Bonsai
-
-### `main.ml`
-
-<details open><summary>File Contents</summary>
+<table>
+<tr>
+<th>Bonsai</th>
+<th>Elm</th>
+</tr>
+<tr>
+<td>
 
 <!-- $MDX file=02-parallel/bonsai/main.ml -->
 ```ocaml
@@ -186,13 +188,7 @@ let app =
 let _ = Start.start ~bind_to_element_with_id:"app" Start.Result_spec.just_the_view app
 ```
 
-</details>
-
-
-## Elm
-
-### `Main.elm`
-<details open><summary>File Contents</summary>
+</td><td>
 
 <!-- $MDX file=02-parallel/elm/Main.elm -->
 ```elm
@@ -239,7 +235,9 @@ main =
     Browser.sandbox { init = init, update = update, view = view }
 ```
 
-</details>
+</td>
+</tr>
+</table>
 
 # 03 - Sequential Composition
 
