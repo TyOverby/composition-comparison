@@ -1,11 +1,13 @@
 # Composition Comparison
 
 **What is this?**
+
 This repository houses a collection of UI-framework compsition challenges.
 It identifies a few patterns for how composing components, and implements them
 using Bonsai and Elm (React+Redux is on the way!)
 
 **Is this supposed to be unbiased?**
+
 Not really?
 
 1. I'm pretty good at Bonsai, and pretty bad at Elm
