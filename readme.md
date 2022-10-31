@@ -192,6 +192,10 @@ transitions.
 
 ## Using a component
 
+The "topmost" component in an application is sometimes referred to as the 
+"application component".  These can be as big or as small as necessary, so let's 
+start out with the smallest app-component possible: a single counter.
+
 <table>
 <tr>
 <th>Bonsai</th>
@@ -240,6 +244,19 @@ main =
 
 </td>
 </tr>
+<tr><td valign="top">
+
+Because the application component is an instance of our counter component, we need 
+to invoke the component-generating function with its required parameters.  Because 
+we're fine with the default `by` argument being `1`, we only need to provide the value 
+for the label.
+
+</td><td valign="top">
+
+The Elm component requires passing all the configuration to all the different pieces 
+of the component separately.  Make sure that you keep both of the `by` values in sync!
+
+</td></tr>
 </table>
 
 
