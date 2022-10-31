@@ -7,7 +7,7 @@ let app =
   in
   let%sub map =
     let%arr how_many = how_many in
-    Int.Map.of_alist_exn (List.init how_many ~f:(fun i -> i, ()))
+    List.init how_many ~f:(fun i -> i, ()) |> Int.Map.of_alist_exn
   in
   let%sub others = Bonsai.assoc (module Int) map ~f:(fun key _data ->
     let label = Value.map key ~f:Int.to_string in
