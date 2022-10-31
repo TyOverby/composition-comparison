@@ -8,14 +8,42 @@ using Bonsai and Elm (React+Redux is on the way!)
 
 **Is this supposed to be unbiased?**
 
-Not really?
+Not really,
 
 1. I'm pretty good at Bonsai, and pretty bad at Elm
-2. I designed Bonsai to be good at component composition
+2. I designed Bonsai with automatic component composition as a primary goal
 
-# 01 - Basic Components
+
+# 01 - Components
+
+What is a "UI component" anyway?  To me, a component denotes a group of code
+with the following properties:
+
+1. **It serves as an abstraction** &mdash; Users of the component shouldn't need
+   to know about any implementation details
+2. **It's built to be composed with other components** &mdash; It's right there
+   in the name!  Components must be robust to being combined with one another
+3. **Encapsulated** &mdash; A component shouldn't *require* composition with other 
+   components in order to be useful. 
+
+For the rest of this series, we're going to be looking at ways to compose 
+a very basic "counter" component. 
 
 ## Defining a component
+
+The counter component that we'll be building is a basic widget that maintains a
+count (as an integer), and two buttons, one to decrease the stored value, and 
+another to increase it.
+
+Our counter components will be configurable in two ways:
+
+1. The user of the counter component can pick a text label to display
+2. The caller can also pick the delta by which the increment and decrement 
+   buttons will modify the stored value
+
+The user of the component will also probably want access to the value in 
+some way, which the component should also provide.
+
 <table>
 <tr>
 <th>Bonsai</th>
@@ -23,6 +51,12 @@ Not really?
 </tr>
 <tr>
 <td valign="top">
+
+Since Bonsai was originally modeled after the Elm Architecture, it shouldn't
+be super surprising that defining a component looks similar in both languages.
+Both focus on the state for a component being modeled as a state-machine, with
+explicit model and and action types which correspond to states and state 
+transitions.
 
 <!-- $MDX file=shared/counter.ml -->
 ```ocaml
@@ -125,8 +159,28 @@ view howMuch label model =
         ]
 ```
 
-</td>
+</td> 
 </tr>
+<tr><td valign="top">
+This Bonsai component is exposed to users through the `Counter.component` and
+`Counter.component'` functions.  You'll notice that we use regular OCaml functions to 
+pass properites to the component, like `~label` and the optional `?by` parameters.
+
+While the `component'` function produces a component that yields both the view _and_ 
+the counter value, we also derive a `component` function that drops the current value
+on the floor, making it easier to use by callers that don't care about the value.
+
+You'll also notice that in defining `Counter.component'`, we use `Bonsai.state_machine1`.
+`state_machine1` is a primitive component that we use to build our bigger component.
+The `1` indicates that the state machine has access to one input value that it can 
+read when processing an action.
+</td><td valign="top">
+This elm component is in the shape of a whole module which exports its initial model,
+transition function, and view calculations separately for the user to compose.  Notice
+how the update function takes an integer to determine how much the state should be 
+increased or decreased by, and how the view function also requires that value in addition
+to a string to use for the label.
+</td></tr>
 </table>
 
 ## Using a component
