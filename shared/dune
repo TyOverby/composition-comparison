@@ -1,5 +1,13 @@
 (library
  (name counter)
+ (modules counter import)
+ (libraries core bonsai bonsai.web)
+ (preprocess
+  (pps ppx_jane bonsai.ppx_bonsai)))
+
+(library
+ (name start)
+ (modules start)
  (libraries core bonsai bonsai.web)
  (preprocess
   (pps ppx_jane bonsai.ppx_bonsai)))
