@@ -32,7 +32,7 @@ a very basic "counter" component.
 ## Defining a component
 
 
-<img src="./gifs/rec1.gif" align="left" width=250 />
+<img src="./gifs/rec1.gif" align="right" width=250 />
 
 The counter component that we'll be building is a basic widget that maintains a
 count (as an integer), and two buttons, one to decrease the stored value, and 
