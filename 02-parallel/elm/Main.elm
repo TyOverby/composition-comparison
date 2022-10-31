@@ -2,7 +2,7 @@ module Main exposing (main)
 
 import Browser
 import Counter
-import Html exposing (Html, div, map)
+import Html exposing (Html, div)
 
 
 type alias Model =
@@ -32,8 +32,8 @@ update msg model =
 view : Model -> Html Msg
 view model =
     div []
-        [ map First (Counter.view 1 "first" model.first)
-        , map Second (Counter.view 1 "second" model.second)
+        [ Html.map First (Counter.view 1 "first" model.first)
+        , Html.map Second (Counter.view 1 "second" model.second)
         ]
 
 

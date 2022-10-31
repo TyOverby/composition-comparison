@@ -262,6 +262,11 @@ of the component separately.  Make sure that you keep both of the `by` values in
 
 # 02 - Parallel Composition
 
+"Parallel Composition" is a term that I came up with for describing the style of
+composing components that are completely isoloated from one another.  Not only are
+these components visually separated, they're also logically separated, removing or 
+changing one would have no impact on the other.
+
 <table>
 <tr>
 <th>Bonsai</th>
@@ -299,7 +304,7 @@ module Main exposing (main)
 
 import Browser
 import Counter
-import Html exposing (Html, div, map)
+import Html exposing (Html, div)
 
 
 type alias Model =
@@ -329,8 +334,8 @@ update msg model =
 view : Model -> Html Msg
 view model =
     div []
-        [ map First (Counter.view 1 "first" model.first)
-        , map Second (Counter.view 1 "second" model.second)
+        [ Html.map First (Counter.view 1 "first" model.first)
+        , Html.map Second (Counter.view 1 "second" model.second)
         ]
 
 
@@ -340,7 +345,33 @@ main =
 
 </td>
 </tr>
+<tr><td valign="top">
+
+For Bonsai, we use `let%sub` to create new instances of the component, 
+and then `let%arr` to compose the views produced by those instances.
+
+</td><td valign="top">
+
+In Elm there's some more boilerplate involved.  The application-component 
+is now bigger, and that means that we need a new model and action type to 
+go along with it.
+
+Just like in the Bonsai example, we need to compose the views of these 
+components manually (there's no way around this if you want precise control
+of the view).  However, we also need to call `Html.map`, which is used to 
+transform the type of the message produced by the view.
+
+More apparent is our need to implement an `update` function which dispatches 
+actions to the correct component.
+
+</td></tr>
 </table>
+
+Fun fact: Bonsai got its name from parallel-composition!  If you visualize
+the structure of components that are composed in parallel, it looks like a 
+little tree; hence the name "Bonsai!"  Sadly it wasn't until after 1.0 that 
+we realized that its real power was sequential composition...
+
 
 # 03 - Sequential Composition
 
