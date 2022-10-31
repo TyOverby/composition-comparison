@@ -487,7 +487,7 @@ should be on the page.
 An important additional restriction is that subcomponent state should be persisted for 
 compoenents even when they aren't currently active.
 
-![](./gifs/rec4.gif)
+<img src="./gifs/rec4.gif" float="left" />
 
 <table>
 <tr>
