@@ -159,9 +159,10 @@ view howMuch label model =
 </tr>
 <tr><td valign="top">
 
-This Bonsai component is exposed to users through the `Counter.component` and
-`Counter.component'` functions.  You'll notice that we use regular OCaml functions to 
-pass properites to the component, like `~label` and the optional `?by` parameters.
+This Bonsai component is exposed to users through the `component` and
+`component'` functions.  You'll notice that we use regular OCaml functions to
+pass properites to the component, like `~label` and the optional `?by`
+parameters.
 
 While the `component'` function produces a component that yields both the view _and_ 
 the counter value, we also derive a `component` function that drops the current value
