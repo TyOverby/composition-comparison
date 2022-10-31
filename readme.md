@@ -31,11 +31,12 @@ a very basic "counter" component.
 
 ## Defining a component
 
+
+<img src="./gifs/rec1.gif" align="left" width=250 />
+
 The counter component that we'll be building is a basic widget that maintains a
 count (as an integer), and two buttons, one to decrease the stored value, and 
 another to increase it.
-
-![](./gifs/rec1.gif)
 
 Our counter components will be configurable in two ways:
 
@@ -258,14 +259,12 @@ of the component separately.  Make sure that you keep both of the `by` values in
 
 # 02 - Parallel Composition
 
+<img src="./gifs/rec2.gif" align="left" width=250 />
 
 "Parallel Composition" is a term that I came up with for describing the style of
 composing components that are completely isoloated from one another.  Not only are
 these components visually separated, they're also logically separated, removing or 
 changing one would have no impact on the other.
-
-
-![](./gifs/rec2.gif)
 
 <!-- https://web.archive.org/web/20160816034346/https://guide.elm-lang.org/architecture/modularity/counter_pair.html -->
 
@@ -372,6 +371,8 @@ we realized that its real power was sequential composition...
 
 # 03 - Sequential Composition
 
+<img src="./gifs/rec3.gif" align="left" width=250 />
+
 Components are composed sequentially when there's a dependency relationship
 between them.  They are no longer independent, and the state of one component
 can influence the other.
@@ -379,7 +380,6 @@ can influence the other.
 In this demo, we'll use the counter value of one component to modify the 
 delta parameter on the other.
 
-![](./gifs/rec3.gif)
 
 <table>
 <tr>
@@ -479,7 +479,7 @@ a bit icky; I'd love to know if there's a better way to do this.
 
 # 04 - Multiplicity
 
-<img src="./gifs/rec4.gif" align="left" />
+<img src="./gifs/rec4.gif" align="left" width=250 />
 
 So far we've dealt with a constant number of components, but determining the number of 
 components in an app at runtime is a common requirement.  For this example, we'll use the
