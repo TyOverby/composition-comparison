@@ -479,6 +479,8 @@ a bit icky; I'd love to know if there's a better way to do this.
 
 # 04 - Multiplicity
 
+<img src="./gifs/rec4.gif" align="left" />
+
 So far we've dealt with a constant number of components, but determining the number of 
 components in an app at runtime is a common requirement.  For this example, we'll use the
 current value of one counter component to determine how many more counter-components 
@@ -487,7 +489,6 @@ should be on the page.
 An important additional restriction is that subcomponent state should be persisted for 
 compoenents even when they aren't currently active.
 
-<img src="./gifs/rec4.gif" align="right" />
 
 <table>
 <tr>
