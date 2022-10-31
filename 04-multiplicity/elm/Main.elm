@@ -17,17 +17,14 @@ init =
 
 type Msg
     = HowMany Counter.Msg
-    | ForKey { msg : Counter.Msg, which : Int }
+    | ForKey Int Counter.Msg
 
 
-updateSubcomponent : Counter.Msg -> Maybe Counter.Model -> Maybe Counter.Model
-updateSubcomponent msg maybeModel =
-    case maybeModel of
-        Nothing ->
-            Just (Counter.update 1 msg 0)
-
-        Just model_for_other ->
-            Just (Counter.update 1 msg model_for_other)
+updateOther which msg =
+    Dict.update which
+        (\m ->
+            Just (Counter.update 1 msg (Maybe.withDefault 0 m))
+        )
 
 
 update : Msg -> Model -> Model
@@ -36,34 +33,24 @@ update appMsg model =
         HowMany msgHowMany ->
             { model | howMany = Counter.update 1 msgHowMany model.howMany }
 
-        ForKey { msg, which } ->
-            { model
-                | others =
-                    Dict.update which (updateSubcomponent msg) model.others
-            }
+        ForKey which msg ->
+            { model | others = updateOther which msg model.others }
 
 
-mapKey : Int -> Counter.Msg -> Msg
-mapKey which msg =
-    ForKey { msg = msg, which = which }
-
-
-viewSubcomponent : Dict Int Counter.Model -> Int -> Html Msg
-viewSubcomponent models key =
+viewOther : Dict Int Counter.Model -> Int -> Html Counter.Msg
+viewOther models key =
     case Dict.get key models of
         Just model ->
             Counter.view 1 (String.fromInt key) model
-                |> Html.map (mapKey key)
 
         Nothing ->
             Counter.view 1 (String.fromInt key) Counter.init
-                |> Html.map (mapKey key)
 
 
 view : Model -> Html Msg
 view model =
     List.range 0 (model.howMany - 1)
-        |> List.map (viewSubcomponent model.others)
+        |> List.map (\i -> Html.map (ForKey i) (viewOther model.others i))
         |> List.append [ Html.map HowMany (Counter.view 1 "how many" model.howMany) ]
         |> div []
 

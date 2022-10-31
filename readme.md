@@ -261,6 +261,8 @@ composing components that are completely isoloated from one another.  Not only a
 these components visually separated, they're also logically separated, removing or 
 changing one would have no impact on the other.
 
+<!-- https://web.archive.org/web/20160816034346/https://guide.elm-lang.org/architecture/modularity/counter_pair.html -->
+
 <table>
 <tr>
 <th>Bonsai</th>
@@ -469,6 +471,14 @@ a bit icky; I'd love to know if there's a better way to do this.
 
 # 04 - Multiplicity
 
+So far we've dealt with a constant number of components, but determining the number of 
+components in an app at runtime is a common requirement.  For this example, we'll use the
+current value of one counter component to determine how many more counter-components 
+should be on the page.
+
+An important additional restriction is that subcomponent state should be persisted for 
+compoenents even when they aren't currently active.
+
 <table>
 <tr>
 <th>Bonsai</th>
@@ -525,17 +535,14 @@ init =
 
 type Msg
     = HowMany Counter.Msg
-    | ForKey { msg : Counter.Msg, which : Int }
+    | ForKey Int Counter.Msg
 
 
-updateSubcomponent : Counter.Msg -> Maybe Counter.Model -> Maybe Counter.Model
-updateSubcomponent msg maybeModel =
-    case maybeModel of
-        Nothing ->
-            Just (Counter.update 1 msg 0)
-
-        Just model_for_other ->
-            Just (Counter.update 1 msg model_for_other)
+updateOther which msg =
+    Dict.update which
+        (\m ->
+            Just (Counter.update 1 msg (Maybe.withDefault 0 m))
+        )
 
 
 update : Msg -> Model -> Model
@@ -544,34 +551,24 @@ update appMsg model =
         HowMany msgHowMany ->
             { model | howMany = Counter.update 1 msgHowMany model.howMany }
 
-        ForKey { msg, which } ->
-            { model
-                | others =
-                    Dict.update which (updateSubcomponent msg) model.others
-            }
+        ForKey which msg ->
+            { model | others = updateOther which msg model.others }
 
 
-mapKey : Int -> Counter.Msg -> Msg
-mapKey which msg =
-    ForKey { msg = msg, which = which }
-
-
-viewSubcomponent : Dict Int Counter.Model -> Int -> Html Msg
-viewSubcomponent models key =
+viewOther : Dict Int Counter.Model -> Int -> Html Counter.Msg
+viewOther models key =
     case Dict.get key models of
         Just model ->
             Counter.view 1 (String.fromInt key) model
-                |> Html.map (mapKey key)
 
         Nothing ->
             Counter.view 1 (String.fromInt key) Counter.init
-                |> Html.map (mapKey key)
 
 
 view : Model -> Html Msg
 view model =
     List.range 0 (model.howMany - 1)
-        |> List.map (viewSubcomponent model.others)
+        |> List.map (\i -> Html.map (ForKey i) (viewOther model.others i))
         |> List.append [ Html.map HowMany (Counter.view 1 "how many" model.howMany) ]
         |> div []
 
@@ -582,4 +579,22 @@ main =
 
 </td>
 </tr>
+</tr>
+<tr><td valign="top">
+
+For Bonsai, this one is a bit hacky, I'll admit! `Bonsai.assoc` reads  an input
+map and creates an instance of the provisded component for each key/value pair
+in the map.  Because it needs that input map, we first make a map from `int` to 
+`unit`, and pass that into `assoc`.  Usually `assoc` is given a map that actually 
+has some meaning - like rows in a table - and aren't built at the last second just 
+to give to the function.
+
+</td><td valign="top">
+
+I'll admit, I know this code could be written better, but I don't really know where 
+to start.  One thing is certain though; the pattern of storing models in a map 
+and keeping the model map separate from the "what is visible" state is necessary,
+so I think this general pattern will always exist.
+
+</td></tr>
 </table>
