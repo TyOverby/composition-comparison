@@ -375,6 +375,13 @@ we realized that its real power was sequential composition...
 
 # 03 - Sequential Composition
 
+Components are composed sequentially when there's a dependency relationship
+between them.  They are no longer independent, and the state of one component
+can influence the other.
+
+In this demo, we'll use the counter value of one component to modify the 
+delta parameter on the other.
+
 <table>
 <tr>
 <th>Bonsai</th>
@@ -457,6 +464,23 @@ main =
 
 </td>
 </tr>
+<tr><td valign="top">
+
+We finally get to use `Counter.component'`!  This is the variant that returns its 
+current state in addition to its view.  We bind the value, and immediately pass it 
+into the next component through its optional parameter.  The rest of the code should
+be very familiar.
+
+</td><td valign="top">
+
+On the Elm side, the code looks very similar to the code from the "parallel composition"
+example above, but the differences matter a lot!  The main change is that calling the 
+second counter-component's `update` and `view` functions, instead of passing in `1` for
+"how much to increase or decrease the value by", we reach in to the model of the first 
+component to pull out the currently stored value.  I'll be honest, this makes me feel 
+a bit icky; I'd love to know if there's a better way to do this.
+
+</td></tr>
 </table>
 
 # 04 - Multiplicity
