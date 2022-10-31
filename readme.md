@@ -158,6 +158,7 @@ view howMuch label model =
 </td> 
 </tr>
 <tr><td valign="top">
+
 This Bonsai component is exposed to users through the `Counter.component` and
 `Counter.component'` functions.  You'll notice that we use regular OCaml functions to 
 pass properites to the component, like `~label` and the optional `?by` parameters.
@@ -170,12 +171,15 @@ You'll also notice that in defining `Counter.component'`, we use `Bonsai.state_m
 `state_machine1` is a primitive component that we use to build our bigger component.
 The `1` indicates that the state machine has access to one input value that it can 
 read when processing an action.
+
 </td><td valign="top">
+
 This elm component is in the shape of a whole module which exports its initial model,
 transition function, and view calculations separately for the user to compose.  Notice
 how the update function takes an integer to determine how much the state should be 
 increased or decreased by, and how the view function also requires that value in addition
 to a string to use for the label.
+
 </td></tr>
 </table>
 
