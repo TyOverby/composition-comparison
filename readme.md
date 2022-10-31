@@ -44,6 +44,7 @@ Our counter components will be configurable in two ways:
 The user of the component will also probably want access to the value in 
 some way, which the component should also provide.
 
+
 <table>
 <tr>
 <th>Bonsai</th>
@@ -52,11 +53,6 @@ some way, which the component should also provide.
 <tr>
 <td valign="top">
 
-Since Bonsai was originally modeled after the Elm Architecture, it shouldn't
-be super surprising that defining a component looks similar in both languages.
-Both focus on the state for a component being modeled as a state-machine, with
-explicit model and and action types which correspond to states and state 
-transitions.
 
 <!-- $MDX file=shared/counter.ml -->
 ```ocaml
@@ -182,6 +178,12 @@ increased or decreased by, and how the view function also requires that value in
 to a string to use for the label.
 </td></tr>
 </table>
+
+Since Bonsai was originally modeled after the Elm Architecture, it shouldn't
+be super surprising that defining a component looks similar in both languages.
+Both focus on the state for a component being modeled as a state-machine, with
+explicit model and and action types which correspond to states and state 
+transitions.
 
 ## Using a component
 
