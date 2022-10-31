@@ -32,9 +32,9 @@ let component' ~label ?(by = Value.return 1) () =
   in
   let view =
     N.div
-      [ N.textf "%s: " label
+      [ Vdom.Node.span [ N.textf "%s: " label ]
       ; button "-" Decr
-      ; N.textf "%d" state
+      ; Vdom.Node.span [ N.textf "%d" state ]
       ; button "+" Incr
       ]
   in

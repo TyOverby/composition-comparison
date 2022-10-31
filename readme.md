@@ -35,6 +35,8 @@ The counter component that we'll be building is a basic widget that maintains a
 count (as an integer), and two buttons, one to decrease the stored value, and 
 another to increase it.
 
+![](./gifs/rec1.gif)
+
 Our counter components will be configurable in two ways:
 
 1. The user of the counter component can pick a text label to display
@@ -256,10 +258,14 @@ of the component separately.  Make sure that you keep both of the `by` values in
 
 # 02 - Parallel Composition
 
+
 "Parallel Composition" is a term that I came up with for describing the style of
 composing components that are completely isoloated from one another.  Not only are
 these components visually separated, they're also logically separated, removing or 
 changing one would have no impact on the other.
+
+
+![](./gifs/rec2.gif)
 
 <!-- https://web.archive.org/web/20160816034346/https://guide.elm-lang.org/architecture/modularity/counter_pair.html -->
 
@@ -373,6 +379,8 @@ can influence the other.
 In this demo, we'll use the counter value of one component to modify the 
 delta parameter on the other.
 
+![](./gifs/rec3.gif)
+
 <table>
 <tr>
 <th>Bonsai</th>
@@ -478,6 +486,8 @@ should be on the page.
 
 An important additional restriction is that subcomponent state should be persisted for 
 compoenents even when they aren't currently active.
+
+![](./gifs/rec4.gif)
 
 <table>
 <tr>
