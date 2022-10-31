@@ -23,8 +23,8 @@ with the following properties:
    to know about any implementation details
 2. **It's built to be composed with other components** &mdash; It's right there
    in the name!  Components must be robust to being combined with one another
-3. **Encapsulated** &mdash; A component shouldn't *require* composition with other 
-   components in order to be useful. 
+3. **Encapsulated** &mdash; A component shouldn't leak private details, nor should
+   it require composition with other components in order to be useful. 
 
 For the rest of this series, we're going to be looking at ways to compose 
 a very basic "counter" component. 
