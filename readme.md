@@ -4,13 +4,14 @@
 
 This repository houses a collection of UI-framework compsition challenges.
 It identifies a few patterns for how composing components, and implements them
-using Bonsai and Elm (React+Redux is on the way!)
+using Bonsai, Elm, and React
 
 **Is this supposed to be unbiased?**
 
 Not really,
 
-1. I'm pretty good at Bonsai, and pretty bad at Elm
+1. I'm pretty good at Bonsai, pretty bad at Elm, and my React knowledge is 
+   pretty outdated.
 2. I designed Bonsai with automatic component composition as a primary goal
 
 
