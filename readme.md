@@ -6,7 +6,7 @@ This repository houses a collection of UI-framework compsition challenges.
 It identifies a few patterns for how composing components, and implements them
 using Bonsai, Elm, and React
 
-**Is this supposed to be unbiased?**
+> Is this supposed to be unbiased?
 
 Not really
 
