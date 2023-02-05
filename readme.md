@@ -93,9 +93,9 @@ let component' ~label ?(by = Value.return 1) () =
   in
   let view =
     N.div
-      [ N.textf "%s: " label
+      [ Vdom.Node.span [ N.textf "%s: " label ]
       ; button "-" Decr
-      ; N.textf "%d" state
+      ; Vdom.Node.span [ N.textf "%d" state ]
       ; button "+" Incr
       ]
   in
@@ -158,7 +158,40 @@ view howMuch label model =
         ]
 ```
 
-</td> 
+</td> <td valign="top">
+
+<!-- $MDX file=shared/Counter.jsx -->
+```jsx
+import React from 'react';
+
+export const defaultState = 0;
+
+export function applyAction(state, { action, by }) {
+  switch (action) {
+    case 'increment':
+      return state + by;
+    case 'decrement':
+      return state - by;
+    default:
+      console.error('BUG');
+  }
+}
+
+const Counter = ({ label, by, state, inject }) => {
+  let increment = () => inject({ action: 'increment', by });
+  let decrement = () => inject({ action: 'decrement', by });
+  return (
+    <div>
+      {label}:<button onClick={decrement}> -{by}</button>
+      {state}
+      <button onClick={increment}> +{by}</button>
+    </div>
+  );
+};
+
+export default Counter;
+```
+</td>
 </tr>
 <tr><td valign="top">
 
@@ -183,6 +216,11 @@ transition function, and view calculations separately for the user to compose.  
 how the update function takes an integer to determine how much the state should be 
 increased or decreased by, and how the view function also requires that value in addition
 to a string to use for the label.
+
+</td></tr>
+</td><td valign="top">
+
+TODO
 
 </td></tr>
 </table>
@@ -216,8 +254,7 @@ let app = Counter.component ~label:(Value.return "counter") ()
 let () = Start.start app
 ```
 
-</td>
-<td valign="top">
+</td> <td valign="top">
 
 <!-- $MDX file=01-basic/elm/Main.elm -->
 ```elm
@@ -240,6 +277,22 @@ main =
 ```
 
 </td>
+</td> <td valign="top">
+
+<!-- $MDX file=01-basic/react/App.jsx -->
+```js
+import React, {useReducer } from 'react';
+import Counter, {applyAction, defaultState} from '../../shared/Counter'
+
+const App = ({ title }) => {
+    let [state, inject] = useReducer(applyAction, defaultState);
+    return <Counter label="counter" by={1} state={state} inject={inject} />;
+}
+
+export default App;
+```
+
+</td>
 </tr>
 <tr><td valign="top">
 
@@ -252,6 +305,10 @@ for the label.
 
 The Elm component requires passing all the configuration to all the different pieces 
 of the component separately.  Make sure that you keep both of the `by` values in sync!
+
+</td><td valign="top">
+
+TODO
 
 </td></tr>
 </table>
@@ -339,6 +396,26 @@ main =
     Browser.sandbox { init = init, update = update, view = view }
 ```
 
+</td><td valign="top">
+
+<!-- $MDX file=02-parallel/react/App.jsx -->
+```jsx
+import React, { useReducer } from 'react';
+import Counter, { applyAction, defaultState } from '../../shared/Counter';
+
+const App = ({ title }) => {
+  let [state1, inject1] = useReducer(applyAction, defaultState);
+  let [state2, inject2] = useReducer(applyAction, defaultState);
+  return (
+    <div>
+      <Counter label="first" by={1} state={state1} inject={inject1} />
+      <Counter label="second" by={1} state={state2} inject={inject2} />
+    </div>
+  );
+};
+
+export default App;
+```
 </td>
 </tr>
 <tr><td valign="top">
@@ -359,6 +436,10 @@ transform the type of the message produced by the view.
 
 More apparent is our need to implement an `update` function which dispatches 
 actions to the correct component.
+
+</td><td valign="top">
+
+TODO
 
 </td></tr>
 </table>
@@ -456,6 +537,55 @@ main =
     Browser.sandbox { init = init, update = update, view = view }
 ```
 
+</td> <td valign="top">
+
+<!-- $MDX file=03-sequential/react/App.jsx -->
+```jsx
+import React, { useReducer } from 'react';
+import Counter, {
+  applyAction as counterApplyAction,
+  defaultState as counterDefaultState,
+} from '../../shared/Counter';
+
+const defaultState = {
+  first: counterDefaultState,
+  second: counterDefaultState,
+};
+
+function applyAction(state, { which, subAction }) {
+  switch (which) {
+    case 'first':
+      return {
+        ...state,
+        first: counterApplyAction(state.first, subAction),
+      };
+    case 'second':
+      return {
+        ...state,
+        second: counterApplyAction(state.second, subAction),
+      };
+  }
+}
+
+const App = ({ title }) => {
+  let [state, inject] = useReducer(applyAction, defaultState);
+  let injectFirst = (subAction) => inject({ which: 'first', subAction });
+  let injectSecond = (subAction) => inject({ which: 'second', subAction });
+  return (
+    <div>
+      <Counter label="first" by={1} state={state.first} inject={injectFirst} />
+      <Counter
+        label="second"
+        by={state.first}
+        state={state.second}
+        inject={injectSecond}
+      />
+    </div>
+  );
+};
+
+export default App;
+```
 </td>
 </tr>
 <tr><td valign="top">
@@ -473,6 +603,10 @@ second counter-component's `update` and `view` functions, instead of passing in 
 "how much to increase or decrease the value by", we reach in to the model of the first 
 component to pull out the currently stored value.  I'll be honest, this makes me feel 
 a bit icky; I'd love to know if there's a better way to do this.
+
+</td><td valign="top">
+
+TODO
 
 </td></tr>
 </table>
@@ -588,8 +722,62 @@ main =
     Browser.sandbox { init = init, update = update, view = view }
 ```
 
+</td><td valign="top">
+
+<!-- $MDX file=04-multiplicity/react/App.jsx -->
+```jsx
+import React, { useReducer } from 'react';
+import Counter, {
+  applyAction as counterApplyAction,
+  defaultState as counterDefaultState,
+} from '../../shared/Counter';
+
+const defaultState = {};
+
+function applyAction(state, { which, subAction }) {
+  return {
+    ...state,
+    [which]: counterApplyAction(state[which] || 0, subAction),
+  };
+}
+
+const App = ({ title }) => {
+  let [howMany, injectHowMany] = useReducer(
+    counterApplyAction,
+    counterDefaultState
+  );
+  let [subcomponentState, subcomponentInject] = useReducer(
+    applyAction,
+    defaultState
+  );
+  let subcomponents = Array.from({ length: howMany }, function (_, i) {
+    let injectMe = (subAction) => subcomponentInject({ which: i, subAction });
+    return (
+      <Counter
+        key={i}
+        label={i}
+        by={1}
+        state={subcomponentState[i] || 0}
+        inject={injectMe}
+      />
+    );
+  });
+  return (
+    <div>
+      <Counter
+        label="how many"
+        by={1}
+        state={howMany}
+        inject={injectHowMany}
+      />
+      {subcomponents}
+    </div>
+  );
+};
+
+export default App;
+```
 </td>
-</tr>
 </tr>
 <tr><td valign="top">
 
@@ -606,6 +794,10 @@ I'll admit, I know this code could be written better, but I don't really know wh
 to start.  One thing is certain though; the pattern of storing models in a map 
 and keeping the model map separate from the "what is visible" state is necessary,
 so I think this general pattern will always exist.
+
+</td><td valign="top">
+
+TODO
 
 </td></tr>
 </table>
