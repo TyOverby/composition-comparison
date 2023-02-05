@@ -8,10 +8,10 @@ using Bonsai, Elm, and React
 
 **Is this supposed to be unbiased?**
 
-Not really,
+Not really
 
 1. I'm pretty good at Bonsai, pretty bad at Elm, and my React knowledge is 
-   pretty outdated.
+   quite outdated
 2. I designed Bonsai with automatic component composition as a primary goal
 
 
