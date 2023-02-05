@@ -1,7 +1,8 @@
 import React, { useReducer } from 'react';
+import ReactDOM from 'react-dom';
 import Counter, { applyAction, defaultState } from '../../shared/Counter';
 
-const App = ({ title }) => {
+const App = () => {
   let [state1, inject1] = useReducer(applyAction, defaultState);
   let [state2, inject2] = useReducer(applyAction, defaultState);
   return (
@@ -12,4 +13,4 @@ const App = ({ title }) => {
   );
 };
 
-export default App;
+ReactDOM.render(<App />, document.getElementById('app'));

@@ -1,4 +1,5 @@
 import React, { useReducer } from 'react';
+import ReactDOM from 'react-dom';
 import Counter, {
   applyAction as counterApplyAction,
   defaultState as counterDefaultState,
@@ -13,7 +14,7 @@ function applyAction(state, { which, subAction }) {
   };
 }
 
-const App = ({ title }) => {
+const App = () => {
   let [howMany, injectHowMany] = useReducer(
     counterApplyAction,
     counterDefaultState
@@ -47,4 +48,4 @@ const App = ({ title }) => {
   );
 };
 
-export default App;
+ReactDOM.render(<App />, document.getElementById('app'));

@@ -52,6 +52,7 @@ some way, which the component should also provide.
 <tr>
 <th>Bonsai</th>
 <th>Elm</th>
+<th>React</th>
 </tr>
 <tr>
 <td valign="top">
@@ -241,6 +242,7 @@ start out with the smallest app-component possible: a single counter.
 <tr>
 <th>Bonsai</th>
 <th>Elm</th>
+<th>React</th>
 </tr>
 <tr>
 <td valign="top">
@@ -281,15 +283,16 @@ main =
 
 <!-- $MDX file=01-basic/react/App.jsx -->
 ```js
-import React, {useReducer } from 'react';
-import Counter, {applyAction, defaultState} from '../../shared/Counter'
+import React, { useReducer } from 'react';
+import ReactDOM from 'react-dom';
+import Counter, { applyAction, defaultState } from '../../shared/Counter';
 
-const App = ({ title }) => {
-    let [state, inject] = useReducer(applyAction, defaultState);
-    return <Counter label="counter" by={1} state={state} inject={inject} />;
-}
+const App = () => {
+  let [state, inject] = useReducer(applyAction, defaultState);
+  return <Counter label="counter" by={1} state={state} inject={inject} />;
+};
 
-export default App;
+ReactDOM.render(<App />, document.getElementById('app'));
 ```
 
 </td>
@@ -329,6 +332,7 @@ changing one would have no impact on the other.
 <tr>
 <th>Bonsai</th>
 <th>Elm</th>
+<th>React</th>
 </tr>
 <tr>
 <td valign="top">
@@ -401,9 +405,10 @@ main =
 <!-- $MDX file=02-parallel/react/App.jsx -->
 ```jsx
 import React, { useReducer } from 'react';
+import ReactDOM from 'react-dom';
 import Counter, { applyAction, defaultState } from '../../shared/Counter';
 
-const App = ({ title }) => {
+const App = () => {
   let [state1, inject1] = useReducer(applyAction, defaultState);
   let [state2, inject2] = useReducer(applyAction, defaultState);
   return (
@@ -414,7 +419,7 @@ const App = ({ title }) => {
   );
 };
 
-export default App;
+ReactDOM.render(<App />, document.getElementById('app'));
 ```
 </td>
 </tr>
@@ -466,6 +471,7 @@ delta parameter on the other.
 <tr>
 <th>Bonsai</th>
 <th>Elm</th>
+<th>React</th>
 </tr>
 <tr>
 <td valign="top">
@@ -542,6 +548,7 @@ main =
 <!-- $MDX file=03-sequential/react/App.jsx -->
 ```jsx
 import React, { useReducer } from 'react';
+import ReactDOM from 'react-dom';
 import Counter, {
   applyAction as counterApplyAction,
   defaultState as counterDefaultState,
@@ -567,7 +574,7 @@ function applyAction(state, { which, subAction }) {
   }
 }
 
-const App = ({ title }) => {
+const App = () => {
   let [state, inject] = useReducer(applyAction, defaultState);
   let injectFirst = (subAction) => inject({ which: 'first', subAction });
   let injectSecond = (subAction) => inject({ which: 'second', subAction });
@@ -584,7 +591,7 @@ const App = ({ title }) => {
   );
 };
 
-export default App;
+ReactDOM.render(<App />, document.getElementById('app'));
 ```
 </td>
 </tr>
@@ -628,6 +635,7 @@ compoenents even when they aren't currently active.
 <tr>
 <th>Bonsai</th>
 <th>Elm</th>
+<th>React</th>
 </tr>
 <tr>
 <td valign="top">
@@ -727,6 +735,7 @@ main =
 <!-- $MDX file=04-multiplicity/react/App.jsx -->
 ```jsx
 import React, { useReducer } from 'react';
+import ReactDOM from 'react-dom';
 import Counter, {
   applyAction as counterApplyAction,
   defaultState as counterDefaultState,
@@ -741,7 +750,7 @@ function applyAction(state, { which, subAction }) {
   };
 }
 
-const App = ({ title }) => {
+const App = () => {
   let [howMany, injectHowMany] = useReducer(
     counterApplyAction,
     counterDefaultState
@@ -775,7 +784,7 @@ const App = ({ title }) => {
   );
 };
 
-export default App;
+ReactDOM.render(<App />, document.getElementById('app'));
 ```
 </td>
 </tr>

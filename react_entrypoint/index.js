@@ -1,13 +1,4 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-
-import App from './App';
-
-const title = 'My Minimal React Webpack Babel Setup';
-
-ReactDOM.render(
-  <App title={title} />,
-  document.getElementById('app')
-);
-
-module.hot.accept();
+import '../01-basic/react/App'
+//import '../02-parallel/react/App'
+//import '../03-sequential/react/App'
+//import '../04-multiplicity/react/App'
