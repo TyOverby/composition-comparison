@@ -17,7 +17,7 @@ Not really
 
 # 01 - Components
 
-What is a "UI component" anyway?  To me, a component denotes a group of code
+What is a "UI component" anyway?  To me, a component describes a group of code
 with the following properties:
 
 1. **It serves as an abstraction** &mdash; Users of the component shouldn't need
