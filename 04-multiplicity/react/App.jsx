@@ -10,13 +10,13 @@ const defaultState = {};
 function applyAction(state, { which, subAction }) {
   return {
     ...state,
-    [which]: counterApplyAction(state[which] || 0, subAction),
+    [which]: counterApplyAction(state[which] || 0, subAction, 1),
   };
 }
 
 const App = () => {
   let [howMany, injectHowMany] = useReducer(
-    counterApplyAction,
+    (state, action) => counterApplyAction(state, action, 1),
     counterDefaultState
   );
   let [subcomponentState, subcomponentInject] = useReducer(

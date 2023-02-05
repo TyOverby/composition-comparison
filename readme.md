@@ -167,7 +167,7 @@ import React from 'react';
 
 export const defaultState = 0;
 
-export function applyAction(state, { action, by }) {
+export function applyAction(state, action, by) {
   switch (action) {
     case 'increment':
       return state + by;
@@ -179,8 +179,8 @@ export function applyAction(state, { action, by }) {
 }
 
 const Counter = ({ label, by, state, inject }) => {
-  let increment = () => inject({ action: 'increment', by });
-  let decrement = () => inject({ action: 'decrement', by });
+  let increment = () => inject('increment');
+  let decrement = () => inject('decrement');
   return (
     <div>
       {label}:<button onClick={decrement}> -{by}</button>
@@ -221,7 +221,27 @@ to a string to use for the label.
 </td></tr>
 </td><td valign="top">
 
-TODO
+If you're used to React, this code might be a bit confusing at first.  Clearly the 
+counter component is stateful, so why is it exporting a default state and a 
+state-machine transition function instead of bundling a call to `useState` inside 
+the component?  
+
+Firstly, `useState` would be buggy, two clicks of the button on the same
+rendering frame would act like it had only been clicked once, so we'd actually
+want to pick `useReducer`.  
+
+But beyond that, component-local state like `useState` and `useReducer` is truly
+component-local, with no way to export that state to other components like we'd
+need in the "sequential" and "multiplicity" sections.  Moreover, component-local
+state vanishes when the component is unmounted, making it useful only for state 
+that you want to be transient.
+
+This implies that when a component manipulate state that other pieces of the 
+application care about, that state needs to be stored and manipulated _outside_ 
+of the compoennt.  This is usually done by either using a state-management system
+like Redux, or by pushing the state into the nearest common ancestor component
+of any subcomponents that need to read or write to that state.  We'll be using 
+the latter approach in order to avoid excess boilerplate.
 
 </td></tr>
 </table>
@@ -288,7 +308,10 @@ import ReactDOM from 'react-dom';
 import Counter, { applyAction, defaultState } from '../../shared/Counter';
 
 const App = () => {
-  let [state, inject] = useReducer(applyAction, defaultState);
+  let [state, inject] = useReducer(
+    (state, action) => applyAction(state, action, 1),
+    defaultState
+  );
   return <Counter label="counter" by={1} state={state} inject={inject} />;
 };
 
@@ -311,7 +334,9 @@ of the component separately.  Make sure that you keep both of the `by` values in
 
 </td><td valign="top">
 
-TODO
+Because our components can't manage their own state, the top-level application 
+component is where the call to `useReducer` can be found, the results of which 
+are passed on to the counter component.
 
 </td></tr>
 </table>
@@ -409,8 +434,14 @@ import ReactDOM from 'react-dom';
 import Counter, { applyAction, defaultState } from '../../shared/Counter';
 
 const App = () => {
-  let [state1, inject1] = useReducer(applyAction, defaultState);
-  let [state2, inject2] = useReducer(applyAction, defaultState);
+  let [state1, inject1] = useReducer(
+    (state, action) => applyAction(state, action, 1),
+    defaultState
+  );
+  let [state2, inject2] = useReducer(
+    (state, action) => applyAction(state, action, 1),
+    defaultState
+  );
   return (
     <div>
       <Counter label="first" by={1} state={state1} inject={inject1} />
@@ -444,7 +475,8 @@ actions to the correct component.
 
 </td><td valign="top">
 
-TODO
+Parallel composition is very similar to the previous example.  The duplicate 
+boilerplate to set up state is a bit unfortunate though.
 
 </td></tr>
 </table>
@@ -564,12 +596,12 @@ function applyAction(state, { which, subAction }) {
     case 'first':
       return {
         ...state,
-        first: counterApplyAction(state.first, subAction),
+        first: counterApplyAction(state.first, subAction, 1),
       };
     case 'second':
       return {
         ...state,
-        second: counterApplyAction(state.second, subAction),
+        second: counterApplyAction(state.second, subAction, state.first),
       };
   }
 }
@@ -613,7 +645,13 @@ a bit icky; I'd love to know if there's a better way to do this.
 
 </td><td valign="top">
 
-TODO
+Sequential composition for React starts looking a lot more like the Elm example.  It 
+would be reasonable to look at this code and ask the question "why are you building 
+a big reducer instead of applying two smaller reducers?"  The reason is that with separate
+reducers, transformations applied at the same time will not be able to witness one 
+another.  In many scenarios, this kind of race condition is important to handle manually,
+and the only way to do so is by putting all the actions inside the same reducer.
+
 
 </td></tr>
 </table>
@@ -746,13 +784,13 @@ const defaultState = {};
 function applyAction(state, { which, subAction }) {
   return {
     ...state,
-    [which]: counterApplyAction(state[which] || 0, subAction),
+    [which]: counterApplyAction(state[which] || 0, subAction, 1),
   };
 }
 
 const App = () => {
   let [howMany, injectHowMany] = useReducer(
-    counterApplyAction,
+    (state, action) => counterApplyAction(state, action, 1),
     counterDefaultState
   );
   let [subcomponentState, subcomponentInject] = useReducer(
@@ -806,7 +844,9 @@ so I think this general pattern will always exist.
 
 </td><td valign="top">
 
-TODO
+For this one, the subcomponent state and the "how many" state are actually independent,
+so we can use two `useReducer` calls again!  One of these reducers is for the bag of 
+states that are necessary for rendering the dynamic components.
 
 </td></tr>
 </table>

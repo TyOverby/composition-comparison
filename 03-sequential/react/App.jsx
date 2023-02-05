@@ -15,12 +15,12 @@ function applyAction(state, { which, subAction }) {
     case 'first':
       return {
         ...state,
-        first: counterApplyAction(state.first, subAction),
+        first: counterApplyAction(state.first, subAction, 1),
       };
     case 'second':
       return {
         ...state,
-        second: counterApplyAction(state.second, subAction),
+        second: counterApplyAction(state.second, subAction, state.first),
       };
   }
 }

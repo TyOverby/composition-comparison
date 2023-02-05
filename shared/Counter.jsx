@@ -2,7 +2,7 @@ import React from 'react';
 
 export const defaultState = 0;
 
-export function applyAction(state, { action, by }) {
+export function applyAction(state, action, by) {
   switch (action) {
     case 'increment':
       return state + by;
@@ -14,8 +14,8 @@ export function applyAction(state, { action, by }) {
 }
 
 const Counter = ({ label, by, state, inject }) => {
-  let increment = () => inject({ action: 'increment', by });
-  let decrement = () => inject({ action: 'decrement', by });
+  let increment = () => inject('increment');
+  let decrement = () => inject('decrement');
   return (
     <div>
       {label}:<button onClick={decrement}> -{by}</button>
