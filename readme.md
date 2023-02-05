@@ -218,7 +218,7 @@ how the update function takes an integer to determine how much the state should 
 increased or decreased by, and how the view function also requires that value in addition
 to a string to use for the label.
 
-</td></tr>
+</td>
 </td><td valign="top">
 
 If you're used to React, this code might be a bit confusing at first.  Clearly the 
