@@ -79,12 +79,7 @@ let apply_action ~inject:_ ~schedule_event:_ by model action =
 
 let component' ~label ?(by = Value.return 1) () =
   let%sub state_and_inject =
-    Bonsai.state_machine1
-      (module Int)
-      (module Action)
-      ~default_model:0
-      ~apply_action
-      by
+    Bonsai.state_machine1 (module Int) (module Action) ~default_model:0 ~apply_action by
   in
   let%arr state, inject = state_and_inject
   and by = by
@@ -515,12 +510,8 @@ open! Core
 open! Import
 
 let app =
-  let%sub first_view, by =
-    Counter.component' ~label:(Value.return "first") ()
-  in
-  let%sub second_view =
-    Counter.component ~label:(Value.return "second") ~by ()
-  in
+  let%sub first_view, by = Counter.component' ~label:(Value.return "first") () in
+  let%sub second_view = Counter.component ~label:(Value.return "second") ~by () in
   let%arr first = first_view
   and second = second_view in
   N.div [ first; second ]
@@ -692,9 +683,13 @@ let app =
     let%arr how_many = how_many in
     List.init how_many ~f:(fun i -> i, ()) |> Int.Map.of_alist_exn
   in
-  let%sub others = Bonsai.assoc (module Int) map ~f:(fun key _data ->
-    let label = Value.map key ~f:Int.to_string in
-    Counter.component ~label ())
+  let%sub others =
+    Bonsai.assoc
+      (module Int)
+      map
+      ~f:(fun key _data ->
+        let label = Value.map key ~f:Int.to_string in
+        Counter.component ~label ())
   in
   let%arr counter_view = counter_view
   and others = others in
@@ -794,10 +789,7 @@ const App = () => {
     (state, action) => counterApplyAction(state, action, 1),
     counterDefaultState
   );
-  let [subcomponentState, subcomponentInject] = useReducer(
-    applyAction,
-    defaultState
-  );
+  let [subcomponentState, subcomponentInject] = useReducer(applyAction, defaultState);
   let subcomponents = Array.from({ length: howMany }, function (_, i) {
     let injectMe = (subAction) => subcomponentInject({ which: i, subAction });
     return (
@@ -812,12 +804,7 @@ const App = () => {
   });
   return (
     <div>
-      <Counter
-        label="how many"
-        by={1}
-        state={howMany}
-        inject={injectHowMany}
-      />
+      <Counter label="how many" by={1} state={howMany} inject={injectHowMany} />
       {subcomponents}
     </div>
   );
