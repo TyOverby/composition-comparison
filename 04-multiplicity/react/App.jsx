@@ -19,10 +19,7 @@ const App = () => {
     (state, action) => counterApplyAction(state, action, 1),
     counterDefaultState
   );
-  let [subcomponentState, subcomponentInject] = useReducer(
-    applyAction,
-    defaultState
-  );
+  let [subcomponentState, subcomponentInject] = useReducer(applyAction, defaultState);
   let subcomponents = Array.from({ length: howMany }, function (_, i) {
     let injectMe = (subAction) => subcomponentInject({ which: i, subAction });
     return (
@@ -37,12 +34,7 @@ const App = () => {
   });
   return (
     <div>
-      <Counter
-        label="how many"
-        by={1}
-        state={howMany}
-        inject={injectHowMany}
-      />
+      <Counter label="how many" by={1} state={howMany} inject={injectHowMany} />
       {subcomponents}
     </div>
   );

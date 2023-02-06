@@ -16,12 +16,7 @@ let apply_action ~inject:_ ~schedule_event:_ by model action =
 
 let component' ~label ?(by = Value.return 1) () =
   let%sub state_and_inject =
-    Bonsai.state_machine1
-      (module Int)
-      (module Action)
-      ~default_model:0
-      ~apply_action
-      by
+    Bonsai.state_machine1 (module Int) (module Action) ~default_model:0 ~apply_action by
   in
   let%arr state, inject = state_and_inject
   and by = by
