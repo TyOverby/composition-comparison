@@ -189,7 +189,7 @@ This Bonsai component is exposed to users through the `component` function.
 You'll notice that we use regular OCaml functions to pass properites to the
 component, like `~label` and the optional `?by` parameters.
 
-The `componen'` function produces a component that yields both the view _and_ 
+The `component` function produces a component that yields both the view _and_ 
 the counter value. You'll also notice that in defining `Counter.component`, we
 use `Bonsai.state_machine1`. `state_machine1` is a primitive component that we
 use to build our bigger component. The `1` indicates that the state machine has
