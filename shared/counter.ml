@@ -8,13 +8,12 @@ module Action = struct
   [@@deriving sexp_of]
 end
 
-let apply_action ~inject:_ ~schedule_event:_ by model action =
-  match (action : Action.t) with
-  | Incr -> model + by
+let apply_action ~inject:_ ~schedule_event:_ by model = function
+  | Action.Incr -> model + by
   | Decr -> model - by
 ;;
 
-let component' ~label ?(by = Value.return 1) () =
+let component ~label ?(by = Value.return 1) () =
   let%sub state_and_inject =
     Bonsai.state_machine1 (module Int) (module Action) ~default_model:0 ~apply_action by
   in
@@ -22,8 +21,7 @@ let component' ~label ?(by = Value.return 1) () =
   and by = by
   and label = label in
   let button op action =
-    let attr = A.on_click (fun _ -> inject action) in
-    N.button ~attr [ N.textf "%s%d" op by ]
+    N.button ~attr:(A.on_click (fun _ -> inject action)) [ N.textf "%s%d" op by ]
   in
   let view =
     N.div
@@ -34,9 +32,4 @@ let component' ~label ?(by = Value.return 1) () =
       ]
   in
   view, state
-;;
-
-let component ~label ?by () =
-  let%map.Computation view, _ = component' ~label ?by () in
-  view
 ;;

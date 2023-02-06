@@ -71,13 +71,12 @@ module Action = struct
   [@@deriving sexp_of]
 end
 
-let apply_action ~inject:_ ~schedule_event:_ by model action =
-  match (action : Action.t) with
-  | Incr -> model + by
+let apply_action ~inject:_ ~schedule_event:_ by model = function
+  | Action.Incr -> model + by
   | Decr -> model - by
 ;;
 
-let component' ~label ?(by = Value.return 1) () =
+let component ~label ?(by = Value.return 1) () =
   let%sub state_and_inject =
     Bonsai.state_machine1 (module Int) (module Action) ~default_model:0 ~apply_action by
   in
@@ -85,8 +84,7 @@ let component' ~label ?(by = Value.return 1) () =
   and by = by
   and label = label in
   let button op action =
-    let attr = A.on_click (fun _ -> inject action) in
-    N.button ~attr [ N.textf "%s%d" op by ]
+    N.button ~attr:(A.on_click (fun _ -> inject action)) [ N.textf "%s%d" op by ]
   in
   let view =
     N.div
@@ -97,11 +95,6 @@ let component' ~label ?(by = Value.return 1) () =
       ]
   in
   view, state
-;;
-
-let component ~label ?by () =
-  let%map.Computation view, _ = component' ~label ?by () in
-  view
 ;;
 ```
 
@@ -268,7 +261,11 @@ start out with the smallest app-component possible: a single counter.
 open! Core
 open! Import
 
-let app = Counter.component ~label:(Value.return "counter") ()
+let app =
+  let%sub view, _ = Counter.component ~label:(Value.return "counter") () in
+  return view
+;;
+
 let () = Start.start app
 ```
 
@@ -364,8 +361,8 @@ open! Core
 open! Import
 
 let app =
-  let%sub first = Counter.component ~label:(Value.return "first") () in
-  let%sub second = Counter.component ~label:(Value.return "second") () in
+  let%sub first, _ = Counter.component ~label:(Value.return "first") () in
+  let%sub second, _ = Counter.component ~label:(Value.return "second") () in
   let%arr first = first
   and second = second in
   N.div [ first; second ]
@@ -510,8 +507,8 @@ open! Core
 open! Import
 
 let app =
-  let%sub first_view, by = Counter.component' ~label:(Value.return "first") () in
-  let%sub second_view = Counter.component ~label:(Value.return "second") ~by () in
+  let%sub first_view, by = Counter.component ~label:(Value.return "first") () in
+  let%sub second_view, _ = Counter.component ~label:(Value.return "second") ~by () in
   let%arr first = first_view
   and second = second_view in
   N.div [ first; second ]
@@ -677,19 +674,16 @@ open! Import
 
 let app =
   let%sub counter_view, how_many =
-    Counter.component' ~label:(Value.return "how many") ()
+    Counter.component ~label:(Value.return "how many") ()
   in
   let%sub map =
     let%arr how_many = how_many in
     List.init how_many ~f:(fun i -> i, ()) |> Int.Map.of_alist_exn
   in
-  let%sub others =
-    Bonsai.assoc
-      (module Int)
-      map
-      ~f:(fun key _data ->
-        let label = Value.map key ~f:Int.to_string in
-        Counter.component ~label ())
+  let%sub others = Bonsai.assoc (module Int) map ~f:(fun key _data ->
+    let label = Value.map key ~f:Int.to_string in
+    let%sub view, _ = Counter.component ~label () in
+    return view)
   in
   let%arr counter_view = counter_view
   and others = others in

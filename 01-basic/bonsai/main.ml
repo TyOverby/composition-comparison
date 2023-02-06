@@ -1,5 +1,9 @@
 open! Core
 open! Import
 
-let app = Counter.component ~label:(Value.return "counter") ()
+let app =
+  let%sub view, _ = Counter.component ~label:(Value.return "counter") () in
+  return view
+;;
+
 let () = Start.start app
