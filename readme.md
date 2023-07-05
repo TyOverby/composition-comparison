@@ -71,7 +71,7 @@ let apply_action _ctx by model = function
 ;;
 
 let component ~label ?(by = Bonsai.return 1) graph =
-  let state, inject = Bonsai.state_machine1 ~default_model:0 ~apply_action by in
+  let state, inject = Bonsai.state_machine1 ~default_model:0 ~apply_action by graph in
   let view =
     let%map state and inject and by and label in
     let button op action =
@@ -219,7 +219,18 @@ export default Counter;
 <tr>
 
 <td valign="top">
-TODO
+
+The definition of this component shows 4 improvements over the Bonsai of today:
+
+1. Using primitives involves less boilerplate, no longer do you need first-class 
+   modules to call the basic stateful component constructors
+2. Instead of building `Bonsai.Computation.t` components are functions that go 
+   from `local_ Bonsai.graph` to `'a Bonsai.t`
+3. #2 allows us to compute and return the view _separately_ from the state, allowing 
+   better incrementality 
+4. let-punning.  This isn't a bonsai-improvement, I just think it's nice to be 
+   able to write `let%map a in foo a` instead of `let%map a = a in foo a`
+
 </td> <td valign="top">
 This Bonsai component is exposed to users through the `component` function.
 You'll notice that we use regular OCaml functions to pass properites to the
@@ -767,9 +778,7 @@ open! Core
 open! Import
 
 let app graph =
-  let counter_view, how_many = 
-    Counter.component ~label:(Bonsai.return "how many") graph 
-  in
+  let counter_view, how_many = Counter.component ~label:(Bonsai.return "how many") graph in
   let map =
     let%map how_many in
     List.init how_many ~f:(fun i -> i, ()) |> Int.Map.of_alist_exn

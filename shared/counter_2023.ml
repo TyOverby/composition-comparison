@@ -7,7 +7,7 @@ let apply_action _ctx by model = function
 ;;
 
 let component ~label ?(by = Bonsai.return 1) graph =
-  let state, inject = Bonsai.state_machine1 ~default_model:0 ~apply_action by in
+  let state, inject = Bonsai.state_machine1 ~default_model:0 ~apply_action by graph in
   let view =
     let%map state and inject and by and label in
     let button op action =
