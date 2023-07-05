@@ -217,9 +217,19 @@ export default Counter;
 </td>
 </tr>
 <tr>
-<td valign="top">
 
+<td valign="top">
 TODO
+</td> <td valign="top">
+This Bonsai component is exposed to users through the `component` function.
+You'll notice that we use regular OCaml functions to pass properites to the
+component, like `~label` and the optional `?by` parameters.
+
+The `component` function produces a component that yields both the view _and_ 
+the counter value. You'll also notice that in defining `Counter.component`, we
+use `Bonsai.state_machine1`. `state_machine1` is a primitive component that we
+use to build our bigger component. The `1` indicates that the state machine has
+access to one input value that it can read when processing an action.
 
 </td><td valign="top">
 
