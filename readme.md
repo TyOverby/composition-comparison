@@ -374,7 +374,9 @@ ReactDOM.render(<App />, document.getElementById('app'));
 </tr>
 <tr><td valign="top">
 
-TODO
+Not much is different between 2023 Bonsai and current-bonsai, but the the `let%sub`
+syntax is removed, and the call to `return`, which used to convert between `Bonsai.Value.t`
+and `Bonsai.Computation.t` is no longer necessary.
 
 </td><td valign="top">
 
@@ -529,7 +531,8 @@ ReactDOM.render(<App />, document.getElementById('app'));
 </tr>
 <tr> <td valign="top">
 
-TODO
+`let%sub` is gone, conversion between types is gone, and 
+we're using let-punning.
 
 </td> <td valign="top">
 
@@ -720,7 +723,7 @@ ReactDOM.render(<App />, document.getElementById('app'));
 </tr>
 <tr> <td valign="top">
 
-TODO
+Same differences as before for the most part.
 
 </td> <td valign="top">
 
@@ -809,10 +812,17 @@ let app =
     let%arr how_many = how_many in
     List.init how_many ~f:(fun i -> i, ()) |> Int.Map.of_alist_exn
   in
-  let%sub others = Bonsai.assoc (module Int) map ~f:(fun key _data ->
-    let label = Value.map key ~f:Int.to_string in
-    let%sub view, _ = Counter.component ~label () in
-    return view)
+  let%sub others =
+    Bonsai.assoc
+      (module Int)
+      map
+      ~f:(fun key _data ->
+        let%sub label =
+          let%arr key = key in
+          Int.to_string key
+        in
+        let%sub view, _ = Counter.component ~label () in
+        return view)
   in
   let%arr counter_view = counter_view
   and others = others in
@@ -939,7 +949,10 @@ ReactDOM.render(<App />, document.getElementById('app'));
 </tr>
 <tr> <td valign="top">
 
-TODO
+Now that you know what to look for, nothing should surprise you here!  One 
+pretty big space saver is that thanks to the `map` operation no longer being 
+a footgun, you can use infix-map in places that you'd previously need to 
+use a `let%sub` / `let%arr` combo.
 
 </td> <td valign="top">
 

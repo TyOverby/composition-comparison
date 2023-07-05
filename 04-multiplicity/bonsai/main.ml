@@ -9,10 +9,17 @@ let app =
     let%arr how_many = how_many in
     List.init how_many ~f:(fun i -> i, ()) |> Int.Map.of_alist_exn
   in
-  let%sub others = Bonsai.assoc (module Int) map ~f:(fun key _data ->
-    let label = Value.map key ~f:Int.to_string in
-    let%sub view, _ = Counter.component ~label () in
-    return view)
+  let%sub others =
+    Bonsai.assoc
+      (module Int)
+      map
+      ~f:(fun key _data ->
+        let%sub label =
+          let%arr key = key in
+          Int.to_string key
+        in
+        let%sub view, _ = Counter.component ~label () in
+        return view)
   in
   let%arr counter_view = counter_view
   and others = others in
