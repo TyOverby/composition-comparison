@@ -271,6 +271,7 @@ start out with the smallest app-component possible: a single counter.
 
 <table>
 <tr>
+<th>Bonsai 2023</th>
 <th>Bonsai</th>
 <th>Elm</th>
 <th>React</th>
@@ -390,6 +391,7 @@ changing one would have no impact on the other.
 
 <table>
 <tr>
+<th>Bonsai 2023</th>
 <th>Bonsai</th>
 <th>Elm</th>
 <th>React</th>
@@ -556,6 +558,7 @@ delta parameter on the other.
 
 <table>
 <tr>
+<th>Bonsai 2023</th>
 <th>Bonsai</th>
 <th>Elm</th>
 <th>React</th>
@@ -742,6 +745,7 @@ compoenents even when they aren't currently active.
 
 <table>
 <tr>
+<th>Bonsai 2023</th>
 <th>Bonsai</th>
 <th>Elm</th>
 <th>React</th>
