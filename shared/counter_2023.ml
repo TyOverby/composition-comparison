@@ -15,9 +15,9 @@ let component ~label ?(by = Bonsai.return 1) graph =
     in
     N.div
       [ Vdom.Node.span [ N.textf "%s: " label ]
-      ; button "-" Decr
+      ; button "-" `Decr
       ; Vdom.Node.span [ N.textf "%d" state ]
-      ; button "+" Incr
+      ; button "+" `Incr
       ]
   in
   view, state
