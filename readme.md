@@ -51,11 +51,44 @@ some way, which the component should also provide.
 
 <table>
 <tr>
+<th>Bonsai 2023</th>
 <th>Bonsai</th>
 <th>Elm</th>
 <th>React</th>
 </tr>
 <tr>
+<td valign="top">
+
+
+<!-- $MDX file=shared/counter_2023.ml -->
+```ocaml
+open! Core
+open! Import
+
+let apply_action _ctx by model = function
+  | `Incr -> model + by
+  | `Decr -> model - by
+;;
+
+let component ~label ?(by = Bonsai.return 1) graph =
+  let state, inject = Bonsai.state_machine1 ~default_model:0 ~apply_action by in
+  let view =
+    let%map state and inject and by and label in
+    let button op action =
+      N.button ~attr:(A.on_click (fun _ -> inject action)) [ N.textf "%s%d" op by ]
+    in
+    N.div
+      [ Vdom.Node.span [ N.textf "%s: " label ]
+      ; button "-" Decr
+      ; Vdom.Node.span [ N.textf "%d" state ]
+      ; button "+" Incr
+      ]
+  in
+  view, state
+;;
+```
+
+</td>
 <td valign="top">
 
 
@@ -183,17 +216,10 @@ export default Counter;
 ```
 </td>
 </tr>
-<tr><td valign="top">
+<tr>
+<td valign="top">
 
-This Bonsai component is exposed to users through the `component` function.
-You'll notice that we use regular OCaml functions to pass properites to the
-component, like `~label` and the optional `?by` parameters.
-
-The `componen'` function produces a component that yields both the view _and_ 
-the counter value. You'll also notice that in defining `Counter.component`, we
-use `Bonsai.state_machine1`. `state_machine1` is a primitive component that we
-use to build our bigger component. The `1` indicates that the state machine has
-access to one input value that it can read when processing an action.
+TODO
 
 </td><td valign="top">
 
@@ -250,6 +276,22 @@ start out with the smallest app-component possible: a single counter.
 <th>React</th>
 </tr>
 <tr>
+<td valign="top">
+
+<!-- $MDX file=01-basic/bonsai-2023/main.ml -->
+```ocaml
+open! Core
+open! Import
+
+let app graph =
+  let view, _ = Counter.component ~label:(Bonsai.return "counter") graph in
+  view
+;;
+
+let () = Start.start app
+```
+
+</td> <td valign="top">
 <td valign="top">
 
 <!-- $MDX file=01-basic/bonsai/main.ml -->
@@ -311,6 +353,10 @@ ReactDOM.render(<App />, document.getElementById('app'));
 </tr>
 <tr><td valign="top">
 
+TODO
+
+</td><td valign="top">
+
 Because the application component is an instance of our counter component, we need 
 to invoke the component-generating function with its required parameters.  Because 
 we're fine with the default `by` argument being `1`, we only need to provide the value 
@@ -348,8 +394,24 @@ changing one would have no impact on the other.
 <th>Elm</th>
 <th>React</th>
 </tr>
-<tr>
-<td valign="top">
+<tr> <td valign="top">
+
+<!-- $MDX file=02-parallel/bonsai-2023/main.ml -->
+```ocaml
+open! Core
+open! Import
+
+let app graph =
+  let first, _ = Counter.component ~label:(Bonsai.return "first") graph in
+  let second, _ = Counter.component ~label:(Bonsai.return "second") graph in
+  let%map first and second in
+  N.div [ first; second ]
+;;
+
+let () = Start.start app
+```
+
+</td> <td valign="top">
 
 <!-- $MDX file=02-parallel/bonsai/main.ml -->
 ```ocaml
@@ -443,7 +505,11 @@ ReactDOM.render(<App />, document.getElementById('app'));
 ```
 </td>
 </tr>
-<tr><td valign="top">
+<tr> <td valign="top">
+
+TODO
+
+</td> <td valign="top">
 
 For Bonsai, we use `let%sub` to create new instances of the component, 
 and then `let%arr` to compose the views produced by those instances.
@@ -494,8 +560,25 @@ delta parameter on the other.
 <th>Elm</th>
 <th>React</th>
 </tr>
-<tr>
-<td valign="top">
+<tr><td valign="top">
+
+<!-- $MDX file=03-sequential/bonsai-2023/main.ml -->
+```ocaml
+open! Core
+open! Import
+
+let app graph =
+  let first_view, by = Counter.component ~label:(Bonsai.return "first") graph in
+  let second_view, _ = Counter.component ~label:(Bonsai.return "second") ~by graph in
+  let%map first = first_view
+  and second = second_view in
+  N.div [ first; second ]
+;;
+
+let () = Start.start app
+```
+
+</td> <td valign="top">
 
 <!-- $MDX file=03-sequential/bonsai/main.ml -->
 ```ocaml
@@ -612,7 +695,11 @@ ReactDOM.render(<App />, document.getElementById('app'));
 ```
 </td>
 </tr>
-<tr><td valign="top">
+<tr> <td valign="top">
+
+TODO
+
+</td> <td valign="top">
 
 We finally get to use the extra return value from `Counter.component`!  We
 bind the value, and immediately pass it into the next component through its
@@ -659,8 +746,33 @@ compoenents even when they aren't currently active.
 <th>Elm</th>
 <th>React</th>
 </tr>
-<tr>
-<td valign="top">
+<tr> <td valign="top">
+
+<!-- $MDX file=04-multiplicity/bonsai-2023/main.ml -->
+```ocaml
+open! Core
+open! Import
+
+let app graph =
+  let counter_view, how_many = 
+    Counter.component ~label:(Bonsai.return "how many") graph 
+  in
+  let map =
+    let%map how_many in
+    List.init how_many ~f:(fun i -> i, ()) |> Int.Map.of_alist_exn
+  in
+  let others = Bonsai.assoc (module Int) map graph ~f:(fun key _data graph ->
+    let view, _ = Counter.component ~label:(key >>| Int.to_string) graph in
+    view)
+  in
+  let%map counter_view and others in
+  N.div (counter_view :: Map.data others)
+;;
+
+let () = Start.start app
+```
+
+</td> <td valign="top">
 
 <!-- $MDX file=04-multiplicity/bonsai/main.ml -->
 ```ocaml
@@ -803,7 +915,11 @@ ReactDOM.render(<App />, document.getElementById('app'));
 ```
 </td>
 </tr>
-<tr><td valign="top">
+<tr> <td valign="top">
+
+TODO
+
+</td> <td valign="top">
 
 For Bonsai, this one is a bit hacky, I'll admit! `Bonsai.assoc` reads  an input
 map and creates an instance of the provisded component for each key/value pair
