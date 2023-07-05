@@ -303,7 +303,6 @@ let () = Start.start app
 ```
 
 </td> <td valign="top">
-<td valign="top">
 
 <!-- $MDX file=01-basic/bonsai/main.ml -->
 ```ocaml
