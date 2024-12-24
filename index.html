@@ -1,0 +1,996 @@
+  <style>
+    html {
+      line-height: 1.5;
+      font-family: "Inter", sans-serif;
+      font-size: 20px;
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 1em;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, 'Lucida Console', Consolas, monospace;
+      font-size: 85%;
+      margin: 0;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+<h1 id="composition-comparison">Composition Comparison</h1>
+<p><strong>What is this?</strong></p>
+<p>This repository houses a collection of UI-framework compsition
+challenges. It identifies a few patterns for how composing components,
+and implements them using Bonsai, Elm, and React</p>
+<blockquote>
+<p>Is this supposed to be unbiased?</p>
+</blockquote>
+<p>Not really</p>
+<ol type="1">
+<li>I’m pretty good at Bonsai, pretty bad at Elm, and my React knowledge
+is quite outdated</li>
+<li>I designed Bonsai with automatic component composition as a primary
+goal</li>
+</ol>
+<h1 id="components">01 - Components</h1>
+<p>What is a “UI component” anyway? To me, a component describes a group
+of code with the following properties:</p>
+<ol type="1">
+<li><strong>It serves as an abstraction</strong> — Users of the
+component shouldn’t need to know about any implementation details</li>
+<li><strong>It’s built to be composed with other components</strong> —
+It’s right there in the name! Components must be robust to being
+combined with one another</li>
+<li><strong>Encapsulated</strong> — A component shouldn’t leak private
+details, nor should it require composition with other components in
+order to be useful.</li>
+</ol>
+<p>For the rest of this series, we’re going to be looking at ways to
+compose a very basic “counter” component.</p>
+<h2 id="defining-a-component">Defining a component</h2>
+<p><img src="./gifs/rec1.gif" align="left" width=250 /></p>
+<p>The counter component that we’ll be building is a basic widget that
+maintains a count (as an integer), and two buttons, one to decrease the
+stored value, and another to increase it.</p>
+<p>Our counter components will be configurable in two ways:</p>
+<ol type="1">
+<li>The user of the counter component can pick a text label to
+display</li>
+<li>The caller can also pick the delta by which the increment and
+decrement buttons will modify the stored value</li>
+</ol>
+<p>The user of the component will also probably want access to the value
+in some way, which the component should also provide.</p>
+<table>
+<tr>
+<th>
+Bonsai
+</th>
+<th>
+Elm
+</th>
+<th>
+React
+</th>
+</tr>
+<tr>
+<td valign="top">
+<!-- $MDX file=shared/counter_2023.ml -->
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode ocaml"><code class="sourceCode ocaml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">open</span>! Core</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">open</span>! Import</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> apply_action _ctx by model = <span class="kw">function</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  | `Incr -&gt; model + by</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  | `Decr -&gt; model - by</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>;;</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> component ~label ?(by = Bonsai.return <span class="dv">1</span>) graph =</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> state, inject = Bonsai.state_machine1 ~default_model:<span class="dv">0</span> ~apply_action by graph <span class="kw">in</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> view =</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span>%map state <span class="kw">and</span> inject <span class="kw">and</span> by <span class="kw">and</span> label <span class="kw">in</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> button op action =</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>      N.button ~attr:(A.on_click (<span class="kw">fun</span> _ -&gt; inject action)) [ N.textf <span class="st">&quot;%s%d&quot;</span> op by ]</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    <span class="kw">in</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    N.div</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>      [ Vdom.Node.span [ N.textf <span class="st">&quot;%s: &quot;</span> label ]</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>      ; button <span class="st">&quot;-&quot;</span> Decr</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>      ; Vdom.Node.span [ N.textf <span class="st">&quot;%d&quot;</span> state ]</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>      ; button <span class="st">&quot;+&quot;</span> Incr</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>      ]</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>  <span class="kw">in</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>  view, state</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>;;</span></code></pre></div>
+</td>
+<td valign="top">
+<!-- $MDX file=shared/Counter.elm -->
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode elm"><code class="sourceCode elm"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">module</span> <span class="dt">Counter</span> <span class="kw">exposing</span> (<span class="dt">Model</span><span class="op">,</span> <span class="dt">Msg</span><span class="op">,</span> <span class="fu">init</span><span class="op">,</span> <span class="fu">update</span><span class="op">,</span> <span class="fu">view</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Browser</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Html</span> <span class="kw">exposing</span> (<span class="dt">Html</span><span class="op">,</span> <span class="fu">div</span><span class="op">,</span> <span class="fu">span</span><span class="op">,</span> <span class="fu">text</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Html</span><span class="op">.</span><span class="dt">Events</span> <span class="kw">exposing</span> (<span class="fu">onClick</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="kw">alias</span> <span class="dt">Model</span> <span class="op">=</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="dt">Int</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="fu">init</span> : <span class="dt">Model</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="fu">init</span> <span class="op">=</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    <span class="dv">0</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="dt">Msg</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>    <span class="op">=</span> <span class="dt">Increment</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> <span class="dt">Decrement</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a><span class="fu">update</span> : <span class="dt">Int</span> <span class="op">-&gt;</span> <span class="dt">Msg</span> <span class="op">-&gt;</span> <span class="dt">Model</span> <span class="op">-&gt;</span> <span class="dt">Model</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a><span class="fu">update</span> <span class="fu">howMuch</span> <span class="fu">msg</span> <span class="fu">model</span> <span class="op">=</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">case</span> <span class="fu">msg</span> <span class="cf">of</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>        <span class="dt">Increment</span> <span class="op">-&gt;</span></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>            <span class="fu">model</span> <span class="op">+</span> <span class="fu">howMuch</span></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>        <span class="dt">Decrement</span> <span class="op">-&gt;</span></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>            <span class="fu">model</span> <span class="op">-</span> <span class="fu">howMuch</span></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a><span class="fu">view</span> : <span class="dt">Int</span> <span class="op">-&gt;</span> <span class="dt">String</span> <span class="op">-&gt;</span> <span class="dt">Model</span> <span class="op">-&gt;</span> <span class="dt">Html</span> <span class="dt">Msg</span></span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a><span class="fu">view</span> <span class="fu">howMuch</span> <span class="fu">label</span> <span class="fu">model</span> <span class="op">=</span></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span></span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>        <span class="fu">button</span> <span class="fu">op</span> <span class="fu">action</span> <span class="op">=</span></span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>            <span class="dt">Html</span><span class="op">.</span><span class="fu">button</span> [ <span class="fu">onClick</span> <span class="fu">action</span> ] [ <span class="fu">text</span> (<span class="dt">String</span><span class="op">.</span><span class="fu">concat</span> [ <span class="fu">op</span><span class="op">,</span> <span class="dt">String</span><span class="op">.</span><span class="fu">fromInt</span> <span class="fu">howMuch</span> ]) ]</span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>    <span class="kw">in</span></span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>    <span class="fu">div</span> []</span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>        [ <span class="fu">text</span> (<span class="dt">String</span><span class="op">.</span><span class="fu">concat</span> [ <span class="fu">label</span><span class="op">,</span> <span class="st">&quot;: &quot;</span> ])</span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>        <span class="op">,</span> <span class="fu">button</span> <span class="st">&quot;-&quot;</span> <span class="dt">Decrement</span></span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>        <span class="op">,</span> <span class="fu">text</span> (<span class="dt">String</span><span class="op">.</span><span class="fu">fromInt</span> <span class="fu">model</span>)</span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>        <span class="op">,</span> <span class="fu">button</span> <span class="st">&quot;+&quot;</span> <span class="dt">Increment</span></span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>        ]</span></code></pre></div>
+</td>
+<td valign="top">
+<!-- $MDX file=shared/Counter.jsx -->
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode jsx"><code class="sourceCode javascriptreact"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> React <span class="im">from</span> <span class="st">&#39;react&#39;</span><span class="op">;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">export</span> <span class="kw">const</span> defaultState <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="im">export</span> <span class="kw">function</span> <span class="fu">applyAction</span>(state<span class="op">,</span> action<span class="op">,</span> by) {</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">switch</span> (action) {</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">case</span> <span class="st">&#39;increment&#39;</span><span class="op">:</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>      <span class="cf">return</span> state <span class="op">+</span> by<span class="op">;</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">case</span> <span class="st">&#39;decrement&#39;</span><span class="op">:</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>      <span class="cf">return</span> state <span class="op">-</span> by<span class="op">;</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">default</span><span class="op">:</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>      <span class="bu">console</span><span class="op">.</span><span class="fu">error</span>(<span class="st">&#39;BUG&#39;</span>)<span class="op">;</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> Counter <span class="op">=</span> ({ label<span class="op">,</span> by<span class="op">,</span> state<span class="op">,</span> inject }) <span class="kw">=&gt;</span> {</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> increment <span class="op">=</span> () <span class="kw">=&gt;</span> <span class="fu">inject</span>(<span class="st">&#39;increment&#39;</span>)<span class="op">;</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> decrement <span class="op">=</span> () <span class="kw">=&gt;</span> <span class="fu">inject</span>(<span class="st">&#39;decrement&#39;</span>)<span class="op">;</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> (</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;div&gt;</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>      <span class="va">{</span>label<span class="va">}</span>:<span class="kw">&lt;button</span> <span class="ot">onClick</span><span class="op">=</span><span class="va">{</span>decrement<span class="va">}</span><span class="kw">&gt;</span> -<span class="va">{</span>by<span class="va">}</span><span class="kw">&lt;/button&gt;</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>      <span class="va">{</span>state<span class="va">}</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>      <span class="kw">&lt;button</span> <span class="ot">onClick</span><span class="op">=</span><span class="va">{</span>increment<span class="va">}</span><span class="kw">&gt;</span> +<span class="va">{</span>by<span class="va">}</span><span class="kw">&lt;/button&gt;</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;/div&gt;</span></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>  )<span class="op">;</span></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a><span class="im">export</span> <span class="im">default</span> Counter<span class="op">;</span></span></code></pre></div>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p>This Bonsai component is exposed to users through the
+<code>component</code> function. You’ll notice that we use regular OCaml
+functions to pass properites to the component, like <code>~label</code>
+and the optional <code>?by</code> parameters.</p>
+<p>The <code>component</code> function produces a component that yields
+both the view <em>and</em> the counter value. You’ll also notice that in
+defining <code>Counter.component</code>, we use
+<code>Bonsai.state_machine1</code>. <code>state_machine1</code> is a
+primitive component that we use to build our bigger component. The
+<code>1</code> indicates that the state machine has access to one input
+value that it can read when processing an action.</p>
+</td>
+<td valign="top">
+<p>This elm component is in the shape of a whole module which exports
+its initial model, transition function, and view calculations separately
+for the user to compose. Notice how the update function takes an integer
+to determine how much the state should be increased or decreased by, and
+how the view function also requires that value in addition to a string
+to use for the label.</p>
+</td>
+</td>
+<td valign="top">
+<p>If you’re used to React, this code might be a bit confusing at first.
+Clearly the counter component is stateful, so why is it exporting a
+default state and a state-machine transition function instead of
+bundling a call to <code>useState</code> inside the component?</p>
+<p>Firstly, <code>useState</code> would be buggy, two clicks of the
+button on the same rendering frame would act like it had only been
+clicked once, so we’d actually want to pick <code>useReducer</code>.</p>
+<p>But beyond that, component-local state like <code>useState</code> and
+<code>useReducer</code> is truly component-local, with no way to export
+that state to other components like we’d need in the “sequential” and
+“multiplicity” sections. Moreover, component-local state vanishes when
+the component is unmounted, making it useful only for state that you
+want to be transient.</p>
+<p>This implies that when a component manipulate state that other pieces
+of the application care about, that state needs to be stored and
+manipulated <em>outside</em> of the compoennt. This is usually done by
+either using a state-management system like Redux, or by pushing the
+state into the nearest common ancestor component of any subcomponents
+that need to read or write to that state. We’ll be using the latter
+approach in order to avoid excess boilerplate.</p>
+</td>
+</tr>
+</table>
+<p>Since Bonsai was originally modeled after the Elm Architecture, it
+shouldn’t be super surprising that defining a component looks similar in
+both languages. Both focus on the state for a component being modeled as
+a state-machine, with explicit model and and action types which
+correspond to states and state transitions.</p>
+<h2 id="using-a-component">Using a component</h2>
+<p>The “topmost” component in an application is sometimes referred to as
+the “application component”. These can be as big or as small as
+necessary, so let’s start out with the smallest app-component possible:
+a single counter.</p>
+<table>
+<tr>
+<th>
+Bonsai
+</th>
+<th>
+Elm
+</th>
+<th>
+React
+</th>
+</tr>
+<tr>
+<td valign="top">
+<!-- $MDX file=01-basic/bonsai-2023/main.ml -->
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode ocaml"><code class="sourceCode ocaml"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">open</span>! Core</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="kw">open</span>! Import</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> app graph =</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> view, _ = Counter.component ~label:(Bonsai.return <span class="st">&quot;counter&quot;</span>) graph <span class="kw">in</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  view</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>;;</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> () = Start.start app</span></code></pre></div>
+</td>
+<td valign="top">
+<!-- $MDX file=01-basic/elm/Main.elm -->
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode elm"><code class="sourceCode elm"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">module</span> <span class="dt">Main</span> <span class="kw">exposing</span> (<span class="fu">main</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Browser</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Counter</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="fu">update</span> <span class="op">=</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">Counter</span><span class="op">.</span><span class="fu">update</span> <span class="dv">1</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="fu">view</span> <span class="op">=</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    <span class="dt">Counter</span><span class="op">.</span><span class="fu">view</span> <span class="dv">1</span> <span class="st">&quot;counter&quot;</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="fu">main</span> <span class="op">=</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    <span class="dt">Browser</span><span class="op">.</span><span class="fu">sandbox</span> { <span class="fu">init</span> <span class="op">=</span> <span class="dt">Counter</span><span class="op">.</span><span class="fu">init</span><span class="op">,</span> <span class="fu">update</span> <span class="op">=</span> <span class="fu">update</span><span class="op">,</span> <span class="fu">view</span> <span class="op">=</span> <span class="fu">view</span> }</span></code></pre></div>
+</td>
+</td>
+<td valign="top">
+<!-- $MDX file=01-basic/react/App.jsx -->
+<div class="sourceCode" id="cb6"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> React<span class="op">,</span> { useReducer } <span class="im">from</span> <span class="st">&#39;react&#39;</span><span class="op">;</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ReactDOM <span class="im">from</span> <span class="st">&#39;react-dom&#39;</span><span class="op">;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> Counter<span class="op">,</span> { applyAction<span class="op">,</span> defaultState } <span class="im">from</span> <span class="st">&#39;../../shared/Counter&#39;</span><span class="op">;</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> App <span class="op">=</span> () <span class="kw">=&gt;</span> {</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> [state<span class="op">,</span> inject] <span class="op">=</span> <span class="fu">useReducer</span>(</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    (state<span class="op">,</span> action) <span class="kw">=&gt;</span> <span class="fu">applyAction</span>(state<span class="op">,</span> action<span class="op">,</span> <span class="dv">1</span>)<span class="op">,</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    defaultState</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  )<span class="op">;</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> <span class="op">&lt;</span>Counter label<span class="op">=</span><span class="st">&quot;counter&quot;</span> by<span class="op">=</span>{<span class="dv">1</span>} state<span class="op">=</span>{state} inject<span class="op">=</span>{inject} <span class="op">/&gt;;</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>ReactDOM<span class="op">.</span><span class="fu">render</span>(<span class="op">&lt;</span>App <span class="op">/&gt;,</span> <span class="bu">document</span><span class="op">.</span><span class="fu">getElementById</span>(<span class="st">&#39;app&#39;</span>))<span class="op">;</span></span></code></pre></div>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p>Because the application component is an instance of our counter
+component, we need to invoke the component-generating function with its
+required parameters. Because we’re fine with the default <code>by</code>
+argument being <code>1</code>, we only need to provide the value for the
+label.</p>
+</td>
+<td valign="top">
+<p>The Elm component requires passing all the configuration to all the
+different pieces of the component separately. Make sure that you keep
+both of the <code>by</code> values in sync!</p>
+</td>
+<td valign="top">
+<p>Because our components can’t manage their own state, the top-level
+application component is where the call to <code>useReducer</code> can
+be found, the results of which are passed on to the counter
+component.</p>
+</td>
+</tr>
+</table>
+<h1 id="parallel-composition">02 - Parallel Composition</h1>
+<p><img src="./gifs/rec2.gif" align="left" width=250 /></p>
+<p>“Parallel Composition” is a term that I came up with for describing
+the style of composing components that are completely isoloated from one
+another. Not only are these components visually separated, they’re also
+logically separated, removing or changing one would have no impact on
+the other.</p>
+<!-- https://web.archive.org/web/20160816034346/https://guide.elm-lang.org/architecture/modularity/counter_pair.html -->
+<table>
+<tr>
+<th>
+Bonsai
+</th>
+<th>
+Elm
+</th>
+<th>
+React
+</th>
+</tr>
+<tr>
+<td valign="top">
+<!-- $MDX file=02-parallel/bonsai-2023/main.ml -->
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode ocaml"><code class="sourceCode ocaml"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">open</span>! Core</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="kw">open</span>! Import</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> app graph =</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> first, _ = Counter.component ~label:(Bonsai.return <span class="st">&quot;first&quot;</span>) graph <span class="kw">in</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> second, _ = Counter.component ~label:(Bonsai.return <span class="st">&quot;second&quot;</span>) graph <span class="kw">in</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span>%map first <span class="kw">and</span> second <span class="kw">in</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  N.div [ first; second ]</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>;;</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> () = Start.start app</span></code></pre></div>
+</td>
+<td valign="top">
+<!-- $MDX file=02-parallel/elm/Main.elm -->
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode elm"><code class="sourceCode elm"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">module</span> <span class="dt">Main</span> <span class="kw">exposing</span> (<span class="fu">main</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Browser</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Counter</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Html</span> <span class="kw">exposing</span> (<span class="dt">Html</span><span class="op">,</span> <span class="fu">div</span>)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="kw">alias</span> <span class="dt">Model</span> <span class="op">=</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    { <span class="fu">first</span> : <span class="dt">Counter</span><span class="op">.</span><span class="dt">Model</span><span class="op">,</span> <span class="fu">second</span> : <span class="dt">Counter</span><span class="op">.</span><span class="dt">Model</span> }</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="fu">init</span> : <span class="dt">Model</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="fu">init</span> <span class="op">=</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    { <span class="fu">first</span> <span class="op">=</span> <span class="dt">Counter</span><span class="op">.</span><span class="fu">init</span><span class="op">,</span> <span class="fu">second</span> <span class="op">=</span> <span class="dt">Counter</span><span class="op">.</span><span class="fu">init</span> }</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="dt">Msg</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>    <span class="op">=</span> <span class="dt">First</span> <span class="dt">Counter</span><span class="op">.</span><span class="dt">Msg</span></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> <span class="dt">Second</span> <span class="dt">Counter</span><span class="op">.</span><span class="dt">Msg</span></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a><span class="fu">update</span> : <span class="dt">Msg</span> <span class="op">-&gt;</span> <span class="dt">Model</span> <span class="op">-&gt;</span> <span class="dt">Model</span></span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a><span class="fu">update</span> <span class="fu">msg</span> <span class="fu">model</span> <span class="op">=</span></span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">case</span> <span class="fu">msg</span> <span class="cf">of</span></span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>        <span class="dt">First</span> <span class="fu">msg_first</span> <span class="op">-&gt;</span></span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>            { <span class="fu">model</span> <span class="op">|</span> <span class="fu">first</span> <span class="op">=</span> <span class="dt">Counter</span><span class="op">.</span><span class="fu">update</span> <span class="dv">1</span> <span class="fu">msg_first</span> <span class="fu">model</span><span class="op">.</span><span class="fu">first</span> }</span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>        <span class="dt">Second</span> <span class="fu">msg_second</span> <span class="op">-&gt;</span></span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>            { <span class="fu">model</span> <span class="op">|</span> <span class="fu">second</span> <span class="op">=</span> <span class="dt">Counter</span><span class="op">.</span><span class="fu">update</span> <span class="dv">1</span> <span class="fu">msg_second</span> <span class="fu">model</span><span class="op">.</span><span class="fu">second</span> }</span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a><span class="fu">view</span> : <span class="dt">Model</span> <span class="op">-&gt;</span> <span class="dt">Html</span> <span class="dt">Msg</span></span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a><span class="fu">view</span> <span class="fu">model</span> <span class="op">=</span></span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>    <span class="fu">div</span> []</span>
+<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a>        [ <span class="dt">Html</span><span class="op">.</span><span class="fu">map</span> <span class="dt">First</span> (<span class="dt">Counter</span><span class="op">.</span><span class="fu">view</span> <span class="dv">1</span> <span class="st">&quot;first&quot;</span> <span class="fu">model</span><span class="op">.</span><span class="fu">first</span>)</span>
+<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a>        <span class="op">,</span> <span class="dt">Html</span><span class="op">.</span><span class="fu">map</span> <span class="dt">Second</span> (<span class="dt">Counter</span><span class="op">.</span><span class="fu">view</span> <span class="dv">1</span> <span class="st">&quot;second&quot;</span> <span class="fu">model</span><span class="op">.</span><span class="fu">second</span>)</span>
+<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a>        ]</span>
+<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a><span class="fu">main</span> <span class="op">=</span></span>
+<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a>    <span class="dt">Browser</span><span class="op">.</span><span class="fu">sandbox</span> { <span class="fu">init</span> <span class="op">=</span> <span class="fu">init</span><span class="op">,</span> <span class="fu">update</span> <span class="op">=</span> <span class="fu">update</span><span class="op">,</span> <span class="fu">view</span> <span class="op">=</span> <span class="fu">view</span> }</span></code></pre></div>
+</td>
+<td valign="top">
+<!-- $MDX file=02-parallel/react/App.jsx -->
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode jsx"><code class="sourceCode javascriptreact"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> React<span class="op">,</span> { useReducer } <span class="im">from</span> <span class="st">&#39;react&#39;</span><span class="op">;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ReactDOM <span class="im">from</span> <span class="st">&#39;react-dom&#39;</span><span class="op">;</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> Counter<span class="op">,</span> { applyAction<span class="op">,</span> defaultState } <span class="im">from</span> <span class="st">&#39;../../shared/Counter&#39;</span><span class="op">;</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> App <span class="op">=</span> () <span class="kw">=&gt;</span> {</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> [state1<span class="op">,</span> inject1] <span class="op">=</span> <span class="fu">useReducer</span>(</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    (state<span class="op">,</span> action) <span class="kw">=&gt;</span> <span class="fu">applyAction</span>(state<span class="op">,</span> action<span class="op">,</span> <span class="dv">1</span>)<span class="op">,</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    defaultState</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  )<span class="op">;</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> [state2<span class="op">,</span> inject2] <span class="op">=</span> <span class="fu">useReducer</span>(</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    (state<span class="op">,</span> action) <span class="kw">=&gt;</span> <span class="fu">applyAction</span>(state<span class="op">,</span> action<span class="op">,</span> <span class="dv">1</span>)<span class="op">,</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    defaultState</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>  )<span class="op">;</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> (</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;div&gt;</span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>      <span class="fu">&lt;Counter</span> <span class="ot">label</span><span class="op">=</span><span class="st">&quot;first&quot;</span> <span class="ot">by</span><span class="op">=</span><span class="va">{</span><span class="dv">1</span><span class="va">}</span> <span class="ot">state</span><span class="op">=</span><span class="va">{</span>state1<span class="va">}</span> <span class="ot">inject</span><span class="op">=</span><span class="va">{</span>inject1<span class="va">}</span> <span class="fu">/&gt;</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>      <span class="fu">&lt;Counter</span> <span class="ot">label</span><span class="op">=</span><span class="st">&quot;second&quot;</span> <span class="ot">by</span><span class="op">=</span><span class="va">{</span><span class="dv">1</span><span class="va">}</span> <span class="ot">state</span><span class="op">=</span><span class="va">{</span>state2<span class="va">}</span> <span class="ot">inject</span><span class="op">=</span><span class="va">{</span>inject2<span class="va">}</span> <span class="fu">/&gt;</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;/div&gt;</span></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>  )<span class="op">;</span></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>ReactDOM<span class="op">.</span><span class="fu">render</span>(<span class="fu">&lt;App</span> <span class="fu">/&gt;</span><span class="op">,</span> <span class="bu">document</span><span class="op">.</span><span class="fu">getElementById</span>(<span class="st">&#39;app&#39;</span>))<span class="op">;</span></span></code></pre></div>
+</td>
+</tr>
+<tr>
+<td valign="top">
+For Bonsai, we use call the component function multiple times to create
+new instances of it, and then <code>let%arr</code> to compose the views
+produced by those instances.
+</td>
+<td valign="top">
+<p>In Elm there’s some more boilerplate involved. The
+application-component is now bigger, and that means that we need a new
+model and action type to go along with it.</p>
+<p>Just like in the Bonsai example, we need to compose the views of
+these components manually (there’s no way around this if you want
+precise control of the view). However, we also need to call
+<code>Html.map</code>, which is used to transform the type of the
+message produced by the view.</p>
+<p>More apparent is our need to implement an <code>update</code>
+function which dispatches actions to the correct component.</p>
+</td>
+<td valign="top">
+<p>Parallel composition is very similar to the previous example. The
+duplicate boilerplate to set up state is a bit unfortunate though.</p>
+</td>
+</tr>
+</table>
+<p>Fun fact: Bonsai got its name from parallel-composition! If you
+visualize the structure of components that are composed in parallel, it
+looks like a little tree; hence the name “Bonsai!” Sadly it wasn’t until
+after 1.0 that we realized that its real power was sequential
+composition…</p>
+<h1 id="sequential-composition">03 - Sequential Composition</h1>
+<p><img src="./gifs/rec3.gif" align="left" width=250 /></p>
+<p>Components are composed sequentially when there’s a dependency
+relationship between them. They are no longer independent, and the state
+of one component can influence the other.</p>
+<p>In this demo, we’ll use the counter value of one component to modify
+the delta parameter on the other.</p>
+<table>
+<tr>
+<th>
+Bonsai
+</th>
+<th>
+Elm
+</th>
+<th>
+React
+</th>
+</tr>
+<tr>
+<td valign="top">
+<!-- $MDX file=03-sequential/bonsai-2023/main.ml -->
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode ocaml"><code class="sourceCode ocaml"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">open</span>! Core</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="kw">open</span>! Import</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> app graph =</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> first_view, by = Counter.component ~label:(Bonsai.return <span class="st">&quot;first&quot;</span>) graph <span class="kw">in</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> second_view, _ = Counter.component ~label:(Bonsai.return <span class="st">&quot;second&quot;</span>) ~by graph <span class="kw">in</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span>%map first = first_view</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  <span class="kw">and</span> second = second_view <span class="kw">in</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  N.div [ first; second ]</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>;;</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> () = Start.start app</span></code></pre></div>
+</td>
+<td valign="top">
+<!-- $MDX file=03-sequential/elm/Main.elm -->
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode elm"><code class="sourceCode elm"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">module</span> <span class="dt">Main</span> <span class="kw">exposing</span> (<span class="fu">main</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Browser</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Counter</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Html</span> <span class="kw">exposing</span> (<span class="dt">Html</span><span class="op">,</span> <span class="fu">div</span>)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="kw">alias</span> <span class="dt">Model</span> <span class="op">=</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    { <span class="fu">first</span> : <span class="dt">Counter</span><span class="op">.</span><span class="dt">Model</span><span class="op">,</span> <span class="fu">second</span> : <span class="dt">Counter</span><span class="op">.</span><span class="dt">Model</span> }</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="fu">init</span> : <span class="dt">Model</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="fu">init</span> <span class="op">=</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>    { <span class="fu">first</span> <span class="op">=</span> <span class="dt">Counter</span><span class="op">.</span><span class="fu">init</span><span class="op">,</span> <span class="fu">second</span> <span class="op">=</span> <span class="dt">Counter</span><span class="op">.</span><span class="fu">init</span> }</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="dt">Msg</span></span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>    <span class="op">=</span> <span class="dt">First</span> <span class="dt">Counter</span><span class="op">.</span><span class="dt">Msg</span></span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> <span class="dt">Second</span> <span class="dt">Counter</span><span class="op">.</span><span class="dt">Msg</span></span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a><span class="fu">update</span> : <span class="dt">Msg</span> <span class="op">-&gt;</span> <span class="dt">Model</span> <span class="op">-&gt;</span> <span class="dt">Model</span></span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a><span class="fu">update</span> <span class="fu">msg</span> <span class="fu">model</span> <span class="op">=</span></span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">case</span> <span class="fu">msg</span> <span class="cf">of</span></span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>        <span class="dt">First</span> <span class="fu">msg_first</span> <span class="op">-&gt;</span></span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>            { <span class="fu">model</span> <span class="op">|</span> <span class="fu">first</span> <span class="op">=</span> <span class="dt">Counter</span><span class="op">.</span><span class="fu">update</span> <span class="dv">1</span> <span class="fu">msg_first</span> <span class="fu">model</span><span class="op">.</span><span class="fu">first</span> }</span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>        <span class="dt">Second</span> <span class="fu">msg_second</span> <span class="op">-&gt;</span></span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>            { <span class="fu">model</span> <span class="op">|</span> <span class="fu">second</span> <span class="op">=</span> <span class="dt">Counter</span><span class="op">.</span><span class="fu">update</span> <span class="fu">model</span><span class="op">.</span><span class="fu">first</span> <span class="fu">msg_second</span> <span class="fu">model</span><span class="op">.</span><span class="fu">second</span> }</span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a><span class="fu">view</span> : <span class="dt">Model</span> <span class="op">-&gt;</span> <span class="dt">Html</span> <span class="dt">Msg</span></span>
+<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a><span class="fu">view</span> <span class="fu">model</span> <span class="op">=</span></span>
+<span id="cb11-34"><a href="#cb11-34" aria-hidden="true" tabindex="-1"></a>    <span class="fu">div</span> []</span>
+<span id="cb11-35"><a href="#cb11-35" aria-hidden="true" tabindex="-1"></a>        [ <span class="dt">Counter</span><span class="op">.</span><span class="fu">view</span> <span class="dv">1</span> <span class="st">&quot;first&quot;</span> <span class="fu">model</span><span class="op">.</span><span class="fu">first</span> <span class="op">|&gt;</span> <span class="dt">Html</span><span class="op">.</span><span class="fu">map</span> <span class="dt">First</span></span>
+<span id="cb11-36"><a href="#cb11-36" aria-hidden="true" tabindex="-1"></a>        <span class="op">,</span> <span class="dt">Counter</span><span class="op">.</span><span class="fu">view</span> <span class="fu">model</span><span class="op">.</span><span class="fu">first</span> <span class="st">&quot;second&quot;</span> <span class="fu">model</span><span class="op">.</span><span class="fu">second</span> <span class="op">|&gt;</span> <span class="dt">Html</span><span class="op">.</span><span class="fu">map</span> <span class="dt">Second</span></span>
+<span id="cb11-37"><a href="#cb11-37" aria-hidden="true" tabindex="-1"></a>        ]</span>
+<span id="cb11-38"><a href="#cb11-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-39"><a href="#cb11-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-40"><a href="#cb11-40" aria-hidden="true" tabindex="-1"></a><span class="fu">main</span> <span class="op">=</span></span>
+<span id="cb11-41"><a href="#cb11-41" aria-hidden="true" tabindex="-1"></a>    <span class="dt">Browser</span><span class="op">.</span><span class="fu">sandbox</span> { <span class="fu">init</span> <span class="op">=</span> <span class="fu">init</span><span class="op">,</span> <span class="fu">update</span> <span class="op">=</span> <span class="fu">update</span><span class="op">,</span> <span class="fu">view</span> <span class="op">=</span> <span class="fu">view</span> }</span></code></pre></div>
+</td>
+<td valign="top">
+<!-- $MDX file=03-sequential/react/App.jsx -->
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode jsx"><code class="sourceCode javascriptreact"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> React<span class="op">,</span> { useReducer } <span class="im">from</span> <span class="st">&#39;react&#39;</span><span class="op">;</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ReactDOM <span class="im">from</span> <span class="st">&#39;react-dom&#39;</span><span class="op">;</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> Counter<span class="op">,</span> {</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  applyAction <span class="im">as</span> counterApplyAction<span class="op">,</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  defaultState <span class="im">as</span> counterDefaultState<span class="op">,</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>} <span class="im">from</span> <span class="st">&#39;../../shared/Counter&#39;</span><span class="op">;</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> defaultState <span class="op">=</span> {</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="dt">first</span><span class="op">:</span> counterDefaultState<span class="op">,</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  <span class="dt">second</span><span class="op">:</span> counterDefaultState<span class="op">,</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">applyAction</span>(state<span class="op">,</span> { which<span class="op">,</span> subAction }) {</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>  <span class="cf">switch</span> (which) {</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">case</span> <span class="st">&#39;first&#39;</span><span class="op">:</span></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>      <span class="cf">return</span> {</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>        <span class="op">...</span>state<span class="op">,</span></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>        <span class="dt">first</span><span class="op">:</span> <span class="fu">counterApplyAction</span>(state<span class="op">.</span><span class="at">first</span><span class="op">,</span> subAction<span class="op">,</span> <span class="dv">1</span>)<span class="op">,</span></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>      }<span class="op">;</span></span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">case</span> <span class="st">&#39;second&#39;</span><span class="op">:</span></span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>      <span class="cf">return</span> {</span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>        <span class="op">...</span>state<span class="op">,</span></span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>        <span class="dt">second</span><span class="op">:</span> <span class="fu">counterApplyAction</span>(state<span class="op">.</span><span class="at">second</span><span class="op">,</span> subAction<span class="op">,</span> state<span class="op">.</span><span class="at">first</span>)<span class="op">,</span></span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>      }<span class="op">;</span></span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> App <span class="op">=</span> () <span class="kw">=&gt;</span> {</span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> [state<span class="op">,</span> inject] <span class="op">=</span> <span class="fu">useReducer</span>(applyAction<span class="op">,</span> defaultState)<span class="op">;</span></span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> injectFirst <span class="op">=</span> (subAction) <span class="kw">=&gt;</span> <span class="fu">inject</span>({ <span class="dt">which</span><span class="op">:</span> <span class="st">&#39;first&#39;</span><span class="op">,</span> subAction })<span class="op">;</span></span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> injectSecond <span class="op">=</span> (subAction) <span class="kw">=&gt;</span> <span class="fu">inject</span>({ <span class="dt">which</span><span class="op">:</span> <span class="st">&#39;second&#39;</span><span class="op">,</span> subAction })<span class="op">;</span></span>
+<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> (</span>
+<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;div&gt;</span></span>
+<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a>      <span class="fu">&lt;Counter</span> <span class="ot">label</span><span class="op">=</span><span class="st">&quot;first&quot;</span> <span class="ot">by</span><span class="op">=</span><span class="va">{</span><span class="dv">1</span><span class="va">}</span> <span class="ot">state</span><span class="op">=</span><span class="va">{</span>state<span class="op">.</span><span class="at">first</span><span class="va">}</span> <span class="ot">inject</span><span class="op">=</span><span class="va">{</span>injectFirst<span class="va">}</span> <span class="fu">/&gt;</span></span>
+<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a>      <span class="fu">&lt;Counter</span></span>
+<span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a>        <span class="ot">label</span><span class="op">=</span><span class="st">&quot;second&quot;</span></span>
+<span id="cb12-37"><a href="#cb12-37" aria-hidden="true" tabindex="-1"></a>        <span class="ot">by</span><span class="op">=</span><span class="va">{</span>state<span class="op">.</span><span class="at">first</span><span class="va">}</span></span>
+<span id="cb12-38"><a href="#cb12-38" aria-hidden="true" tabindex="-1"></a>        <span class="ot">state</span><span class="op">=</span><span class="va">{</span>state<span class="op">.</span><span class="at">second</span><span class="va">}</span></span>
+<span id="cb12-39"><a href="#cb12-39" aria-hidden="true" tabindex="-1"></a>        <span class="ot">inject</span><span class="op">=</span><span class="va">{</span>injectSecond<span class="va">}</span></span>
+<span id="cb12-40"><a href="#cb12-40" aria-hidden="true" tabindex="-1"></a>      <span class="fu">/&gt;</span></span>
+<span id="cb12-41"><a href="#cb12-41" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;/div&gt;</span></span>
+<span id="cb12-42"><a href="#cb12-42" aria-hidden="true" tabindex="-1"></a>  )<span class="op">;</span></span>
+<span id="cb12-43"><a href="#cb12-43" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span>
+<span id="cb12-44"><a href="#cb12-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-45"><a href="#cb12-45" aria-hidden="true" tabindex="-1"></a>ReactDOM<span class="op">.</span><span class="fu">render</span>(<span class="fu">&lt;App</span> <span class="fu">/&gt;</span><span class="op">,</span> <span class="bu">document</span><span class="op">.</span><span class="fu">getElementById</span>(<span class="st">&#39;app&#39;</span>))<span class="op">;</span></span></code></pre></div>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p>We finally get to use the extra return value from
+<code>Counter.component</code>! We bind the value, and immediately pass
+it into the next component through its optional parameter. The rest of
+the code should be very familiar.</p>
+</td>
+<td valign="top">
+<p>On the Elm side, the code looks very similar to the code from the
+“parallel composition” example above, but the differences matter a lot!
+The main change is that calling the second counter-component’s
+<code>update</code> and <code>view</code> functions, instead of passing
+in <code>1</code> for “how much to increase or decrease the value by”,
+we reach in to the model of the first component to pull out the
+currently stored value. I’ll be honest, this makes me feel a bit icky;
+I’d love to know if there’s a better way to do this.</p>
+</td>
+<td valign="top">
+<p>Sequential composition for React starts looking a lot more like the
+Elm example. It would be reasonable to look at this code and ask the
+question “why are you building a big reducer instead of applying two
+smaller reducers?” The reason is that with separate reducers,
+transformations applied at the same time will not be able to witness one
+another. In many scenarios, this kind of race condition is important to
+handle manually, and the only way to do so is by putting all the actions
+inside the same reducer.</p>
+</td>
+</tr>
+</table>
+<h1 id="multiplicity">04 - Multiplicity</h1>
+<p><img src="./gifs/rec4.gif" align="left" width=250 /></p>
+<p>So far we’ve dealt with a constant number of components, but
+determining the number of components in an app at runtime is a common
+requirement. For this example, we’ll use the current value of one
+counter component to determine how many more counter-components should
+be on the page.</p>
+<p>An important additional restriction is that subcomponent state should
+be persisted for compoenents even when they aren’t currently active.</p>
+<table>
+<tr>
+<th>
+Bonsai
+</th>
+<th>
+Elm
+</th>
+<th>
+React
+</th>
+</tr>
+<tr>
+<td valign="top">
+<!-- $MDX file=04-multiplicity/bonsai-2023/main.ml -->
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode ocaml"><code class="sourceCode ocaml"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">open</span>! Core</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="kw">open</span>! Import</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> app graph =</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> counter_view, how_many = Counter.component ~label:(Bonsai.return <span class="st">&quot;how many&quot;</span>) graph <span class="kw">in</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> map =</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span>%map how_many <span class="kw">in</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">List</span>.init how_many ~f:(<span class="kw">fun</span> i -&gt; i, ()) |&gt; Int.<span class="dt">Map</span>.of_alist_exn</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  <span class="kw">in</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> others = Bonsai.assoc (<span class="kw">module</span> Int) map graph ~f:(<span class="kw">fun</span> key _data graph -&gt;</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> view, _ = Counter.component ~label:(key &gt;&gt;| Int.to_string) graph <span class="kw">in</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>    view)</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>  <span class="kw">in</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span>%map counter_view <span class="kw">and</span> others <span class="kw">in</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>  N.div (counter_view :: <span class="dt">Map</span>.data others)</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>;;</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> () = Start.start app</span></code></pre></div>
+</td>
+<td valign="top">
+<!-- $MDX file=04-multiplicity/elm/Main.elm -->
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode elm"><code class="sourceCode elm"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">module</span> <span class="dt">Main</span> <span class="kw">exposing</span> (<span class="fu">main</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Browser</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Counter</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Dict</span> <span class="kw">exposing</span> (<span class="dt">Dict</span>)</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="kw">import</span> <span class="dt">Html</span> <span class="kw">exposing</span> (<span class="dt">Html</span><span class="op">,</span> <span class="fu">div</span><span class="op">,</span> <span class="fu">map</span>)</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="kw">alias</span> <span class="dt">Model</span> <span class="op">=</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>    { <span class="fu">howMany</span> : <span class="dt">Counter</span><span class="op">.</span><span class="dt">Model</span><span class="op">,</span> <span class="fu">others</span> : <span class="dt">Dict</span> <span class="dt">Int</span> <span class="dt">Counter</span><span class="op">.</span><span class="dt">Model</span> }</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a><span class="fu">init</span> : <span class="dt">Model</span></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a><span class="fu">init</span> <span class="op">=</span></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>    { <span class="fu">howMany</span> <span class="op">=</span> <span class="dt">Counter</span><span class="op">.</span><span class="fu">init</span><span class="op">,</span> <span class="fu">others</span> <span class="op">=</span> <span class="dt">Dict</span><span class="op">.</span><span class="fu">empty</span> }</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="dt">Msg</span></span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>    <span class="op">=</span> <span class="dt">HowMany</span> <span class="dt">Counter</span><span class="op">.</span><span class="dt">Msg</span></span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> <span class="dt">ForKey</span> <span class="dt">Int</span> <span class="dt">Counter</span><span class="op">.</span><span class="dt">Msg</span></span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a><span class="fu">updateOther</span> <span class="fu">which</span> <span class="fu">msg</span> <span class="op">=</span></span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a>    <span class="dt">Dict</span><span class="op">.</span><span class="fu">update</span> <span class="fu">which</span></span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a>        (\<span class="fu">m</span> <span class="op">-&gt;</span></span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a>            <span class="dt">Just</span> (<span class="dt">Counter</span><span class="op">.</span><span class="fu">update</span> <span class="dv">1</span> <span class="fu">msg</span> (<span class="dt">Maybe</span><span class="op">.</span><span class="fu">withDefault</span> <span class="dv">0</span> <span class="fu">m</span>))</span>
+<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a><span class="fu">update</span> : <span class="dt">Msg</span> <span class="op">-&gt;</span> <span class="dt">Model</span> <span class="op">-&gt;</span> <span class="dt">Model</span></span>
+<span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a><span class="fu">update</span> <span class="fu">appMsg</span> <span class="fu">model</span> <span class="op">=</span></span>
+<span id="cb14-32"><a href="#cb14-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">case</span> <span class="fu">appMsg</span> <span class="cf">of</span></span>
+<span id="cb14-33"><a href="#cb14-33" aria-hidden="true" tabindex="-1"></a>        <span class="dt">HowMany</span> <span class="fu">msgHowMany</span> <span class="op">-&gt;</span></span>
+<span id="cb14-34"><a href="#cb14-34" aria-hidden="true" tabindex="-1"></a>            { <span class="fu">model</span> <span class="op">|</span> <span class="fu">howMany</span> <span class="op">=</span> <span class="dt">Counter</span><span class="op">.</span><span class="fu">update</span> <span class="dv">1</span> <span class="fu">msgHowMany</span> <span class="fu">model</span><span class="op">.</span><span class="fu">howMany</span> }</span>
+<span id="cb14-35"><a href="#cb14-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-36"><a href="#cb14-36" aria-hidden="true" tabindex="-1"></a>        <span class="dt">ForKey</span> <span class="fu">which</span> <span class="fu">msg</span> <span class="op">-&gt;</span></span>
+<span id="cb14-37"><a href="#cb14-37" aria-hidden="true" tabindex="-1"></a>            { <span class="fu">model</span> <span class="op">|</span> <span class="fu">others</span> <span class="op">=</span> <span class="fu">updateOther</span> <span class="fu">which</span> <span class="fu">msg</span> <span class="fu">model</span><span class="op">.</span><span class="fu">others</span> }</span>
+<span id="cb14-38"><a href="#cb14-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-39"><a href="#cb14-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-40"><a href="#cb14-40" aria-hidden="true" tabindex="-1"></a><span class="fu">viewOther</span> : <span class="dt">Dict</span> <span class="dt">Int</span> <span class="dt">Counter</span><span class="op">.</span><span class="dt">Model</span> <span class="op">-&gt;</span> <span class="dt">Int</span> <span class="op">-&gt;</span> <span class="dt">Html</span> <span class="dt">Counter</span><span class="op">.</span><span class="dt">Msg</span></span>
+<span id="cb14-41"><a href="#cb14-41" aria-hidden="true" tabindex="-1"></a><span class="fu">viewOther</span> <span class="fu">models</span> <span class="fu">key</span> <span class="op">=</span></span>
+<span id="cb14-42"><a href="#cb14-42" aria-hidden="true" tabindex="-1"></a>    <span class="cf">case</span> <span class="dt">Dict</span><span class="op">.</span><span class="fu">get</span> <span class="fu">key</span> <span class="fu">models</span> <span class="cf">of</span></span>
+<span id="cb14-43"><a href="#cb14-43" aria-hidden="true" tabindex="-1"></a>        <span class="dt">Just</span> <span class="fu">model</span> <span class="op">-&gt;</span></span>
+<span id="cb14-44"><a href="#cb14-44" aria-hidden="true" tabindex="-1"></a>            <span class="dt">Counter</span><span class="op">.</span><span class="fu">view</span> <span class="dv">1</span> (<span class="dt">String</span><span class="op">.</span><span class="fu">fromInt</span> <span class="fu">key</span>) <span class="fu">model</span></span>
+<span id="cb14-45"><a href="#cb14-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-46"><a href="#cb14-46" aria-hidden="true" tabindex="-1"></a>        <span class="dt">Nothing</span> <span class="op">-&gt;</span></span>
+<span id="cb14-47"><a href="#cb14-47" aria-hidden="true" tabindex="-1"></a>            <span class="dt">Counter</span><span class="op">.</span><span class="fu">view</span> <span class="dv">1</span> (<span class="dt">String</span><span class="op">.</span><span class="fu">fromInt</span> <span class="fu">key</span>) <span class="dt">Counter</span><span class="op">.</span><span class="fu">init</span></span>
+<span id="cb14-48"><a href="#cb14-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-49"><a href="#cb14-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-50"><a href="#cb14-50" aria-hidden="true" tabindex="-1"></a><span class="fu">view</span> : <span class="dt">Model</span> <span class="op">-&gt;</span> <span class="dt">Html</span> <span class="dt">Msg</span></span>
+<span id="cb14-51"><a href="#cb14-51" aria-hidden="true" tabindex="-1"></a><span class="fu">view</span> <span class="fu">model</span> <span class="op">=</span></span>
+<span id="cb14-52"><a href="#cb14-52" aria-hidden="true" tabindex="-1"></a>    <span class="dt">List</span><span class="op">.</span><span class="fu">range</span> <span class="dv">0</span> (<span class="fu">model</span><span class="op">.</span><span class="fu">howMany</span> <span class="op">-</span> <span class="dv">1</span>)</span>
+<span id="cb14-53"><a href="#cb14-53" aria-hidden="true" tabindex="-1"></a>        <span class="op">|&gt;</span> <span class="dt">List</span><span class="op">.</span><span class="fu">map</span> (\<span class="fu">i</span> <span class="op">-&gt;</span> <span class="dt">Html</span><span class="op">.</span><span class="fu">map</span> (<span class="dt">ForKey</span> <span class="fu">i</span>) (<span class="fu">viewOther</span> <span class="fu">model</span><span class="op">.</span><span class="fu">others</span> <span class="fu">i</span>))</span>
+<span id="cb14-54"><a href="#cb14-54" aria-hidden="true" tabindex="-1"></a>        <span class="op">|&gt;</span> <span class="dt">List</span><span class="op">.</span><span class="fu">append</span> [ <span class="dt">Html</span><span class="op">.</span><span class="fu">map</span> <span class="dt">HowMany</span> (<span class="dt">Counter</span><span class="op">.</span><span class="fu">view</span> <span class="dv">1</span> <span class="st">&quot;how many&quot;</span> <span class="fu">model</span><span class="op">.</span><span class="fu">howMany</span>) ]</span>
+<span id="cb14-55"><a href="#cb14-55" aria-hidden="true" tabindex="-1"></a>        <span class="op">|&gt;</span> <span class="fu">div</span> []</span>
+<span id="cb14-56"><a href="#cb14-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-57"><a href="#cb14-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-58"><a href="#cb14-58" aria-hidden="true" tabindex="-1"></a><span class="fu">main</span> <span class="op">=</span></span>
+<span id="cb14-59"><a href="#cb14-59" aria-hidden="true" tabindex="-1"></a>    <span class="dt">Browser</span><span class="op">.</span><span class="fu">sandbox</span> { <span class="fu">init</span> <span class="op">=</span> <span class="fu">init</span><span class="op">,</span> <span class="fu">update</span> <span class="op">=</span> <span class="fu">update</span><span class="op">,</span> <span class="fu">view</span> <span class="op">=</span> <span class="fu">view</span> }</span></code></pre></div>
+</td>
+<td valign="top">
+<!-- $MDX file=04-multiplicity/react/App.jsx -->
+<div class="sourceCode" id="cb15"><pre
+class="sourceCode jsx"><code class="sourceCode javascriptreact"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> React<span class="op">,</span> { useReducer } <span class="im">from</span> <span class="st">&#39;react&#39;</span><span class="op">;</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ReactDOM <span class="im">from</span> <span class="st">&#39;react-dom&#39;</span><span class="op">;</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> Counter<span class="op">,</span> {</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  applyAction <span class="im">as</span> counterApplyAction<span class="op">,</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  defaultState <span class="im">as</span> counterDefaultState<span class="op">,</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>} <span class="im">from</span> <span class="st">&#39;../../shared/Counter&#39;</span><span class="op">;</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> defaultState <span class="op">=</span> {}<span class="op">;</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">applyAction</span>(state<span class="op">,</span> { which<span class="op">,</span> subAction }) {</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> {</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>    <span class="op">...</span>state<span class="op">,</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>    [which]<span class="op">:</span> <span class="fu">counterApplyAction</span>(state[which] <span class="op">||</span> <span class="dv">0</span><span class="op">,</span> subAction<span class="op">,</span> <span class="dv">1</span>)<span class="op">,</span></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>  }<span class="op">;</span></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> App <span class="op">=</span> () <span class="kw">=&gt;</span> {</span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> [howMany<span class="op">,</span> injectHowMany] <span class="op">=</span> <span class="fu">useReducer</span>(</span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>    (state<span class="op">,</span> action) <span class="kw">=&gt;</span> <span class="fu">counterApplyAction</span>(state<span class="op">,</span> action<span class="op">,</span> <span class="dv">1</span>)<span class="op">,</span></span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>    counterDefaultState</span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>  )<span class="op">;</span></span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> [subcomponentState<span class="op">,</span> subcomponentInject] <span class="op">=</span> <span class="fu">useReducer</span>(applyAction<span class="op">,</span> defaultState)<span class="op">;</span></span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> subcomponents <span class="op">=</span> <span class="bu">Array</span><span class="op">.</span><span class="fu">from</span>({ <span class="dt">length</span><span class="op">:</span> howMany }<span class="op">,</span> <span class="kw">function</span> (_<span class="op">,</span> i) {</span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> injectMe <span class="op">=</span> (subAction) <span class="kw">=&gt;</span> <span class="fu">subcomponentInject</span>({ <span class="dt">which</span><span class="op">:</span> i<span class="op">,</span> subAction })<span class="op">;</span></span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (</span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a>      <span class="fu">&lt;Counter</span></span>
+<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a>        <span class="ot">key</span><span class="op">=</span><span class="va">{</span>i<span class="va">}</span></span>
+<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a>        <span class="ot">label</span><span class="op">=</span><span class="va">{</span>i<span class="va">}</span></span>
+<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a>        <span class="ot">by</span><span class="op">=</span><span class="va">{</span><span class="dv">1</span><span class="va">}</span></span>
+<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a>        <span class="ot">state</span><span class="op">=</span><span class="va">{</span>subcomponentState[i] <span class="op">||</span> <span class="dv">0</span><span class="va">}</span></span>
+<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a>        <span class="ot">inject</span><span class="op">=</span><span class="va">{</span>injectMe<span class="va">}</span></span>
+<span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a>      <span class="fu">/&gt;</span></span>
+<span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a>    )<span class="op">;</span></span>
+<span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a>  })<span class="op">;</span></span>
+<span id="cb15-35"><a href="#cb15-35" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> (</span>
+<span id="cb15-36"><a href="#cb15-36" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;div&gt;</span></span>
+<span id="cb15-37"><a href="#cb15-37" aria-hidden="true" tabindex="-1"></a>      <span class="fu">&lt;Counter</span> <span class="ot">label</span><span class="op">=</span><span class="st">&quot;how many&quot;</span> <span class="ot">by</span><span class="op">=</span><span class="va">{</span><span class="dv">1</span><span class="va">}</span> <span class="ot">state</span><span class="op">=</span><span class="va">{</span>howMany<span class="va">}</span> <span class="ot">inject</span><span class="op">=</span><span class="va">{</span>injectHowMany<span class="va">}</span> <span class="fu">/&gt;</span></span>
+<span id="cb15-38"><a href="#cb15-38" aria-hidden="true" tabindex="-1"></a>      <span class="va">{</span>subcomponents<span class="va">}</span></span>
+<span id="cb15-39"><a href="#cb15-39" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;/div&gt;</span></span>
+<span id="cb15-40"><a href="#cb15-40" aria-hidden="true" tabindex="-1"></a>  )<span class="op">;</span></span>
+<span id="cb15-41"><a href="#cb15-41" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span>
+<span id="cb15-42"><a href="#cb15-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-43"><a href="#cb15-43" aria-hidden="true" tabindex="-1"></a>ReactDOM<span class="op">.</span><span class="fu">render</span>(<span class="fu">&lt;App</span> <span class="fu">/&gt;</span><span class="op">,</span> <span class="bu">document</span><span class="op">.</span><span class="fu">getElementById</span>(<span class="st">&#39;app&#39;</span>))<span class="op">;</span></span></code></pre></div>
+</td>
+</tr>
+<tr>
+<td valign="top">
+<p>For Bonsai, this one is a bit hacky, I’ll admit!
+<code>Bonsai.assoc</code> reads an input map and creates an instance of
+the provisded component for each key/value pair in the map. Because it
+needs that input map, we first make a map from <code>int</code> to
+<code>unit</code>, and pass that into <code>assoc</code>. Usually
+<code>assoc</code> is given a map that actually has some meaning - like
+rows in a table - and aren’t built at the last second just to give to
+the function.</p>
+</td>
+<td valign="top">
+<p>I’ll admit, I know this code could be written better, but I don’t
+really know where to start. One thing is certain though; the pattern of
+storing models in a map and keeping the model map separate from the
+“what is visible” state is necessary, so I think this general pattern
+will always exist.</p>
+</td>
+<td valign="top">
+<p>For this one, the subcomponent state and the “how many” state are
+actually independent, so we can use two <code>useReducer</code> calls
+again! One of these reducers is for the bag of states that are necessary
+for rendering the dynamic components.</p>
+</td>
+</tr>
+</table>
