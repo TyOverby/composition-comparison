@@ -176,16 +176,15 @@ export default Counter;
 
 <td valign="top">
 
-The definition of this component shows 4 improvements over the Bonsai of today:
+This Bonsai component is exposed to users through the `component` function.
+You'll notice that we use regular OCaml functions to pass properites to the
+component, like `~label` and the optional `?by` parameters.
 
-1. Using primitives involves less boilerplate, no longer do you need first-class 
-   modules to call the basic stateful component constructors
-2. Instead of building `Bonsai.Computation.t` components are functions that go 
-   from `local_ Bonsai.graph` to `'a Bonsai.t`
-3. #2 allows us to compute and return the view _separately_ from the state, allowing 
-   better incrementality 
-4. let-punning.  This isn't a bonsai-improvement, I just think it's nice to be 
-   able to write `let%map a in foo a` instead of `let%map a = a in foo a`
+The `component` function produces a component that yields both the view _and_ 
+the counter value. You'll also notice that in defining `Counter.component`, we
+use `Bonsai.state_machine1`. `state_machine1` is a primitive component that we
+use to build our bigger component. The `1` indicates that the state machine has
+access to one input value that it can read when processing an action.
 
 </td><td valign="top">
 
@@ -303,9 +302,10 @@ ReactDOM.render(<App />, document.getElementById('app'));
 </tr>
 <tr><td valign="top">
 
-Not much is different between 2023 Bonsai and current-bonsai, but the the `let%sub`
-syntax is removed, and the call to `return`, which used to convert between `Bonsai.Value.t`
-and `Bonsai.Computation.t` is no longer necessary.
+Because the application component is an instance of our counter component, we need 
+to invoke the component-generating function with its required parameters.  Because 
+we're fine with the default `by` argument being `1`, we only need to provide the value 
+for the label.
 
 </td><td valign="top">
 
@@ -434,9 +434,8 @@ ReactDOM.render(<App />, document.getElementById('app'));
 </tr>
 <tr> <td valign="top">
 
-`let%sub` is gone, conversion between types is gone, and 
-we're using let-punning.
-
+For Bonsai, we use call the component function multiple times to create 
+new instances of it, and then `let%arr` to compose the views produced by those instances.
 </td><td valign="top">
 
 In Elm there's some more boilerplate involved.  The application-component 
@@ -602,7 +601,9 @@ ReactDOM.render(<App />, document.getElementById('app'));
 </tr>
 <tr> <td valign="top">
 
-Same differences as before for the most part.
+We finally get to use the extra return value from `Counter.component`!  We
+bind the value, and immediately pass it into the next component through its
+optional parameter.  The rest of the code should be very familiar.
 
 </td><td valign="top">
 
@@ -786,10 +787,12 @@ ReactDOM.render(<App />, document.getElementById('app'));
 </tr>
 <tr> <td valign="top">
 
-Now that you know what to look for, nothing should surprise you here!  One 
-pretty big space saver is that thanks to the `map` operation no longer being 
-a footgun, you can use infix-map in places that you'd previously need to 
-use a `let%sub` / `let%arr` combo.
+For Bonsai, this one is a bit hacky, I'll admit! `Bonsai.assoc` reads  an input
+map and creates an instance of the provisded component for each key/value pair
+in the map.  Because it needs that input map, we first make a map from `int` to 
+`unit`, and pass that into `assoc`.  Usually `assoc` is given a map that actually 
+has some meaning - like rows in a table - and aren't built at the last second just 
+to give to the function.
 
 </td><td valign="top">
 
